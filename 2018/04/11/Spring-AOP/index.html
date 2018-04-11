@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="spring," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="AOPAOP是aspect oriented programing的简称，意为面向切面编程。有时候我们无法通过抽象父类消除重复性的横切代码，因为这些横切逻辑依赖在业务流程中，无法转移到另外的地方。AOP希望将这些分散在各个业务逻辑中的相同代码通过横向切割的方式抽取到独立的模块中，还业务逻辑类一个清新的世界。 术语 连接点（Joinpoint）：特定点是程序执行的某个位置，如类的开始初始化前，初始化">
+<meta name="keywords" content="spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-AOP基础">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/Spring-AOP/index.html">
+<meta property="og:site_name" content="Watermelon">
+<meta property="og:description" content="AOPAOP是aspect oriented programing的简称，意为面向切面编程。有时候我们无法通过抽象父类消除重复性的横切代码，因为这些横切逻辑依赖在业务流程中，无法转移到另外的地方。AOP希望将这些分散在各个业务逻辑中的相同代码通过横向切割的方式抽取到独立的模块中，还业务逻辑类一个清新的世界。 术语 连接点（Joinpoint）：特定点是程序执行的某个位置，如类的开始初始化前，初始化">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/Spring/ForumService.jpg">
+<meta property="og:updated_time" content="2018-04-11T06:02:49.409Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring-AOP基础">
+<meta name="twitter:description" content="AOPAOP是aspect oriented programing的简称，意为面向切面编程。有时候我们无法通过抽象父类消除重复性的横切代码，因为这些横切逻辑依赖在业务流程中，无法转移到另外的地方。AOP希望将这些分散在各个业务逻辑中的相同代码通过横向切割的方式抽取到独立的模块中，还业务逻辑类一个清新的世界。 术语 连接点（Joinpoint）：特定点是程序执行的某个位置，如类的开始初始化前，初始化">
+<meta name="twitter:image" content="http://yoursite.com/img/Spring/ForumService.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/Spring-AOP/"/>
+
+
+
+
+
+  <title>Spring-AOP基础 | Watermelon</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Watermelon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">远远和元老大的小窝</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/Spring-AOP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="watermelon-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Watermelon">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring-AOP基础</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T11:00:41+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><p>AOP是aspect oriented programing的简称，意为面向切面编程。有时候我们无法通过抽象父类消除重复性的横切代码，因为这些横切逻辑依赖在业务流程中，无法转移到另外的地方。AOP希望将这些分散在各个业务逻辑中的相同代码通过横向切割的方式抽取到独立的模块中，还业务逻辑类一个清新的世界。</p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><ul>
+<li>连接点（Joinpoint）：特定点是程序执行的某个位置，如类的开始初始化前，初始化后，类的某个方法调用前后，方法抛出异常后。一个类或者一段程序代码拥有的一些具有边界性质的特定点被成为连接点。Spring仅支持方法的连接点。使用切点对执行点定义，而方位则在增强类中定义。</li>
+<li>切点（Pointcut）：每个程序都有众多的连接点，连接点是客观存在的事务。在众多连接点中定位到我们需要的连接点就是切点。连接点相当于数据库中的记录，切点就是相当于条件查询。切点用过org.springframework.aop.Pointcut接口进行描述，使用类和方法进行作为连接点的查询条件，切点只定位到某方法上，如果需要确定到某连接点，还需要提供方位信息。</li>
+<li>增强（Advice）：增强是织入目标类连接点上的一段程序代码。增强除了用于描述一段代码外，还拥有一个和连接点相关的信息，这便是执行点的方位。所以增强接口都是带方位名的，如：BeforeAdvice，AfterReturningAdvice，ThThrowsAdvice等。只有结合切点增强，才能确定特定连接点的位置，并实施增强逻辑。</li>
+<li>目标对象（Target）：增强织入的目标类。</li>
+<li>引介（Introduction）：引介是一种特殊的增强，它可以为类添加属性和方法。</li>
+<li>织入（Weaving）:织入是将增强添加到目标类的具体连接点上。</li>
+<li>代理（Proxy）：一个类被AOP织入增强后，就产生了一个结果类，他是融合了原类和增强逻辑的代理类。</li>
+</ul>
+<a id="more"></a>
+<h2 id="底层工作机理"><a href="#底层工作机理" class="headerlink" title="底层工作机理"></a>底层工作机理</h2><p>Spring AOP使用了两种代理机制：一种是基于JDK的动态代理；另一种是基于GGLib的动态代理。</p>
+<h3 id="带有横切逻辑的实例"><a href="#带有横切逻辑的实例" class="headerlink" title="带有横切逻辑的实例"></a>带有横切逻辑的实例</h3><p>forumService接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line"></span><br><span class="line">public interface ForumService &#123;</span><br><span class="line">	void removeTopic(int topicId);</span><br><span class="line">	void removeForum(int forumId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>实现forumService的类，其中包含了性能监视的横切逻辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line"></span><br><span class="line">public class ForumServiceImpl implements ForumService &#123;</span><br><span class="line"></span><br><span class="line">	public void removeTopic(int topicId) &#123;</span><br><span class="line">		PerformanceMonitor.begin(&quot;com.smart.proxy.ForumServiceImpl.removeTopic&quot;);//开始对方法进行性能监视</span><br><span class="line">		System.out.println(&quot;模拟删除Topic记录:&quot;+topicId);</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.currentThread().sleep(20);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			throw new RuntimeException(e);</span><br><span class="line">		&#125;		</span><br><span class="line">		PerformanceMonitor.end();//结束监视</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void removeForum(int forumId) &#123;</span><br><span class="line">		PerformanceMonitor.begin(&quot;com.smart.proxy.ForumServiceImpl.removeForum&quot;);//开始监视</span><br><span class="line">		System.out.println(&quot;模拟删除Forum记录:&quot;+forumId);</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.currentThread().sleep(40);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			throw new RuntimeException(e);</span><br><span class="line">		&#125;		</span><br><span class="line">		PerformanceMonitor.end();//结束监视</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">```在该类中，每个业务方法都有执行相同的逻辑代码，启动与结束监视。  </span><br><span class="line"></span><br><span class="line">PerformanceMonitor：性能监视类</span><br></pre></td></tr></table></figure></p>
+<p>package com.JDK_Proxy;</p>
+<p>public class PerformanceMonitor {<br>    private static ThreadLocal<methodperformace> performaceRecord = new ThreadLocal<methodperformace>();</methodperformace></methodperformace></p>
+<pre><code>public static void begin(String method) {
+    System.out.println(&quot;begin monitor...&quot;);
+    MethodPerformace mp = performaceRecord.get();
+    if(mp == null){
+        mp = new MethodPerformace(method);
+        performaceRecord.set(mp);
+    }else{
+        mp.reset(method);    
+    }
+}
+public static void end() {
+    System.out.println(&quot;end monitor...&quot;);
+    MethodPerformace mp = performaceRecord.get();
+    mp.printPerformace();
+}
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MethodPerformance：记录性能监视的信息</span><br></pre></td></tr></table></figure></p>
+<p>package com.JDK_Proxy;</p>
+<p>public class MethodPerformace {<br>    private long begin;<br>    private long end;<br>    private String serviceMethod;<br>    public MethodPerformace(String serviceMethod){<br>        reset(serviceMethod);<br>    }<br>    public void printPerformace(){<br>        end = System.currentTimeMillis();<br>        long elapse = end - begin;<br>        System.out.println(serviceMethod+”花费”+elapse+”毫秒。”);<br>    }<br>    public void reset(String serviceMethod){<br>        this.serviceMethod = serviceMethod;<br>        this.begin = System.currentTimeMillis();<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">运行测试代码：</span><br></pre></td></tr></table></figure></p>
+<p>package com.JDK_Proxy;</p>
+<p>public class Main {<br>    public static void main(String[] args){<br>        ForumService forumService=new ForumServiceImpl();<br>        forumService.removeTopic(12);<br>        forumService.removeForum(21);<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">输出结果：</span><br></pre></td></tr></table></figure></p>
+<p>begin monitor…<br>模拟删除Topic记录:12<br>end monitor…<br>com.smart.proxy.ForumServiceImpl.removeTopic花费20毫秒。<br>begin monitor…<br>模拟删除Forum记录:21<br>end monitor…<br>com.smart.proxy.ForumServiceImpl.removeForum花费43毫秒。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在以上例子中，在forumServiceImpl业务逻辑代码中都加入了开启，关闭性能监视的代码，破坏了编程的纯粹性。通过代理的方式可以将业务类方法中开启和结束性能监视的横切代码抽象出来，通过JDK动态代理的方式将横切代码动态的织入目标方法的相应位置。</span><br><span class="line"></span><br><span class="line">### JDK动态代理</span><br><span class="line">JDK动态代理主要涉及java.lang.reflect包中的两类：Proxy和InvocationHandler。其中InvocationHandler是一个接口，通过实现该接口定义横切逻辑，并通过反射机制调用目标类的代码，动态的将横切逻辑与业务编制到一起。</span><br><span class="line"></span><br><span class="line">首先从forumServiceImpl中移除性能监视的代码，使其只负责具体的业务逻辑：</span><br></pre></td></tr></table></figure></p>
+<p>package com.JDK_Proxy;</p>
+<p>public class ForumServiceImpl implements ForumService {</p>
+<pre><code>public void removeTopic(int topicId) {
+</code></pre><p>//        PerformanceMonitor.begin(“com.smart.proxy.ForumServiceImpl.removeTopic”);<br>        System.out.println(“模拟删除Topic记录:”+topicId);<br>        try {<br>            Thread.currentThread().sleep(20);<br>        } catch (Exception e) {<br>            throw new RuntimeException(e);<br>        }<br>//        PerformanceMonitor.end();<br>    }</p>
+<pre><code>public void removeForum(int forumId) {
+</code></pre><p>//        PerformanceMonitor.begin(“com.smart.proxy.ForumServiceImpl.removeForum”);<br>        System.out.println(“模拟删除Forum记录:”+forumId);<br>        try {<br>            Thread.currentThread().sleep(40);<br>        } catch (Exception e) {<br>            throw new RuntimeException(e);<br>        }<br>//        PerformanceMonitor.end();<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在业务类中移除了性能监视的代码后，InvocationHandler是其安身的好地方，可将性能监视的代码放在实现了InvocationHandler的PerformanceHandler中：</span><br><span class="line">```package com.JDK_Proxy;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.InvocationHandler;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class PerformanceHandler implements InvocationHandler &#123;//实现InvocationHandler类</span><br><span class="line">    private Object target;</span><br><span class="line"></span><br><span class="line">    public PerformanceHandler(Object target) &#123;</span><br><span class="line">        this.target = target;</span><br><span class="line">    &#125;//target为业务目标</span><br><span class="line"></span><br><span class="line">    public Object invoke(Object o, Method method, Object[] objects) throws Throwable &#123;//o是最终生产的代理类，method是被代理的目标实例的某个方法，通过它可以发起目标实例方法的反射调用。objects是被代理实例某个方法的入参，在方法反射调用时使用。</span><br><span class="line">        PerformanceMonitor.begin(target.getClass().getName()+&quot;.&quot;+method.getName());</span><br><span class="line">        Object o1=method.invoke(target,objects);//通过反射方法调用业务类的目标方法</span><br><span class="line">        PerformanceMonitor.end();</span><br><span class="line">        return o1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过Proxy结合PerformanceHandler创建ForumService接口代理实例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line">        import org.testng.annotations.Test;</span><br><span class="line">        import java.lang.reflect.Proxy;</span><br><span class="line">public class ForumServiceTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void proxy()&#123;</span><br><span class="line">        ForumService target=new ForumServiceImpl();</span><br><span class="line">        PerformanceHandler handler=new PerformanceHandler(target);</span><br><span class="line">        ForumService proxy=(ForumService) Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),handler);</span><br><span class="line">        proxy.removeForum(10);</span><br><span class="line">        proxy.removeTopic(11);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用代理实例，得到结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">begin monitor...</span><br><span class="line">模拟删除Forum记录:10</span><br><span class="line">end monitor...</span><br><span class="line">com.JDK_Proxy.ForumServiceImpl.removeForum花费40毫秒。</span><br><span class="line">begin monitor...</span><br><span class="line">模拟删除Topic记录:11</span><br><span class="line">end monitor...</span><br><span class="line">com.JDK_Proxy.ForumServiceImpl.removeTopic花费20毫秒。</span><br></pre></td></tr></table></figure></p>
+<p>时序图中的整体逻辑：<br><img src="../../../../img/Spring/ForumService.jpg" alt="ForumService"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag"># spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/01/Spring-Bean-Load/" rel="next" title="Bean的配置">
+                <i class="fa fa-chevron-left"></i> Bean的配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="watermelon-lee" />
+            
+              <p class="site-author-name" itemprop="name">watermelon-lee</p>
+              <p class="site-description motion-element" itemprop="description">this is us!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AOP"><span class="nav-number">1.</span> <span class="nav-text">AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#术语"><span class="nav-number">1.1.</span> <span class="nav-text">术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#底层工作机理"><span class="nav-number">1.2.</span> <span class="nav-text">底层工作机理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#带有横切逻辑的实例"><span class="nav-number">1.2.1.</span> <span class="nav-text">带有横切逻辑的实例</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">watermelon-lee</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
