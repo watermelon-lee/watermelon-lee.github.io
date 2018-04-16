@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="spring," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据库事务基础知识一个数据库事务是一个被视为单一的工作单元的操作序列。这些操作应该要么完整地执行，要么完全不执行。数据库事务必须满足下列四个特性ACID（Atomic，Consistency，Isolation，Durabiliy）：  原子性：组成事务的多个数据库操作是一个不可分的原子单元，只有所有的操作成功执行，事务才会提交。 一致性：事务操作成功后，数据库所处的状态是和他的业务规则是一致的，">
+<meta name="keywords" content="spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring事务管理">
+<meta property="og:url" content="http://yoursite.com/2018/04/16/Spring-transaction/index.html">
+<meta property="og:site_name" content="Watermelon">
+<meta property="og:description" content="数据库事务基础知识一个数据库事务是一个被视为单一的工作单元的操作序列。这些操作应该要么完整地执行，要么完全不执行。数据库事务必须满足下列四个特性ACID（Atomic，Consistency，Isolation，Durabiliy）：  原子性：组成事务的多个数据库操作是一个不可分的原子单元，只有所有的操作成功执行，事务才会提交。 一致性：事务操作成功后，数据库所处的状态是和他的业务规则是一致的，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-16T14:38:26.941Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring事务管理">
+<meta name="twitter:description" content="数据库事务基础知识一个数据库事务是一个被视为单一的工作单元的操作序列。这些操作应该要么完整地执行，要么完全不执行。数据库事务必须满足下列四个特性ACID（Atomic，Consistency，Isolation，Durabiliy）：  原子性：组成事务的多个数据库操作是一个不可分的原子单元，只有所有的操作成功执行，事务才会提交。 一致性：事务操作成功后，数据库所处的状态是和他的业务规则是一致的，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/16/Spring-transaction/"/>
+
+
+
+
+
+  <title>Spring事务管理 | Watermelon</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Watermelon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">远远和元老大的小窝</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/16/Spring-transaction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="watermelon-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Watermelon">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring事务管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T20:42:08+08:00">
+                2018-04-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据库事务基础知识"><a href="#数据库事务基础知识" class="headerlink" title="数据库事务基础知识"></a>数据库事务基础知识</h1><p>一个数据库事务是一个被视为单一的工作单元的操作序列。这些操作应该要么完整地执行，要么完全不执行。数据库事务必须满足下列四个特性ACID（Atomic，Consistency，Isolation，Durabiliy）：</p>
+<ul>
+<li>原子性：组成事务的多个数据库操作是一个不可分的原子单元，只有所有的操作成功执行，事务才会提交。</li>
+<li>一致性：事务操作成功后，数据库所处的状态是和他的业务规则是一致的，即数据不会被破坏。</li>
+<li>隔离性：并发操作数据时，不同的事务拥有各自的空间，他们的操作不会互相干扰。</li>
+<li>持久性：一旦事务提交成功后，事务中所有的数据操作都必须持久化到数据库中。<a id="more"></a>
+<h1 id="ThreadLocal基础知识"><a href="#ThreadLocal基础知识" class="headerlink" title="ThreadLocal基础知识"></a>ThreadLocal基础知识</h1>ThreadLocal是一个保存线程本地化对象的容器。当运行于多线程环境的某个对象使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程分配一个独立的变量副本。每个线程可以独立的改变自己的副本，而不会影响到其他线程所对应的副本。<h2 id="ThreadLocal接口"><a href="#ThreadLocal接口" class="headerlink" title="ThreadLocal接口"></a>ThreadLocal接口</h2>ThreadLocal有4个方法：</li>
+<li>void set(Object value):设置当前线程的局部变量的值。</li>
+<li>public Object get():返回当前线程所对应的线程局部变量。</li>
+<li>public void remove():将当前线程的局部变量的值山粗，目的是为了减少内存占用。</li>
+<li>protected Object initialValue():返回该线程局部变量的初始值。该方法为了让子类覆盖而设计。这是一个延迟调用的方法，直到第一次调用set()或者get()时才执行，并只执行一次。默认返回一个null。</li>
+</ul>
+<p>一个ThreadLocal的简单实现版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package com.ThreadLocal;</span><br><span class="line"></span><br><span class="line">import org.omg.PortableInterceptor.ObjectReferenceFactory;</span><br><span class="line"></span><br><span class="line">import java.util.Collections;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">public class SimpleThreadLocal &#123;</span><br><span class="line">    private Map valueMap= Collections.synchronizedMap(new HashMap());</span><br><span class="line"></span><br><span class="line">    public void set(Object newValue)&#123;</span><br><span class="line">        valueMap.put(Thread.currentThread(),newValue);//键为线程对象，值为线程的变量副本</span><br><span class="line">    &#125;</span><br><span class="line">    public Object get()&#123;</span><br><span class="line">        Thread thread=Thread.currentThread();</span><br><span class="line">        Object o=valueMap.get(thread);//返回本线程对应的变量</span><br><span class="line">        if(o==null &amp;&amp; valueMap.containsKey(thread))&#123;//如果不在map中，保存起来</span><br><span class="line">            o=initialValue();</span><br><span class="line">            valueMap.put(thread,o);</span><br><span class="line">        &#125;</span><br><span class="line">        return o;</span><br><span class="line">    &#125;</span><br><span class="line">    public void remove()&#123;</span><br><span class="line">        valueMap.remove(Thread.currentThread());</span><br><span class="line">    &#125;</span><br><span class="line">    public Object initialValue()&#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="一个实例"><a href="#一个实例" class="headerlink" title="一个实例"></a>一个实例</h2><p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">package com.ThreadLocal;</span><br><span class="line"></span><br><span class="line">import sun.awt.AWTAccessor;</span><br><span class="line"></span><br><span class="line">public class SequenceNumber &#123;</span><br><span class="line">    private static ThreadLocal&lt;Integer&gt; seqNum=new ThreadLocal&lt;Integer&gt;()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        protected Integer initialValue() &#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    /*</span><br><span class="line">    通过匿名内部类覆盖ThreadLocal的initialValue方法，制定初始值</span><br><span class="line">     */</span><br><span class="line">    public int getNextNum()&#123; //获取下一个序列值</span><br><span class="line">        seqNum.set(seqNum.get()+1);</span><br><span class="line">        return seqNum.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        SequenceNumber sequenceNumber=new SequenceNumber();</span><br><span class="line"></span><br><span class="line">        TestClient t1=new TestClient(sequenceNumber);</span><br><span class="line">        TestClient t2=new TestClient(sequenceNumber);</span><br><span class="line">        TestClient t3=new TestClient(sequenceNumber);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t3.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class TestClient extends Thread &#123;</span><br><span class="line">        private SequenceNumber sequenceNumber;</span><br><span class="line"></span><br><span class="line">        public TestClient(SequenceNumber sequenceNumber) &#123;</span><br><span class="line">            this.sequenceNumber = sequenceNumber;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            for(int i=0;i&lt;3;i++)&#123;//每个线程打印3个值</span><br><span class="line">                System.out.println(&quot;Thread[&quot;+Thread.currentThread().getName()+&quot;] sequenceNumber[&quot;+sequenceNumber.getNextNum()+&quot;]&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过内部匿名类类覆盖ThreadLocal中的initialValue（）方法来提供初始值，运行代码得到结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Thread[Thread-0] sequenceNumber[1]</span><br><span class="line">Thread[Thread-1] sequenceNumber[1]</span><br><span class="line">Thread[Thread-1] sequenceNumber[2]</span><br><span class="line">Thread[Thread-2] sequenceNumber[1]</span><br><span class="line">Thread[Thread-2] sequenceNumber[2]</span><br><span class="line">Thread[Thread-2] sequenceNumber[3]</span><br><span class="line">Thread[Thread-1] sequenceNumber[3]</span><br><span class="line">Thread[Thread-0] sequenceNumber[2]</span><br><span class="line">Thread[Thread-0] sequenceNumber[3]</span><br></pre></td></tr></table></figure></p>
+<p>可以发现虽然三个线程公用一个SequenceNumber实例，但是并没有相互干扰，产生了独立的序列号，因为ThreadLocal为他们提供了单独的副本。</p>
+<h1 id="使用XML配置声明事务"><a href="#使用XML配置声明事务" class="headerlink" title="使用XML配置声明事务"></a>使用XML配置声明事务</h1><p>可以让事务管理的代码完全从业务代码中移除，对代码入侵性最小。</p>
+<p>##　基于aop/tx命名空间的配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:p=&quot;http://www.springframework.org/schema/p&quot; xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;</span><br><span class="line">       xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd</span><br><span class="line">     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd&quot;&gt;</span><br><span class="line">&lt;!--引入DataSource的配置文件 --&gt;</span><br><span class="line">    &lt;import resource=&quot;classpath:applicationContext-dao.xml&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--事务管理器 --&gt;</span><br><span class="line">    &lt;bean id=&quot;transactionManager&quot;</span><br><span class="line">          class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span><br><span class="line">          p:dataSource-ref=&quot;dataSource&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--使用切点表达式语言定义切点 --&gt;</span><br><span class="line">    &lt;aop:config&gt;</span><br><span class="line">&lt;!--定义事务增强切面 --&gt;</span><br><span class="line">        &lt;aop:pointcut id=&quot;serviceMethod&quot;</span><br><span class="line">                      expression=&quot;execution(* com.smart.service.*Forum.*(..))&quot;/&gt;</span><br><span class="line">&lt;!--引用事务增强 --&gt;</span><br><span class="line">        &lt;aop:advisor pointcut-ref=&quot;serviceMethod&quot;</span><br><span class="line">                     advice-ref=&quot;txAdvice&quot;/&gt;</span><br><span class="line">    &lt;/aop:config&gt;</span><br><span class="line">&lt;!--事务增强 --&gt;</span><br><span class="line">    &lt;tx:advice id=&quot;txAdvice&quot;&gt;</span><br><span class="line">&lt;!--事务属性定义 --&gt;</span><br><span class="line">        &lt;tx:attributes&gt;</span><br><span class="line">            &lt;tx:method name=&quot;get*&quot; read-only=&quot;false&quot;/&gt;</span><br><span class="line">            &lt;tx:method name=&quot;add*&quot; rollback-for=&quot;PessimisticLockingFailureException&quot;/&gt;</span><br><span class="line">            &lt;tx:method name=&quot;update*&quot;/&gt;</span><br><span class="line">        &lt;/tx:attributes&gt;</span><br><span class="line">    &lt;/tx:advice&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p>首先在配置文件中引入tx命名空间，aop命名空间中，通过切点表达式语言，配合<a href="tx:advise" target="_blank" rel="noopener">tx:advise</a>的<a href="aop:advisor" target="_blank" rel="noopener">aop:advisor</a>完成了事务切面的定义。<a href="aop:advisor" target="_blank" rel="noopener">aop:advisor</a>引用的txAdvice增强是在tx空间上定义的。首先，事务增强一定需要一个事务管理器的支持，<a href="tx:advice" target="_blank" rel="noopener">tx:advice</a>通过transaction-manager属性引用了定义为transactionManager的事务管理器。　　<br><a href="tx:method" target="_blank" rel="noopener">tx:method</a>的属性如下：</p>
+<ul>
+<li>name：必要属性，表示与事务相关的方法名。</li>
+<li>pro[agation：事务传播行为，默认ＲＥＱＵＩＲＥＤ</li>
+<li>isolatisosn：事务隔离级别，默认ＤＥＦＡＵＬＴ</li>
+<li>timeout：超时时间，默认系统底层决定</li>
+<li>read-only：是否只读，默认ｆｌａｓｅ</li>
+<li>rollback-for：触发事务回滚的Ｅｘｃｅｐｔｉｏｎ，用于异常名片段匹配。</li>
+</ul>
+<h1 id="使用注解方式声明事务"><a href="#使用注解方式声明事务" class="headerlink" title="使用注解方式声明事务"></a>使用注解方式声明事务</h1><h2 id="使用-Transaction注解"><a href="#使用-Transaction注解" class="headerlink" title="使用@Transaction注解"></a>使用@Transaction注解</h2><p>业务类代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">package com.smart.service;</span><br><span class="line"></span><br><span class="line">import com.smart.dao.ForumDao;</span><br><span class="line">import com.smart.dao.PostDao;</span><br><span class="line">import com.smart.dao.TopicDao;</span><br><span class="line">import com.smart.domain.Forum;</span><br><span class="line">import com.smart.domain.Topic;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line">import org.springframework.transaction.annotation.Transactional;</span><br><span class="line">// 对业务类进行事务增强的标注</span><br><span class="line">@Service</span><br><span class="line">@Transactional</span><br><span class="line">public class BbtForum &#123;</span><br><span class="line">    public ForumDao forumDao;</span><br><span class="line"></span><br><span class="line">    public TopicDao topicDao;</span><br><span class="line"></span><br><span class="line">    public PostDao postDao;</span><br><span class="line"></span><br><span class="line">    public void addTopic(Topic topic) throws Exception &#123;</span><br><span class="line">        topicDao.addTopic(topic);</span><br><span class="line">//		if(true) throw new PessimisticLockingFailureException(&quot;fail&quot;);</span><br><span class="line">        postDao.addPost(topic.getPost());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Transactional(readOnly = true)</span><br><span class="line">    public Forum getForum(int forumId) &#123;</span><br><span class="line">        return forumDao.getForum(forumId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void updateForum(Forum forum) &#123;</span><br><span class="line">        forumDao.updateForum(forum);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getForumNum() &#123;</span><br><span class="line">        return forumDao.getForumNum();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    public void setForumDao(ForumDao forumDao) &#123;</span><br><span class="line">        this.forumDao = forumDao;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    public void setPostDao(PostDao postDao) &#123;</span><br><span class="line">        this.postDao = postDao;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    public void setTopicDao(TopicDao topicDao) &#123;</span><br><span class="line">        this.topicDao = topicDao;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注解本身有一组普适性的默认事务属性，可以直接只用注解完成事务配置<br>配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line">       xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot; xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd</span><br><span class="line">     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;</span><br><span class="line">    &lt;context:component-scan base-package=&quot;com.smart&quot;/&gt;</span><br><span class="line">    &lt;import resource=&quot;classpath:applicationContext-dao.xml&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;bbtForum&quot;</span><br><span class="line">          class=&quot;com.smart.service.BbtForum&quot;</span><br><span class="line">          p:forumDao-ref=&quot;forumDao&quot;</span><br><span class="line">          p:topicDao-ref=&quot;topicDao&quot;</span><br><span class="line">          p:postDao-ref=&quot;postDao&quot;/&gt;</span><br><span class="line">&lt;!--配置事务管理器--&gt;</span><br><span class="line">    &lt;bean id=&quot;txManager&quot;</span><br><span class="line">          class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span><br><span class="line">          p:dataSource-ref=&quot;dataSource&quot;/&gt;</span><br><span class="line">&lt;!-- 对标志注解@Transaction的bean加工处理，以织入事务管理切面--&gt;</span><br><span class="line">    &lt;tx:annotation-driven transaction-manager=&quot;txManager&quot; proxy-target-class=&quot;true&quot;/&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p><a href="tx:annotation-driven" target="_blank" rel="noopener">tx:annotation-driven</a>有三个属性：</p>
+<ul>
+<li>transaction-manager：指定事务管理器</li>
+<li>proxy-target-class：如果位true，Spring将通过创建子类来代理业，否则基于接口代理</li>
+<li>order：控制事务切面在目标连接点的织入顺序</li>
+</ul>
+<p>@Transaction注解属性：</p>
+<ul>
+<li>value     String     可选的限定描述符，指定使用的事务管理器</li>
+<li>propagation     enum: Propagation     可选的事务传播行为设置</li>
+<li>isolation     enum: Isolation     可选的事务隔离级别设置</li>
+<li>readOnly     boolean     读写或只读事务，默认读写</li>
+<li>timeout     int (in seconds granularity)     事务超时时间设置</li>
+<li>rollbackFor     Class对象数组，必须继承自Throwable     导致事务回滚的异常类数组</li>
+<li>rollbackForClassName     类名数组，必须继承自Throwable     导致事务回滚的异常类名字数组</li>
+<li>noRollbackFor     Class对象数组，必须继承自Throwable     不会导致事务回滚的异常类数组</li>
+<li><p>noRollbackForClassName     类名数组，必须继承自Throwable     不会导致事务回滚的异常类名字数组</p>
+<p>@Transactional 可以作用于接口、接口方法、类以及类方法上。当作用于类上时，该类的所有 public 方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。<br>虽然 @Transactional 注解可以作用于接口、接口方法、类以及类方法上，但是 Spring 建议不要在接口或者接口方法上使用该注解，因为这只有在使用基于接口的代理时它才会生效。<em>建议在业务实现类上使用该注解。</em>另外， @Transactional 注解应该只被应用到 public 方法上，这是由 Spring AOP 的本质决定的。如果你在 protected、private 或者默认可见性的方法上使用 @Transactional 注解，这将被忽略，也不会抛出任何异常。<br>在方法上使用@Transaction注解会覆盖类上的注解的属性。</p>
+</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Spring事务配置主要提供两方面信息：1.切点信息，用于定位实施事务切面的业务类方法。2.控制事务行为的事务属性，如事务隔离级别，传播行为等。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag"># spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/13/Spring-AspectJ/" rel="next" title="Spring-AspectJ">
+                <i class="fa fa-chevron-left"></i> Spring-AspectJ
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="watermelon-lee" />
+            
+              <p class="site-author-name" itemprop="name">watermelon-lee</p>
+              <p class="site-description motion-element" itemprop="description">this is us!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库事务基础知识"><span class="nav-number">1.</span> <span class="nav-text">数据库事务基础知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ThreadLocal基础知识"><span class="nav-number">2.</span> <span class="nav-text">ThreadLocal基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal接口"><span class="nav-number">2.1.</span> <span class="nav-text">ThreadLocal接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个实例"><span class="nav-number">2.2.</span> <span class="nav-text">一个实例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用XML配置声明事务"><span class="nav-number">3.</span> <span class="nav-text">使用XML配置声明事务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用注解方式声明事务"><span class="nav-number">4.</span> <span class="nav-text">使用注解方式声明事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Transaction注解"><span class="nav-number">4.1.</span> <span class="nav-text">使用@Transaction注解</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">watermelon-lee</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
