@@ -368,7 +368,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,709
+                  2,768
                 </span>
               
 
@@ -384,7 +384,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  8
+                  12
                 </span>
               
             </div>
@@ -431,6 +431,23 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 <li>缓存定义:确定需要缓存的方法和缓存策略</li>
 <li>配置缓存:配置缓存</li>
 </ul>
+<p>##　Spring Cache抽象</p>
+<h3 id="注解缓存"><a href="#注解缓存" class="headerlink" title="注解缓存"></a>注解缓存</h3><h4 id="Cacheable"><a href="#Cacheable" class="headerlink" title="@Cacheable"></a>@Cacheable</h4><p>@Cacheable是最重要的注解,它指定了返回值是可以被缓存的.缓存名是必须提供的,可用引号,Value或者cacheNames属性来定义.此外还可以定义多个缓存,在该类表中使用逗号分隔缓存名,并且用花括号括起来.例如:<code>@Cacheable(cacheNames={&quot;cache1&quot;,&quot;cache2&quot;}</code>  </p>
+<h5 id="键生成器"><a href="#键生成器" class="headerlink" title="键生成器"></a>键生成器</h5><p>缓存的本质就是键值对集合.Spring提供了默认的SimpleKeyGenerator,使用一个符合键SimpleKey.规则为:  </p>
+<ul>
+<li>如果方法没有入参,使用SimpleKey.EMPTY为key</li>
+<li>如果方法只有一个入参,则使用该入参作为key</li>
+<li>如果方法有多个入参,则返回包含所有入参的一个SimpleKey<br>此外可以使用SpEL来指定自定义键,如:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Cacheable(cacheNames=&quot;users&quot; key=&quot;#user.getCode&quot;)</span><br><span class="line">public User GetUser(User user,boolean checkLogout)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上述函数有一个checkLogout用于区分用户是都注销,而我们不想使用其作为key的一部分,可以根据key属性指定为userCode.</p>
+<h5 id="带条件的缓存"><a href="#带条件的缓存" class="headerlink" title="带条件的缓存"></a>带条件的缓存</h5><p>使用@Cacheable注解的Condition属性可以按条件来缓存.condition属性使用了SpEL表达式动态评估方法入参是否满足条件.<br>例如使用了@Cacheable声明的方法getUser(),我们启用一个条件:仅仅对年龄小于35的用户缓存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class UserService &#123;</span><br><span class="line">    private Map&lt;Integer, User&gt; users = new HashMap&lt;Integer, User&gt;();</span><br><span class="line">    &#123;</span><br><span class="line">        users.put(1, new User(&quot;1&quot;, &quot;w1&quot;,37));</span><br><span class="line">        users.put(2, new User(&quot;2&quot;, &quot;w2&quot;, 34));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Cacheable(value = &quot;users&quot;, condition = &quot;#user.age &lt; 35&quot;)</span><br><span class="line">    public User getUser(User user) &#123;</span><br><span class="line">        System.out.println(&quot;User with id &quot; + user.getUserId() + &quot; requested.&quot;);</span><br><span class="line">        return users.get(Integer.valueOf(user.getUserId()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="CachePut"><a href="#CachePut" class="headerlink" title="@CachePut"></a>@CachePut</h4><p>@CachePut与@Cacheable效果几乎一样,他首先执行方法,然后将返回值放入缓存.当希望更新数据,以方法返回值来更新缓存就可以使用该注解.@CachePut注解会强制执行方法而更新缓存,而@Cacheable会直接跳过方法从直接获取缓存,所以两者不可以同时使用.如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@CachePut(cacheNames=&quot;book&quot;, key=&quot;#isbn&quot;)</span><br><span class="line">public Book updateBook(ISBN isbn, BookDescriptor descriptor)</span><br></pre></td></tr></table></figure></p>
+<p>在更新操作后,缓存中的book对应的BookDescriptor为更新之后的值.</p>
+<h4 id="CacheEvict"><a href="#CacheEvict" class="headerlink" title="@CacheEvict"></a>@CacheEvict</h4><p>@CacheEvict是@Cacheable的反向操作,负责从缓存中删除一个数据.@CacheEvict要求指定一个或多个缓存，使之都受影响。如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@CacheEvict(cacheNames=&quot;users&quot;)</span><br><span class="line">public void removeUser(int id)&#123;</span><br><span class="line">    usersremove(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用@CacheEvict即可从缓存中删除一个用户.同样的,@CacheEvict也提供了Condition和key属性.此外，还提供了两个额外的参数allEntries和beforeInvocation。allEntries表示是否需要清除缓存中的所有元素。默认为false，表示不需要。当指定了allEntries为true时，Spring Cache将忽略指定的key。而beforeInvocation可以改变清除操作的时间.平时都是方法执行完毕后清除缓存,如果方法抛出异常,则不会清除缓存.而指定beforeInvocation为true,则会在方法调用前清除缓存.</p>
+<h4 id="Caching"><a href="#Caching" class="headerlink" title="@Caching"></a>@Caching</h4><p>@Caching是一个组注解,可以为一个方法定义提供基于@Cacheable,@CacheEvict,@CachePut的数组.假设我们定义了一个User,Member,Visitor三个实体类,User为抽象类,而member和Visitor为继承他的子类.<br>我们可以使用@Caching声明两个@Cacheable注解,使其指向不同的两个缓存:member和Visitor.然后根据两个@Cacheable注解定义的条件对方法中的参数进行检查,将对象存储在对应的缓存.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package com.cache.caching;</span><br><span class="line"></span><br><span class="line">import com.cache.domain.User;</span><br><span class="line">import org.springframework.cache.annotation.Cacheable;</span><br><span class="line">import org.springframework.cache.annotation.Caching;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">@Service(value = &quot;cacheGroupUserService&quot;)</span><br><span class="line">public class UserService &#123;</span><br><span class="line">    private Map&lt;Integer,User&gt; map=new HashMap&lt;Integer, User&gt;();</span><br><span class="line">    &#123;</span><br><span class="line">        map.put(1,new Member(&quot;1&quot;,&quot;member1&quot;));</span><br><span class="line">        map.put(2,new Visitor(&quot;2&quot;,&quot;visitor1&quot;));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Caching(cacheable = &#123;</span><br><span class="line">            @Cacheable(value = &quot;members&quot;,condition = &quot;#obj instanceof T(com.domain.Mamber)&quot;),</span><br><span class="line">            @Cacheable(value = &quot;visitor&quot;,condition = &quot;#obj instanceof T(com.domain.Visitor)&quot;),</span><br><span class="line">    &#125;)</span><br><span class="line">    public User getUser(User obj)&#123;</span><br><span class="line">        return map.get(Integer.valueOf(obj.getUserId()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="CacheConfig"><a href="#CacheConfig" class="headerlink" title="@CacheConfig"></a>@CacheConfig</h4><p>前面的注解都是基于方法的,假如我们在一个类中需要的缓存的方法注解属性一致,则需要一个个重复的添加.我们可以使用@CacheConfig来配置.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@CacheConfig(cacheNames=&quot;users&quot;,keyGenerator=&quot;MyKeyGenerator&quot;)</span><br><span class="line">public class UserService&#123;</span><br><span class="line">    @Cacheable</span><br><span class="line">    public User findA(User user)&#123;</span><br><span class="line">    ....</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    @Cacheable</span><br><span class="line">    public User findB(User user)&#123;</span><br><span class="line">    ....</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1440,7 +1457,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共26.0k字</span>
+  <span class="post-count">博客全站共27.0k字</span>
 </div>
 
         
