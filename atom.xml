@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://watermelon-lee.github.io/"/>
-  <updated>2018-05-02T13:32:30.768Z</updated>
+  <updated>2018-05-05T16:16:09.010Z</updated>
   <id>https://watermelon-lee.github.io/</id>
   
   <author>
@@ -17,16 +17,46 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>远远的作品集</title>
+    <link href="https://watermelon-lee.github.io/2018/05/05/YuanYuanPortfolio1/"/>
+    <id>https://watermelon-lee.github.io/2018/05/05/YuanYuanPortfolio1/</id>
+    <published>2018-05-05T14:54:26.000Z</published>
+    <updated>2018-05-05T16:16:09.010Z</updated>
+    
+    <content type="html"><![CDATA[<p>远远的课堂作业<br><a id="more"></a><br>第一次作业<br><img src="../../../../img/Portfolio/1.jpg" alt="pic"><br>第二次作业<br><img src="../../../../img/Portfolio/2.jpg" alt="pic"><br><img src="../../../../img/Portfolio/3.jpg" alt="pic"><br><img src="../../../../img/Portfolio/4.jpg" alt="pic"><br><img src="../../../../img/Portfolio/5.jpg" alt="pic"><br><img src="../../../../img/Portfolio/6.jpg" alt="pic">  </p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;远远的课堂作业&lt;br&gt;
+    
+    </summary>
+    
+      <category term="YuanYuan" scheme="https://watermelon-lee.github.io/categories/YuanYuan/"/>
+    
+    
+      <category term="Portfolio" scheme="https://watermelon-lee.github.io/tags/Portfolio/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Spring-MVC</title>
     <link href="https://watermelon-lee.github.io/2018/05/02/Spring-MVC/"/>
     <id>https://watermelon-lee.github.io/2018/05/02/Spring-MVC/</id>
     <published>2018-05-02T13:32:30.000Z</published>
-    <updated>2018-05-02T13:32:30.768Z</updated>
+    <updated>2018-05-05T13:55:49.928Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Spring-MVC"><a href="#Spring-MVC" class="headerlink" title="Spring MVC"></a>Spring MVC</h1><p>Spring MVC是围绕DispatcherServlet这个核心展开的,他负责截获请求并将其分配给相应的处理器.Spring MVC框架包括注解驱动器控制器,请求以及相应控制器,视图解析,本地化解析,上传文件解析,异常处理解析以及表单绑定等.<br><a id="more"></a></p><h2 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h2><p><img src="../../../../img/Spring/SpringMVCFramework.png" alt="SpringMVC体系结构">  </p><h2 id="配置DispatcherServlet"><a href="#配置DispatcherServlet" class="headerlink" title="配置DispatcherServlet"></a>配置DispatcherServlet</h2>]]></content>
     
     <summary type="html">
     
+      &lt;h1 id=&quot;Spring-MVC&quot;&gt;&lt;a href=&quot;#Spring-MVC&quot; class=&quot;headerlink&quot; title=&quot;Spring MVC&quot;&gt;&lt;/a&gt;Spring MVC&lt;/h1&gt;&lt;p&gt;Spring MVC是围绕DispatcherServlet这个核心展开的,他负责截获请求并将其分配给相应的处理器.Spring MVC框架包括注解驱动器控制器,请求以及相应控制器,视图解析,本地化解析,上传文件解析,异常处理解析以及表单绑定等.&lt;br&gt;
+    
     </summary>
     
+      <category term="study" scheme="https://watermelon-lee.github.io/categories/study/"/>
+    
+    
+      <category term="Spring" scheme="https://watermelon-lee.github.io/tags/Spring/"/>
     
   </entry>
   
@@ -284,13 +314,13 @@
   </entry>
   
   <entry>
-    <title>天津旅游计划</title>
+    <title>天津</title>
     <link href="https://watermelon-lee.github.io/2018/03/30/tianjin-plan/"/>
     <id>https://watermelon-lee.github.io/2018/03/30/tianjin-plan/</id>
     <published>2018-03-30T03:23:10.000Z</published>
-    <updated>2018-05-03T15:10:48.052Z</updated>
+    <updated>2018-05-05T16:07:04.837Z</updated>
     
-    <content type="html"><![CDATA[<p>清明4-7到4-8,和远远天津玩耍&gt;!&lt;<br><a id="more"></a></p><h1 id="第一天"><a href="#第一天" class="headerlink" title="第一天"></a>第一天</h1><p><img src="../../../../img/tianjin/dayone.png" alt="day-one">  </p><h1 id="第二天"><a href="#第二天" class="headerlink" title="第二天"></a>第二天</h1><p><img src="../../../../img/tianjin/daytwo.png" alt="day-two">  </p><h1 id="出发"><a href="#出发" class="headerlink" title="出发:"></a>出发:</h1><p>北京理工大学-&gt;北京南站 43分钟  4号线 12站<br>7点起床,七点半出门,8点半到</p><h1 id="饮食"><a href="#饮食" class="headerlink" title="饮食"></a>饮食</h1><h2 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h2><ul><li>炸酱面</li><li>饺子</li><li>皮皮虾</li><li>煎饼果子<br>##第一天:</li><li>五大道:桂圆餐厅(很火)</li><li>五大道 华竹食府(花生糊,土豆泥好)</li><li>南市食品街:耳朵眼炸糕</li><li>南市食品街:二姑包子</li><li></li></ul><h1 id="住处"><a href="#住处" class="headerlink" title="住处"></a>住处</h1><p>泡泡主题馆,南市食品街-住处:855/628 2元</p>]]></content>
+    <content type="html"><![CDATA[<p>清明4-7到4-8,和远远天津玩耍&gt;!&lt;<br><a id="more"></a></p><h1 id="第一天"><a href="#第一天" class="headerlink" title="第一天"></a>第一天</h1><p><img src="../../../../img/tianjin/dayone.png" alt="day-one">  </p><h1 id="第二天"><a href="#第二天" class="headerlink" title="第二天"></a>第二天</h1><p><img src="../../../../img/tianjin/daytwo.png" alt="day-two">  </p><h1 id="出发"><a href="#出发" class="headerlink" title="出发:"></a>出发:</h1><p>北京理工大学-&gt;北京南站 43分钟  4号线 12站<br>7点起床,七点半出门,8点半到</p><h1 id="饮食"><a href="#饮食" class="headerlink" title="饮食"></a>饮食</h1><h2 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h2><ul><li>炸酱面</li><li>饺子</li><li>皮皮虾</li><li>煎饼果子<br>##第一天:</li><li>五大道:桂圆餐厅(很火)</li><li>五大道 华竹食府(花生糊,土豆泥好)</li><li>南市食品街:耳朵眼炸糕</li><li>南市食品街:二姑包子</li><li></li></ul><h1 id="住处"><a href="#住处" class="headerlink" title="住处"></a>住处</h1><p>泡泡主题馆,南市食品街-住处:855/628 2元</p><hr><h2 id="以下是实际游玩"><a href="#以下是实际游玩" class="headerlink" title="以下是实际游玩:"></a>以下是实际游玩:</h2><p>怎么说呢,天津其实好小,预计的搭公交哈哈哈最后都成了打车,大概都只要10来元.<br>吃的相比北京也便宜了好多,在北京一直没怎么吃的潮汕牛肉火锅在天津吃了个够~当地的特色小吃我觉得很一般,没有觉得太好吃.倒是在一家,名为大吉利的店子中吃到了人生中最好吃的一碗面.<br>很羡慕天津上学,风景很不错,骑车差不多可以去各处,一直沿着河边骑行就可以看到好多漂亮的地方!建筑也都很好看,现代化的城市中也穿插这一些古老文艺的小巷.  ‘<br>最后有一点小遗憾,坐天津之眼还是预估失误,在快下去了的时候才完全日落,没有在摩天轮上看到天津夜景,不过在上面看了次日落也很不错.  </p><p><img src="../../../../img/tianjin/1.jpg" alt="pic"><br><img src="../../../../img/tianjin/2.jpg" alt="pic"><br><img src="../../../../img/tianjin/3.jpg" alt="pic"><br><img src="../../../../img/tianjin/4.jpg" alt="pic"><br><img src="../../../../img/tianjin/5.jpg" alt="pic"><br><img src="../../../../img/tianjin/6.jpg" alt="pic"><br><img src="../../../../img/tianjin/7.jpg" alt="pic"><br><img src="../../../../img/tianjin/8.jpg" alt="pic"><br><img src="../../../../img/tianjin/9.jpg" alt="pic"><br><img src="../../../../img/tianjin/10.jpg" alt="pic"><br><img src="../../../../img/tianjin/11.jpg" alt="pic"><br><img src="../../../../img/tianjin/12.jpg" alt="pic"><br><img src="../../../../img/tianjin/13.jpg" alt="pic"><br><img src="../../../../img/tianjin/14.jpg" alt="pic"><br><img src="../../../../img/tianjin/15.jpg" alt="pic"><br><img src="../../../../img/tianjin/16.jpg" alt="pic">  </p>]]></content>
     
     <summary type="html">
     
