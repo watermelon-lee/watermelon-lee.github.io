@@ -294,6 +294,211 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/04/11/Spring-AOP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="watermelon-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Watermelon">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/11/Spring-AOP/" itemprop="url">Spring-AOP基础</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T11:00:41+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/11/Spring-AOP/" class="leancloud_visitors" data-flag-title="Spring-AOP基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"> ℃ </span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5,186
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  24
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><p>AOP是aspect oriented programing的简称，意为面向切面编程。有时候我们无法通过抽象父类消除重复性的横切代码，因为这些横切逻辑依赖在业务流程中，无法转移到另外的地方。AOP希望将这些分散在各个业务逻辑中的相同代码通过横向切割的方式抽取到独立的模块中，还业务逻辑类一个清新的世界。</p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><ul>
+<li>连接点（Joinpoint）：特定点是程序执行的某个位置，如类的开始初始化前，初始化后，类的某个方法调用前后，方法抛出异常后。一个类或者一段程序代码拥有的一些具有边界性质的特定点被成为连接点。Spring仅支持方法的连接点。使用切点对执行点定义，而方位则在增强类中定义。</li>
+<li>切点（Pointcut）：每个程序都有众多的连接点，连接点是客观存在的事务。在众多连接点中定位到我们需要的连接点就是切点。连接点相当于数据库中的记录，切点就是相当于条件查询。切点用过org.springframework.aop.Pointcut接口进行描述，使用类和方法进行作为连接点的查询条件，切点只定位到某方法上，如果需要确定到某连接点，还需要提供方位信息。</li>
+<li>增强（Advice）：增强是织入目标类连接点上的一段程序代码。增强除了用于描述一段代码外，还拥有一个和连接点相关的信息，这便是执行点的方位。所以增强接口都是带方位名的，如：BeforeAdvice，AfterReturningAdvice，ThThrowsAdvice等。只有结合切点增强，才能确定特定连接点的位置，并实施增强逻辑。</li>
+<li>目标对象（Target）：增强织入的目标类。</li>
+<li>引介（Introduction）：引介是一种特殊的增强，它可以为类添加属性和方法。</li>
+<li>织入（Weaving）:织入是将增强添加到目标类的具体连接点上。</li>
+<li>代理（Proxy）：一个类被AOP织入增强后，就产生了一个结果类，他是融合了原类和增强逻辑的代理类。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/11/Spring-AOP/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    <div>
+  	
+    </div>
+
+    <div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/04/01/Spring-Bean-Load/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1129,7 +1334,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1231,7 +1436,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共29.4k字</span>
+  <span class="post-count">博客全站共31.1k字</span>
 </div>
 
         
