@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://watermelon-lee.github.io/"/>
-  <updated>2018-05-10T12:33:41.287Z</updated>
+  <updated>2018-05-14T01:12:31.501Z</updated>
   <id>https://watermelon-lee.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>两小无猜||天生一对 ?</title>
+    <link href="https://watermelon-lee.github.io/2018/05/14/twins/"/>
+    <id>https://watermelon-lee.github.io/2018/05/14/twins/</id>
+    <published>2018-05-14T00:43:10.000Z</published>
+    <updated>2018-05-14T01:12:31.501Z</updated>
+    
+    <content type="html"><![CDATA[<p>你们看起来好像一样可爱<br><a id="more"></a></p><h1 id="Bottle"><a href="#Bottle" class="headerlink" title="Bottle"></a>Bottle</h1><p><img src="../../../../img/twins/1.jpg" alt="Bottle">  </p><h1 id="Shoes"><a href="#Shoes" class="headerlink" title="Shoes"></a>Shoes</h1><p><img src="../../../../img/twins/2.jpg" alt="Shoes"><br><img src="../../../../img/twins/4.jpg" alt="Shoes">  </p><h1 id="satchel"><a href="#satchel" class="headerlink" title="satchel"></a>satchel</h1><p><img src="../../../../img/twins/3.jpg" alt="Shoes">  </p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;你们看起来好像一样可爱&lt;br&gt;
+    
+    </summary>
+    
+      <category term="home" scheme="https://watermelon-lee.github.io/categories/home/"/>
+    
+    
+      <category term="twins" scheme="https://watermelon-lee.github.io/tags/twins/"/>
+    
+  </entry>
   
   <entry>
     <title>Ubuntu命令</title>
