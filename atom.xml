@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://watermelon-lee.github.io/"/>
-  <updated>2018-05-18T10:57:17.804Z</updated>
+  <updated>2018-05-19T12:06:46.397Z</updated>
   <id>https://watermelon-lee.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>HibernateJPA</title>
+    <link href="https://watermelon-lee.github.io/2018/05/19/HibernateJPA/"/>
+    <id>https://watermelon-lee.github.io/2018/05/19/HibernateJPA/</id>
+    <published>2018-05-19T03:33:20.000Z</published>
+    <updated>2018-05-19T12:06:46.397Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="HibernateJPA注解"><a href="#HibernateJPA注解" class="headerlink" title="HibernateJPA注解"></a>HibernateJPA注解</h1><p>最近在写一个论坛的Demo,接触带了许多Hibernate的注解,不是很了解,做个笔记<br><a id="more"></a></p><h2 id="类级别注解"><a href="#类级别注解" class="headerlink" title="类级别注解"></a>类级别注解</h2><ul><li>@Entity(name=”Name”):映射实体类,name可选,对应数据库中的一个表.</li><li>@Table(name=”Name”,catalog=”Catalog”,schema=”Schema”):与@Entity配合使用,只能标注在实体类的class上,表示实体类对应的数据库表信息.Name可选，映射表的名称，若表名与实体类名相同，则name可省略。catalog可选，表示catalog名称，默认为Catalog(“”)。Schema可选，表示schema名称，默认为schma(“”)。 </li><li>@inheritance:参见<a href="https://blog.csdn.net/ack_finding/article/details/78691361" target="_blank" rel="noopener">博客</a></li><li>@cache:设置缓存策略,Hibernate提供了以下集中策略.<ol><li>CacheConcurrencyStrategy.NONE:不使用缓存.</li><li>CacheConcurrencyStrategy.READ_ONLY:只读模式,在此模式下,如果对数据进行了更新,就会产生异常.</li><li>CacheConcurrencyStrategy.REEAD_WRITE:读写模式,该模式在更新缓存的同时会对缓存里面的数据加锁,其他的事务如果去获取缓存,被锁发现了,就会直接去数据库查询.</li><li>CacheConcurrencyStrategy.NONSTRICT_READ_WRITE:不严格的读写模式,使用该模式不会对缓存数据加锁.</li><li>CacheConcurrencyStrategy.TRANSACTIONAL:事务模式,指缓存支持事务,当事务回滚时,缓存也能回滚,目前只支持JTA环境.<h2 id="属性级别注解"><a href="#属性级别注解" class="headerlink" title="属性级别注解"></a>属性级别注解</h2>可以在属性字段上添加,也可以在属性的get上添加</li></ol></li><li>@id:定义了映射到数据库表的主键属性.</li><li>@GeneratedValue(Strategy=””),用于定义主键生成策略.Strategy有一下策略:<ol><li>GenerationType.AUTO:根据底层数据库自动选择</li><li>GenerationType.INDENTITY:根据数据库的Identity字段生成</li><li>GenerationType.SEQUENCE:使用Sequence来决定主键取值</li><li>GenerationType.TABLE:使用指定表来决定主键取值</li></ol></li><li>@Column:将属性映射到列上,使用该注解来覆盖默认值.可选属性:<ol><li>name:表示数据库表中该字段的名称</li><li>Nullable:该字段是否可为空,默认为True`</li><li>Unique:该字段标示是否唯一,默认为False</li><li>Length:标示字段大小,只对String类型字段有效,默认255</li><li>Inserable:在ORM框架执行Insert操作时,该字段是否需要出现在Insert语句中,默认True</li><li>Updateable:在ORM执行更行操作是,该字段是都出现在Update语句中,默认为True.对于一经创建就不可以更改的字段，改属性非常有用，如对于birthday字段。</li></ol></li><li>@Basic(fetch=”Lazy”,optional=”true”):表示一个简单的属性到数据库字段的映射,对没有标记任何getXXX()的方法,默认为@Basic.fetch表示该属性的读取策略,有EAGER和LAZY.分别为主枝抓取和延迟加载.默认为EAGER.</li><li>@Transient:表示该属性并非一个到数据库表的字段的映射,ORM框架将忽略该属性.如果一个属性并非数据库表的字段映射,就务必将其标示为@Transient,否则,ORM框架默认其注解为@Basic</li></ul><h2 id="关系映射注解"><a href="#关系映射注解" class="headerlink" title="关系映射注解"></a>关系映射注解</h2><p>实体之间的映射关系有一对一,一对多,多对一,多对多.  </p><h3 id="一对一外键"><a href="#一对一外键" class="headerlink" title="一对一外键:"></a>一对一外键:</h3><p>@OneToOne(cascade=CascadeType.ALL,fetch=FetchType)<br>@JoinColumn(name=”pid”,unique=true)<br>注：保存时应该先保存外键对象，再保存主表对象.fetch标示抓取策略,默认为FetchType.LAZY.cascade标示级联操作策略.  </p><h3 id="多对一外键"><a href="#多对一外键" class="headerlink" title="多对一外键"></a>多对一外键</h3><p>@ManyToOne(cascade={CasecadeType.All},fetch=FetchType.EAGER)<br>@JoinColum(name=”cid”, referencedColumnName=”CID”) </p><p>###　多对多单向外键<br>@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = “manBoards”, fetch = FetchType.LAZY)<br>private Set<user> users=new HashSet<user>();  </user></user></p><h3 id="Hibernate-CascadeType说明"><a href="#Hibernate-CascadeType说明" class="headerlink" title="Hibernate CascadeType说明"></a>Hibernate CascadeType说明</h3><p>CascadeType.PERSIST只有A类新增时，会级联B对象新增。若B对象在数据库存（跟新）在则抛异常（让B变为持久态） </p><p>CascadeType.MERGE指A类新增或者变化，会级联B对象（新增或者变化） </p><p>CascadeType.REMOVE只有A类删除时，会级联删除B类； </p><p>CascadeType.ALL包含所有； </p><p>CascadeType.REFRESH没用过。 </p><p>综上：大多数情况用CascadeType.MERGE就能达到级联跟新又不报错，用CascadeType.ALL时要斟酌下CascadeType.REMOVE  </p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;HibernateJPA注解&quot;&gt;&lt;a href=&quot;#HibernateJPA注解&quot; class=&quot;headerlink&quot; title=&quot;HibernateJPA注解&quot;&gt;&lt;/a&gt;HibernateJPA注解&lt;/h1&gt;&lt;p&gt;最近在写一个论坛的Demo,接触带了许多Hibernate的注解,不是很了解,做个笔记&lt;br&gt;
+    
+    </summary>
+    
+      <category term="study" scheme="https://watermelon-lee.github.io/categories/study/"/>
+    
+    
+      <category term="Hibernate" scheme="https://watermelon-lee.github.io/tags/Hibernate/"/>
+    
+  </entry>
   
   <entry>
     <title>我们这一年</title>
