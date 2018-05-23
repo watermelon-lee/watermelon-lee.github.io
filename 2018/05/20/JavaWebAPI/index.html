@@ -127,7 +127,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 <meta property="og:site_name" content="Watermelon">
 <meta property="og:description" content="把自己在编程中遇到的一些不会的API都记录下来">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-20T03:59:43.229Z">
+<meta property="og:updated_time" content="2018-05-23T11:49:44.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我的API文档">
 <meta name="twitter:description" content="把自己在编程中遇到的一些不会的API都记录下来">
@@ -389,7 +389,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,883
+                  1,902
                 </span>
               
 
@@ -438,7 +438,8 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 <li>isAssignable(Class superType, Class subType) / isAssignable(Class superType, Class subType, String message)  subType 必须可以按类型匹配于 superType，否则将抛出异常；  <h1 id="String"><a href="#String" class="headerlink" title="String"></a>String</h1></li>
 <li>int indexOf(String str):返回指定子字符串在此字符串第一次出现的索引.</li>
 <li>String toLowerCase():使用默认语言环境下的规则将此String中的所有字符转化为小写.</li>
-<li>String subString(int beginIndex):返回一个行的字符串,他是该字符串的子串<h1 id="Pattern"><a href="#Pattern" class="headerlink" title="Pattern"></a>Pattern</h1>正则表达式的编译表示形式。<br>指定为字符串的正则表达式必须首先被编译为此类的实例。然后，可将得到的模式用于创建 Matcher 对象，依照正则表达式，该对象可以与任意字符序列匹配。执行匹配所涉及的所有状态都驻留在匹配器中，所以多个匹配器可以共享同一模式。<br>因此，典型的调用顺序是<br>   Pattern p = Pattern.compile(“a<em>b”);<br>   Matcher m = p.matcher(“aaaaab”);<br>   boolean b = m.matches();<br>在仅使用一次正则表达式时，可以方便地通过此类定义 matches 方法。此方法编译表达式并在单个调用中将输入序列与其匹配。语句boolean b = Pattern.matches(“a</em>b”, “aaaaab”);等效于上面的三个语句，尽管对于重复的匹配而言它效率不高，因为它不允许重用已编译的模式。<br>此类的实例是不可变的，可供多个并发线程安全使用。Matcher 类的实例用于此目的则不安全。  <h2 id="正则表达式摘要"><a href="#正则表达式摘要" class="headerlink" title="正则表达式摘要"></a>正则表达式摘要</h2></li>
+<li>String subString(int beginIndex):返回一个行的字符串,他是该字符串的子串</li>
+<li>equalsIgnoreCase（String s）：将此String与另一个String s比较，不考虑大小写<h1 id="Pattern"><a href="#Pattern" class="headerlink" title="Pattern"></a>Pattern</h1>正则表达式的编译表示形式。<br>指定为字符串的正则表达式必须首先被编译为此类的实例。然后，可将得到的模式用于创建 Matcher 对象，依照正则表达式，该对象可以与任意字符序列匹配。执行匹配所涉及的所有状态都驻留在匹配器中，所以多个匹配器可以共享同一模式。<br>因此，典型的调用顺序是<br>   Pattern p = Pattern.compile(“a<em>b”);<br>   Matcher m = p.matcher(“aaaaab”);<br>   boolean b = m.matches();<br>在仅使用一次正则表达式时，可以方便地通过此类定义 matches 方法。此方法编译表达式并在单个调用中将输入序列与其匹配。语句boolean b = Pattern.matches(“a</em>b”, “aaaaab”);等效于上面的三个语句，尽管对于重复的匹配而言它效率不高，因为它不允许重用已编译的模式。<br>此类的实例是不可变的，可供多个并发线程安全使用。Matcher 类的实例用于此目的则不安全。  <h2 id="正则表达式摘要"><a href="#正则表达式摘要" class="headerlink" title="正则表达式摘要"></a>正则表达式摘要</h2></li>
 <li>\     反斜线字符</li>
 <li>.     任何字符（与行结束符可能匹配也可能不匹配）</li>
 <li>\d     数字：[0-9]</li>
@@ -498,7 +499,7 @@ find 方法扫描输入序列以查找与该模式匹配的下一个子序列。
   <p><span>本文标题:</span><a href="/2018/05/20/JavaWebAPI/">我的API文档</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 watermelon-lee 的个人博客">watermelon-lee</a></p>
   <p><span>发布时间:</span>2018年05月20日 - 09:05</p>
-  <p><span>最后更新:</span>2018年05月20日 - 11:05</p>
+  <p><span>最后更新:</span>2018年05月23日 - 19:05</p>
   <p><span>原始链接:</span><a href="/2018/05/20/JavaWebAPI/" title="我的API文档">https://watermelon-lee.github.io/2018/05/20/JavaWebAPI/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/05/20/JavaWebAPI/"  aria-label="复制成功！"></i></span>
   </p>
@@ -781,7 +782,7 @@ find 方法扫描输入序列以查找与该模式匹配的下一个子序列。
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共40.5k字</span>
+  <span class="post-count">博客全站共40.6k字</span>
 </div>
 
         
