@@ -127,7 +127,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
 <meta property="og:site_name" content="Watermelon">
 <meta property="og:description" content="把自己在编程中遇到的一些不会的API都记录下来">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-23T11:49:44.231Z">
+<meta property="og:updated_time" content="2018-05-27T12:14:46.498Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我的API文档">
 <meta name="twitter:description" content="把自己在编程中遇到的一些不会的API都记录下来">
@@ -389,7 +389,7 @@ color="0,0,255" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canv
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,902
+                  1,941
                 </span>
               
 
@@ -469,6 +469,9 @@ find 方法扫描输入序列以查找与该模式匹配的下一个子序列。
 <h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><p>Matcher     appendReplacement(StringBuffer sb, String replacement)<br>          实现非终端添加和替换步骤。<br>StringBuffer     appendTail(StringBuffer sb)<br>          实现终端添加和替换步骤。<br>  boolean     find()<br>          尝试查找与该模式匹配的输入序列的下一个子序列。<br> boolean     find(int start)<br>          重置此匹配器，然后尝试查找匹配该模式、从指定索引开始的输入序列的下一个子序列。  </p>
 <h1 id="插话"><a href="#插话" class="headerlink" title="插话"></a>插话</h1><p>StringBuffer 字符串变量（线程安全）<br>StringBuilder 字符串变量（非线程安全）<br>简要的说， String 类型和 StringBuffer 类型的主要性能区别其实在于 String 是不可变的对象, 因此在每次对 String 类型进行改变的时候其实都等同于生成了一个新的 String 对象，然后将指针指向新的 String 对象，所以经常改变内容的字符串最好不要用 String ，因为每次生成对象都会对系统性能产生影响，特别当内存中无引用对象多了以后， JVM 的 GC 就会开始工作，那速度是一定会相当慢的。<br> 而如果是使用 StringBuffer 类则结果就不一样了，每次结果都会对 StringBuffer 对象本身进行操作，而不是生成新的对象，再改变对象引用。所以在一般情况下我们推荐使用 StringBuffer ，特别是字符串对象经常改变的情况下。  </p>
 <h1 id="Query-Hibernate"><a href="#Query-Hibernate" class="headerlink" title="Query(Hibernate)"></a>Query(Hibernate)</h1><p>Query实例是通过调用Session.createQuery（）获得的(Query query=getSession().createQuery(hql)).<br>可以通过调用setMaxResults（），setFirstResult（）来选择结果集的特定页面<br>常用方法:<br>List     list()<br>          Return the query results as a List.<br>int     executeUpdate()<br>          Execute the update or delete statement.<br>Iterator     iterate()<br>          Return the query results as an Iterator.<br>Query     setFirstResult(int firstResult)<br>          Set the first row to retrieve(检索).<br>Query     setMaxResults(int maxResults)<br>          Set the maximum number of rows to retrieve.<br>Query     setParameter(int position, Object val)<br>          Bind a value to a JDBC-style query parameter.  </p>
+<h1 id="List"><a href="#List" class="headerlink" title="List"></a>List</h1><ul>
+<li>sublist(int i,int j):截取原list一段下来，但是只是快照，如果修改截取的部分list，原list也会相应的变化</li>
+</ul>
 
       
     </div>
@@ -499,7 +502,7 @@ find 方法扫描输入序列以查找与该模式匹配的下一个子序列。
   <p><span>本文标题:</span><a href="/2018/05/20/JavaWebAPI/">我的API文档</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 watermelon-lee 的个人博客">watermelon-lee</a></p>
   <p><span>发布时间:</span>2018年05月20日 - 09:05</p>
-  <p><span>最后更新:</span>2018年05月23日 - 19:05</p>
+  <p><span>最后更新:</span>2018年05月27日 - 20:05</p>
   <p><span>原始链接:</span><a href="/2018/05/20/JavaWebAPI/" title="我的API文档">https://watermelon-lee.github.io/2018/05/20/JavaWebAPI/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/05/20/JavaWebAPI/"  aria-label="复制成功！"></i></span>
   </p>
@@ -726,7 +729,7 @@ find 方法扫描输入序列以查找与该模式匹配的下一个子序列。
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Assert-断言"><span class="nav-number">1.</span> <span class="nav-text">Assert(断言)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String"><span class="nav-number">2.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pattern"><span class="nav-number">3.</span> <span class="nav-text">Pattern</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式摘要"><span class="nav-number">3.1.</span> <span class="nav-text">正则表达式摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见方法"><span class="nav-number">3.2.</span> <span class="nav-text">常见方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Matcher"><span class="nav-number">4.</span> <span class="nav-text">Matcher</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用方法"><span class="nav-number">4.1.</span> <span class="nav-text">常用方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插话"><span class="nav-number">5.</span> <span class="nav-text">插话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Query-Hibernate"><span class="nav-number">6.</span> <span class="nav-text">Query(Hibernate)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Assert-断言"><span class="nav-number">1.</span> <span class="nav-text">Assert(断言)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String"><span class="nav-number">2.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pattern"><span class="nav-number">3.</span> <span class="nav-text">Pattern</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式摘要"><span class="nav-number">3.1.</span> <span class="nav-text">正则表达式摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见方法"><span class="nav-number">3.2.</span> <span class="nav-text">常见方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Matcher"><span class="nav-number">4.</span> <span class="nav-text">Matcher</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用方法"><span class="nav-number">4.1.</span> <span class="nav-text">常用方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插话"><span class="nav-number">5.</span> <span class="nav-text">插话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Query-Hibernate"><span class="nav-number">6.</span> <span class="nav-text">Query(Hibernate)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#List"><span class="nav-number">7.</span> <span class="nav-text">List</span></a></li></ol></div>
             
 
           </div>
