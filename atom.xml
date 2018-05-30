@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://watermelon-lee.github.io/"/>
-  <updated>2018-05-30T05:27:37.553Z</updated>
+  <updated>2018-05-30T16:03:25.848Z</updated>
   <id>https://watermelon-lee.github.io/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Spring-Maven</title>
+    <link href="https://watermelon-lee.github.io/2018/05/30/Spring-Maven/"/>
+    <id>https://watermelon-lee.github.io/2018/05/30/Spring-Maven/</id>
+    <published>2018-05-30T14:26:21.000Z</published>
+    <updated>2018-05-30T16:03:25.848Z</updated>
+    
+    <content type="html"><![CDATA[<p>自己对于Maven依赖一直有些迷糊,每次都是之间复制配置文件,还是需要有所了解,慢慢做一个总结<br><a id="more"></a></p><h1 id="Spring必要依赖"><a href="#Spring必要依赖" class="headerlink" title="Spring必要依赖"></a>Spring必要依赖</h1><p>总体上来说必须要有的一共是7个依赖:</p><ul><li>Spring核心依赖:spring-core,spring-beans,spring-context</li><li>SpringDao依赖:spring-jdbc,spring-tx</li><li>SPring web依赖:spring-web,spring-webmvc</li><li>Spring test依赖:spring-test</li></ul><h2 id="常见依赖的具体功能"><a href="#常见依赖的具体功能" class="headerlink" title="常见依赖的具体功能"></a>常见依赖的具体功能</h2><ul><li>spring-core:包含Spring框架基本核心工具类型.Spring其他的组件都需要使用这个包里面的类.外部依赖commons logging(Log4J)</li><li>spring-beans:所有应用都要用到,包含配置文件,创建和管理bean以及进行Inversion of Control/Dependency Injection(IOC/DI)相关操作的所有类.外部依赖spring-core</li><li>spring-aop:对使用Spring AOP特性是所需要的所有类进行支持.基于AOP的Spring特性如声明事务管理也包含在其中.外部依赖spring-core.soring-beans.</li><li>spring-context:为Spring核心提供了大量的扩展.可以找到Spring ApplicationContexttext所需的所有类,JDNI(Java Naming and Directory Interface)所需全部类.instrumentation组件以及校验Validation方面相关的类.</li><li>spring-dao:这个jar 文件包含Spring DAO、Spring Transaction 进行数据访问的所有类.为了使用声明型事务支持，还需在自己的应用里包含spring-aop.jar.外部依赖spring-core，spring-aop， spring-context.</li><li>spring-jdbc:这个jar 文件包含对Spring 对JDBC 数据访问进行封装的所有类.外部依赖spring-beans，spring-dao</li><li>spring-context-support:包含支持缓存Cache（ehcache）、JCA、JMX、 邮件服务（Java Mail、COS Mail）、任务计划Scheduling（Timer、Quartz）方面的类.以前的版本中应该是这个：spring-support.jar这个jar 文件包含支持UI模版（Velocity，FreeMarker，JasperReports），邮件服务，脚本服务(JRuby)，缓存Cache（EHCache），任务计划Scheduling（uartz）方面的类.</li><li>spring-web:这个jar 文件包含Web 应用开发时，用到Spring 框架时所需的核心类，包括自动载入Web Application Context 特性的类、Struts 与JSF 集成类、文件上传的支持类、Filter 类和大量工具辅助类.外部依赖spring-context, Servlet API.</li><li>spring-webmvc:这个jar 文件包含Spring MVC 框架相关的所有类.包括框架的Servlets，Web MVC框架，控制器和视图支持.当然，如果你的应用使用了独立的MVC 框架，则无需这个JAR 文件里的任何类.外部依赖spring-web.spring-support.</li><li>spring-orm:包含Spring对DAO特性集进行了扩展，使其支持iBATIS、JDO、OJB、TopLink，因为Hibernate已经独立成包了，现在不包含在这个包里了.这个jar文件里大部分的类都要依赖spring-dao.jar里的类，用这个包时你需要同时包含spring-dao.jar包.</li><li>spring-oxm:Spring 对Object/XMl的映射支持,可以让Java与XML之间来回切换.</li><li>spring-tx:以前是在这里org.springframework.transaction为JDBC、Hibernate、JDO、JPA、Beans等提供的一致的声明式和编程式事务管理支持.</li></ul><!-- Spring依赖 --><pre><code>&lt;!-- 1.Spring核心依赖 --&gt;&lt;dependency&gt;    &lt;groupId&gt;org.springframework&lt;/groupId&gt;    &lt;artifactId&gt;spring-core&lt;/artifactId&gt;    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt;    &lt;groupId&gt;org.springframework&lt;/groupId&gt;    &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt;    &lt;groupId&gt;org.springframework&lt;/groupId&gt;    &lt;artifactId&gt;spring-context&lt;/artifactId&gt;    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;&lt;/dependency&gt;</code></pre><!-- 2.Spring dao依赖 --><!-- spring-jdbc包括了一些如jdbcTemplate的工具类 --><pre><code>&lt;dependency&gt;    &lt;groupId&gt;org.springframework&lt;/groupId&gt;    &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt;    &lt;groupId&gt;org.springframework&lt;/groupId&gt;    &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;&lt;/dependency&gt;&lt;!-- 3.Spring web依赖 --&gt;&lt;dependency&gt;    &lt;groupId&gt;org.springframework&lt;/groupId&gt;    &lt;artifactId&gt;spring-web&lt;/artifactId&gt;    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt;    &lt;groupId&gt;org.springframework&lt;/groupId&gt;    &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;&lt;/dependency&gt;&lt;!-- 4.Spring test依赖：方便做单元测试和集成测试 --&gt;&lt;dependency&gt;    &lt;groupId&gt;org.springframework&lt;/groupId&gt;    &lt;artifactId&gt;spring-test&lt;/artifactId&gt;    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;</code></pre><p>　　<br><code>`</code></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;自己对于Maven依赖一直有些迷糊,每次都是之间复制配置文件,还是需要有所了解,慢慢做一个总结&lt;br&gt;
+    
+    </summary>
+    
+      <category term="study" scheme="https://watermelon-lee.github.io/categories/study/"/>
+    
+    
+      <category term="Maven" scheme="https://watermelon-lee.github.io/tags/Maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringMVC-Summary</title>
+    <link href="https://watermelon-lee.github.io/2018/05/30/SpringMVC-Summary/"/>
+    <id>https://watermelon-lee.github.io/2018/05/30/SpringMVC-Summary/</id>
+    <published>2018-05-30T14:15:58.000Z</published>
+    <updated>2018-05-30T14:32:24.520Z</updated>
+    
+    <content type="html"><![CDATA[<p>对自己所学的SpringMVC做一个总结<br><a id="more"></a></p><h1 id="web-xml配置"><a href="#web-xml配置" class="headerlink" title="web.xml配置"></a>web.xml配置</h1><p><code>`</code></p><h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h1><h2 id="Controller"><a href="#Controller" class="headerlink" title="@Controller"></a>@Controller</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;对自己所学的SpringMVC做一个总结&lt;br&gt;
+    
+    </summary>
+    
+      <category term="study" scheme="https://watermelon-lee.github.io/categories/study/"/>
+    
+    
+      <category term="Spring" scheme="https://watermelon-lee.github.io/tags/Spring/"/>
+    
+  </entry>
   
   <entry>
     <title>Project1</title>
@@ -444,50 +488,6 @@
 &lt;li&gt;Beanfactory:创建管理各个类的对象.&lt;/li&gt;
 &lt;li&gt;ApplicationContext:由benefactory派生来,面向spring的所有开发者,几乎所有场合都可以使用,而非使用底层的Beanfactory.&lt;/li&gt;
 &lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="study" scheme="https://watermelon-lee.github.io/categories/study/"/>
-    
-    
-      <category term="Spring" scheme="https://watermelon-lee.github.io/tags/Spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>天津</title>
-    <link href="https://watermelon-lee.github.io/2018/03/30/tianjin-plan/"/>
-    <id>https://watermelon-lee.github.io/2018/03/30/tianjin-plan/</id>
-    <published>2018-03-30T03:23:10.000Z</published>
-    <updated>2018-05-13T02:21:08.530Z</updated>
-    
-    <content type="html"><![CDATA[<p>清明4-7到4-8,和远远天津玩耍&gt;!&lt;<br><a id="more"></a></p><h1 id="第一天"><a href="#第一天" class="headerlink" title="第一天"></a>第一天</h1><p><img src="../../../../img/tianjin/dayone.png" alt="day-one">  </p><h1 id="第二天"><a href="#第二天" class="headerlink" title="第二天"></a>第二天</h1><p><img src="../../../../img/tianjin/daytwo.png" alt="day-two">  </p><h1 id="出发"><a href="#出发" class="headerlink" title="出发:"></a>出发:</h1><p>北京理工大学-&gt;北京南站 43分钟  4号线 12站<br>7点起床,七点半出门,8点半到</p><h1 id="饮食"><a href="#饮食" class="headerlink" title="饮食"></a>饮食</h1><h2 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h2><ul><li>炸酱面</li><li>饺子</li><li>皮皮虾</li><li>煎饼果子<br>##第一天:</li><li>五大道:桂圆餐厅(很火)</li><li>五大道 华竹食府(花生糊,土豆泥好)</li><li>南市食品街:耳朵眼炸糕</li><li>南市食品街:二姑包子</li><li></li></ul><h1 id="住处"><a href="#住处" class="headerlink" title="住处"></a>住处</h1><p>泡泡主题馆,南市食品街-住处:855/628 2元</p><hr><h2 id="以下是实际游玩"><a href="#以下是实际游玩" class="headerlink" title="以下是实际游玩:"></a>以下是实际游玩:</h2><p>怎么说呢,天津其实好小,预计的搭公交哈哈哈最后都成了打车,大概都只要10来元.<br>吃的相比北京也便宜了好多,在北京一直没怎么吃的潮汕牛肉火锅在天津吃了个够~当地的特色小吃我觉得很一般,没有觉得太好吃.倒是在一家,名为大吉利的店子中吃到了人生中最好吃的一碗面.<br>很羡慕天津上学,风景很不错,骑车差不多可以去各处,一直沿着河边骑行就可以看到好多漂亮的地方!建筑也都很好看,现代化的城市中也穿插这一些古老文艺的小巷.  ‘<br>最后有一点小遗憾,坐天津之眼还是预估失误,在快下去了的时候才完全日落,没有在摩天轮上看到天津夜景,不过在上面看了次日落也很不错.  </p><p><img src="../../../../img/tianjin/2.jpg" alt="pic"><br><img src="../../../../img/tianjin/3.jpg" alt="pic"><br><img src="../../../../img/tianjin/4.jpg" alt="pic"><br><img src="../../../../img/tianjin/5.jpg" alt="pic"><br><img src="../../../../img/tianjin/6.jpg" alt="pic"><br><img src="../../../../img/tianjin/7.jpg" alt="pic"><br><img src="../../../../img/tianjin/8.jpg" alt="pic"><br><img src="../../../../img/tianjin/9.jpg" alt="pic"><br><img src="../../../../img/tianjin/10.jpg" alt="pic"><br><img src="../../../../img/tianjin/11.jpg" alt="pic"><br><img src="../../../../img/tianjin/12.jpg" alt="pic"><br><img src="../../../../img/tianjin/13.jpg" alt="pic"><br><img src="../../../../img/tianjin/14.jpg" alt="pic"><br><img src="../../../../img/tianjin/15.jpg" alt="pic"><br><img src="../../../../img/tianjin/16.jpg" alt="pic">  </p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;清明4-7到4-8,和远远天津玩耍&amp;gt;!&amp;lt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="travel" scheme="https://watermelon-lee.github.io/categories/travel/"/>
-    
-    
-      <category term="tianjin" scheme="https://watermelon-lee.github.io/tags/tianjin/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring-sketch</title>
-    <link href="https://watermelon-lee.github.io/2018/03/29/Spring-sketch/"/>
-    <id>https://watermelon-lee.github.io/2018/03/29/Spring-sketch/</id>
-    <published>2018-03-29T01:54:10.000Z</published>
-    <updated>2018-04-24T05:14:35.867Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Spring基础理论"><a href="#Spring基础理论" class="headerlink" title="Spring基础理论"></a>Spring基础理论</h1><h2 id="Spring体系结构"><a href="#Spring体系结构" class="headerlink" title="Spring体系结构"></a>Spring体系结构</h2><p><img src="../../../../img/Spring/arch1.png" alt="Spring体系结构"><br><a id="more"></a><br>Spring框架大致分为5个模块,从持久层,业务层到展现层都提供了相应的技术支持.IoC与AOP是Spring所依赖的根本.  </p><p>1.IoC<br>它将类与类之间的依赖从代码中脱离,用配置的方式进行依赖关系的描述,有IoC容器进行类之间的创建,拼接,管理,获取等工作.<br>2.AOP<br>横切逻辑编程思想.将分散在各个业务逻辑中的相同代码通过很横切的方式抽取到独立的模块中,使业务逻辑类更为独立简洁.</p><h2 id="HelloWorld实例入门"><a href="#HelloWorld实例入门" class="headerlink" title="HelloWorld实例入门"></a>HelloWorld实例入门</h2><h3 id="创建源文件"><a href="#创建源文件" class="headerlink" title="创建源文件"></a>创建源文件</h3><p>Hello.java:<br>    package com.helloWorld;</p><p>public class Hello {<br>    private String message;</p><pre><code>public void setMessage(String message) {    this.message = message;}public void getMessage() {   System.out.println(&quot;Message:&quot; + message); ;}</code></pre><p>}</p><p>MainApp.java:<br>    package com.helloWorld;</p><p>import org.springframework.context.ApplicationContext;<br>import org.springframework.context.support.ClassPathXmlApplicationContext;</p><p>public class MainApp {<br>    public static void main(String[] args){<br>        ApplicationContext context=new ClassPathXmlApplicationContext(“com/helloWorld/Bean.xml”);<br>        Hello hello=(Hello) context.getBean(“helloWorld”);<br>        hello.getMessage();<br>    }<br>}</p><p>关于主要程序有以下两个要点需要注意：</p><pre><code>1.第一步是我们使用框架 API ClassPathXmlApplicationContext() 来创建应用程序的上下文。这个 API 加载 beans 的配文件并最终基于所提供的 API，它处理创建并初始化所有的对象，即在配置文件中提到的 beans。2.第二步是使用已创建的上下文的 getBean() 方法来获得所需的 bean。这个方法使用 bean 的 ID 返回一个最终可以转换为实际对象的通用对象。一旦有了对象，你就可以使用这个对象调用任何类的  </code></pre><p>###创建Bean配置文件</p><blockquote><p>静态文件建立在resources文件中对应的包中<br>代码:<br>    &lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p></blockquote><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"><br><br>    <bean id="helloWorld" class="com.helloWorld.Hello"><br>        <property name="message" value="Hello World!"><br>    </property></bean><br></beans>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Spring基础理论&quot;&gt;&lt;a href=&quot;#Spring基础理论&quot; class=&quot;headerlink&quot; title=&quot;Spring基础理论&quot;&gt;&lt;/a&gt;Spring基础理论&lt;/h1&gt;&lt;h2 id=&quot;Spring体系结构&quot;&gt;&lt;a href=&quot;#Spring体系结构&quot; class=&quot;headerlink&quot; title=&quot;Spring体系结构&quot;&gt;&lt;/a&gt;Spring体系结构&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../../../img/Spring/arch1.png&quot; alt=&quot;Spring体系结构&quot;&gt;&lt;br&gt;
     
     </summary>
     
