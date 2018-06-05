@@ -1999,7 +1999,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #1630ff;
+  background: #622f8c;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3171,11 +3171,6 @@ pre .javascript .function {
   .post-body {
     text-align: justify;
   }
-}
-body {
-  background-image: url("/images/avatar.jpg");
-  background-attachment: fixed;
-  background-repeat: repeat;
 }
 code {
   color: #ff7600;

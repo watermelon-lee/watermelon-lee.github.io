@@ -102,7 +102,7 @@
 
 
 
-  <meta name="keywords" content="Ubuntu," />
+  <meta name="keywords" content="Mybatis," />
 
 
 
@@ -115,18 +115,18 @@
 
 
 
-<meta name="description" content="使用系统时总有好多命令不知道,查了然后又忘了,慢慢作个总结，把每次不记得的都写在这里吧。  连接服务器：ssh root@39.107.93.107 上传文件到服务器：类似：scp -r testprojectsystem.war root@39.107.93.107:/opt/tomcat/webapps/ mysql执行sql文件：进入mysql    Source fileAddress">
-<meta name="keywords" content="Ubuntu">
+<meta name="description" content="最近在细学Mybatis,写一下总结,一边日后回顾.">
+<meta name="keywords" content="Mybatis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu命令">
-<meta property="og:url" content="https://watermelon-lee.github.io/2018/05/08/Linux-instructions/index.html">
+<meta property="og:title" content="Mybatis学习总结">
+<meta property="og:url" content="https://watermelon-lee.github.io/2018/06/05/Mybatis/index.html">
 <meta property="og:site_name" content="Watermelon">
-<meta property="og:description" content="使用系统时总有好多命令不知道,查了然后又忘了,慢慢作个总结，把每次不记得的都写在这里吧。  连接服务器：ssh root@39.107.93.107 上传文件到服务器：类似：scp -r testprojectsystem.war root@39.107.93.107:/opt/tomcat/webapps/ mysql执行sql文件：进入mysql    Source fileAddress">
+<meta property="og:description" content="最近在细学Mybatis,写一下总结,一边日后回顾.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-19T02:00:45.934Z">
+<meta property="og:updated_time" content="2018-06-05T15:53:10.296Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu命令">
-<meta name="twitter:description" content="使用系统时总有好多命令不知道,查了然后又忘了,慢慢作个总结，把每次不记得的都写在这里吧。  连接服务器：ssh root@39.107.93.107 上传文件到服务器：类似：scp -r testprojectsystem.war root@39.107.93.107:/opt/tomcat/webapps/ mysql执行sql文件：进入mysql    Source fileAddress">
+<meta name="twitter:title" content="Mybatis学习总结">
+<meta name="twitter:description" content="最近在细学Mybatis,写一下总结,一边日后回顾.">
 
 
 
@@ -156,13 +156,13 @@
 
 
 
-  <link rel="canonical" href="https://watermelon-lee.github.io/2018/05/08/Linux-instructions/"/>
+  <link rel="canonical" href="https://watermelon-lee.github.io/2018/06/05/Mybatis/"/>
 
 
 
 
 
-  <title>Ubuntu命令 | Watermelon</title>
+  <title>Mybatis学习总结 | Watermelon</title>
   
 
 
@@ -291,7 +291,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/05/08/Linux-instructions/">
+    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/06/05/Mybatis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="watermelon-lee">
@@ -308,7 +308,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Ubuntu命令</h1>
+          <h1 class="post-title" itemprop="name headline">Mybatis学习总结</h1>
         
 
         <div class="post-meta">
@@ -320,8 +320,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-08T20:59:22+08:00">
-                2018-05-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T20:32:11+08:00">
+                2018-06-05
               </time>
             
 
@@ -360,7 +360,7 @@
 
           
           
-             <span id="/2018/05/08/Linux-instructions/" class="leancloud_visitors" data-flag-title="Ubuntu命令">
+             <span id="/2018/06/05/Mybatis/" class="leancloud_visitors" data-flag-title="Mybatis学习总结">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -385,7 +385,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  83
+                  18
                 </span>
               
 
@@ -422,13 +422,8 @@
       
 
       
-        <p>使用系统时总有好多命令不知道,查了然后又忘了,慢慢作个总结，把每次不记得的都写在这里吧。</p>
-<ul>
-<li>连接服务器：ssh <a href="mailto:root@39.107.93.107" target="_blank" rel="noopener">root@39.107.93.107</a></li>
-<li>上传文件到服务器：类似：scp -r testprojectsystem.war <a href="mailto:root@39.107.93.107" target="_blank" rel="noopener">root@39.107.93.107</a>:/opt/tomcat/webapps/</li>
-<li>mysql执行sql文件：进入mysql    Source fileAddress</li>
-</ul>
-
+        <p>最近在细学Mybatis,写一下总结,一边日后回顾.<br><a id="more"></a></p>
+<h1 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h1>
       
     </div>
     
@@ -455,12 +450,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2018/05/08/Linux-instructions/">Ubuntu命令</a></p>
+  <p><span>本文标题:</span><a href="/2018/06/05/Mybatis/">Mybatis学习总结</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 watermelon-lee 的个人博客">watermelon-lee</a></p>
-  <p><span>发布时间:</span>2018年05月08日 - 20:05</p>
-  <p><span>最后更新:</span>2018年05月19日 - 10:05</p>
-  <p><span>原始链接:</span><a href="/2018/05/08/Linux-instructions/" title="Ubuntu命令">https://watermelon-lee.github.io/2018/05/08/Linux-instructions/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/05/08/Linux-instructions/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年06月05日 - 20:06</p>
+  <p><span>最后更新:</span>2018年06月05日 - 23:06</p>
+  <p><span>原始链接:</span><a href="/2018/06/05/Mybatis/" title="Mybatis学习总结">https://watermelon-lee.github.io/2018/06/05/Mybatis/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/06/05/Mybatis/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -516,7 +511,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Ubuntu/" <i class="fa fa-tag"></i> Ubuntu</a>
+            <a href="/tags/Mybatis/" <i class="fa fa-tag"></i> Mybatis</a>
           
         </div>
       
@@ -529,8 +524,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/05/YuanYuanPortfolio1/" rel="next" title="远远的作品集">
-                <i class="fa fa-chevron-left"></i> 远远的作品集
+              <a href="/2018/05/30/Spring-Maven/" rel="next" title="Spring-Maven">
+                <i class="fa fa-chevron-left"></i> Spring-Maven
               </a>
             
           </div>
@@ -538,10 +533,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/14/twins/" rel="prev" title="两小无猜||天生一对 ?">
-                两小无猜||天生一对 ? <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -598,8 +589,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -670,6 +670,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Mybatis"><span class="nav-number">1.</span> <span class="nav-text">Mybatis</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
