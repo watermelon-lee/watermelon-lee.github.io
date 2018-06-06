@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+
+
+
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "a7a19783"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Watermelon" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="AOPAOP是aspect oriented programing的简称，意为面向切面编程。有时候我们无法通过抽象父类消除重复性的横切代码，因为这些横切逻辑依赖在业务流程中，无法转移到另外的地方。AOP希望将这些分散在各个业务逻辑中的相同代码通过横向切割的方式抽取到独立的模块中，还业务逻辑类一个清新的世界。 术语 连接点（Joinpoint）：特定点是程序执行的某个位置，如类的开始初始化前，初始化">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-AOP基础">
+<meta property="og:url" content="https://watermelon-lee.github.io/2018/04/11/Spring-AOP/index.html">
+<meta property="og:site_name" content="Watermelon">
+<meta property="og:description" content="AOPAOP是aspect oriented programing的简称，意为面向切面编程。有时候我们无法通过抽象父类消除重复性的横切代码，因为这些横切逻辑依赖在业务流程中，无法转移到另外的地方。AOP希望将这些分散在各个业务逻辑中的相同代码通过横向切割的方式抽取到独立的模块中，还业务逻辑类一个清新的世界。 术语 连接点（Joinpoint）：特定点是程序执行的某个位置，如类的开始初始化前，初始化">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://watermelon-lee.github.io/img/Spring/ForumService.jpg">
+<meta property="og:updated_time" content="2018-04-24T05:13:38.276Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring-AOP基础">
+<meta name="twitter:description" content="AOPAOP是aspect oriented programing的简称，意为面向切面编程。有时候我们无法通过抽象父类消除重复性的横切代码，因为这些横切逻辑依赖在业务流程中，无法转移到另外的地方。AOP希望将这些分散在各个业务逻辑中的相同代码通过横向切割的方式抽取到独立的模块中，还业务逻辑类一个清新的世界。 术语 连接点（Joinpoint）：特定点是程序执行的某个位置，如类的开始初始化前，初始化">
+<meta name="twitter:image" content="https://watermelon-lee.github.io/img/Spring/ForumService.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://watermelon-lee.github.io/2018/04/11/Spring-AOP/"/>
+
+
+
+
+
+  <title>Spring-AOP基础 | Watermelon</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"><a href="https://github.com/watermelon-lee?tab=overview&from=2018-03-01&to=2018-03-31"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Watermelon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">远远和元老大的小窝</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/04/11/Spring-AOP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="watermelon-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Watermelon">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring-AOP基础</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T11:00:41+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/11/Spring-AOP/" class="leancloud_visitors" data-flag-title="Spring-AOP基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"> ℃ </span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5,186
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  24
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><p>AOP是aspect oriented programing的简称，意为面向切面编程。有时候我们无法通过抽象父类消除重复性的横切代码，因为这些横切逻辑依赖在业务流程中，无法转移到另外的地方。AOP希望将这些分散在各个业务逻辑中的相同代码通过横向切割的方式抽取到独立的模块中，还业务逻辑类一个清新的世界。</p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><ul>
+<li>连接点（Joinpoint）：特定点是程序执行的某个位置，如类的开始初始化前，初始化后，类的某个方法调用前后，方法抛出异常后。一个类或者一段程序代码拥有的一些具有边界性质的特定点被成为连接点。Spring仅支持方法的连接点。使用切点对执行点定义，而方位则在增强类中定义。</li>
+<li>切点（Pointcut）：每个程序都有众多的连接点，连接点是客观存在的事务。在众多连接点中定位到我们需要的连接点就是切点。连接点相当于数据库中的记录，切点就是相当于条件查询。切点用过org.springframework.aop.Pointcut接口进行描述，使用类和方法进行作为连接点的查询条件，切点只定位到某方法上，如果需要确定到某连接点，还需要提供方位信息。</li>
+<li>增强（Advice）：增强是织入目标类连接点上的一段程序代码。增强除了用于描述一段代码外，还拥有一个和连接点相关的信息，这便是执行点的方位。所以增强接口都是带方位名的，如：BeforeAdvice，AfterReturningAdvice，ThThrowsAdvice等。只有结合切点增强，才能确定特定连接点的位置，并实施增强逻辑。</li>
+<li>目标对象（Target）：增强织入的目标类。</li>
+<li>引介（Introduction）：引介是一种特殊的增强，它可以为类添加属性和方法。</li>
+<li>织入（Weaving）:织入是将增强添加到目标类的具体连接点上。</li>
+<li>代理（Proxy）：一个类被AOP织入增强后，就产生了一个结果类，他是融合了原类和增强逻辑的代理类。</li>
+</ul>
+<a id="more"></a>
+<h2 id="底层工作机理"><a href="#底层工作机理" class="headerlink" title="底层工作机理"></a>底层工作机理</h2><p>Spring AOP使用了两种代理机制：一种是基于JDK的动态代理；另一种是基于GGLib的动态代理。</p>
+<h3 id="带有横切逻辑的实例"><a href="#带有横切逻辑的实例" class="headerlink" title="带有横切逻辑的实例"></a>带有横切逻辑的实例</h3><p>forumService接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line"></span><br><span class="line">public interface ForumService &#123;</span><br><span class="line">	void removeTopic(int topicId);</span><br><span class="line">	void removeForum(int forumId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>实现forumService的类，其中包含了性能监视的横切逻辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line"></span><br><span class="line">public class ForumServiceImpl implements ForumService &#123;</span><br><span class="line"></span><br><span class="line">	public void removeTopic(int topicId) &#123;</span><br><span class="line">		PerformanceMonitor.begin(&quot;com.smart.proxy.ForumServiceImpl.removeTopic&quot;);//开始对方法进行性能监视</span><br><span class="line">		System.out.println(&quot;模拟删除Topic记录:&quot;+topicId);</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.currentThread().sleep(20);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			throw new RuntimeException(e);</span><br><span class="line">		&#125;		</span><br><span class="line">		PerformanceMonitor.end();//结束监视</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void removeForum(int forumId) &#123;</span><br><span class="line">		PerformanceMonitor.begin(&quot;com.smart.proxy.ForumServiceImpl.removeForum&quot;);//开始监视</span><br><span class="line">		System.out.println(&quot;模拟删除Forum记录:&quot;+forumId);</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.currentThread().sleep(40);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			throw new RuntimeException(e);</span><br><span class="line">		&#125;		</span><br><span class="line">		PerformanceMonitor.end();//结束监视</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在该类中，每个业务方法都有执行相同的逻辑代码，启动与结束监视。  </p>
+<p>PerformanceMonitor：性能监视类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line"></span><br><span class="line">public class PerformanceMonitor &#123;</span><br><span class="line">	private static ThreadLocal&lt;MethodPerformace&gt; performaceRecord = new ThreadLocal&lt;MethodPerformace&gt;();</span><br><span class="line"></span><br><span class="line">	public static void begin(String method) &#123;</span><br><span class="line">		System.out.println(&quot;begin monitor...&quot;);</span><br><span class="line">		MethodPerformace mp = performaceRecord.get();</span><br><span class="line">		if(mp == null)&#123;</span><br><span class="line">			mp = new MethodPerformace(method);</span><br><span class="line">			performaceRecord.set(mp);</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">		    mp.reset(method);	</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void end() &#123;</span><br><span class="line">		System.out.println(&quot;end monitor...&quot;);</span><br><span class="line">		MethodPerformace mp = performaceRecord.get();</span><br><span class="line">		mp.printPerformace();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>MethodPerformance：记录性能监视的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line"></span><br><span class="line">public class MethodPerformace &#123;</span><br><span class="line">	private long begin;</span><br><span class="line">	private long end;</span><br><span class="line">	private String serviceMethod;</span><br><span class="line">    public MethodPerformace(String serviceMethod)&#123;</span><br><span class="line">    	reset(serviceMethod);</span><br><span class="line">    &#125;</span><br><span class="line">    public void printPerformace()&#123;</span><br><span class="line">        end = System.currentTimeMillis();</span><br><span class="line">        long elapse = end - begin;</span><br><span class="line">        System.out.println(serviceMethod+&quot;花费&quot;+elapse+&quot;毫秒。&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public void reset(String serviceMethod)&#123;</span><br><span class="line">    	this.serviceMethod = serviceMethod;</span><br><span class="line">    	this.begin = System.currentTimeMillis();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行测试代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line"></span><br><span class="line">public class Main &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        ForumService forumService=new ForumServiceImpl();</span><br><span class="line">        forumService.removeTopic(12);</span><br><span class="line">        forumService.removeForum(21);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">begin monitor...</span><br><span class="line">模拟删除Topic记录:12</span><br><span class="line">end monitor...</span><br><span class="line">com.smart.proxy.ForumServiceImpl.removeTopic花费20毫秒。</span><br><span class="line">begin monitor...</span><br><span class="line">模拟删除Forum记录:21</span><br><span class="line">end monitor...</span><br><span class="line">com.smart.proxy.ForumServiceImpl.removeForum花费43毫秒。</span><br></pre></td></tr></table></figure></p>
+<p>在以上例子中，在forumServiceImpl业务逻辑代码中都加入了开启，关闭性能监视的代码，破坏了编程的纯粹性。通过代理的方式可以将业务类方法中开启和结束性能监视的横切代码抽象出来，通过JDK动态代理的方式将横切代码动态的织入目标方法的相应位置。</p>
+<h3 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h3><p>JDK动态代理主要涉及java.lang.reflect包中的两类：Proxy和InvocationHandler。其中InvocationHandler是一个接口，通过实现该接口定义横切逻辑，并通过反射机制调用目标类的代码，动态的将横切逻辑与业务编制到一起。</p>
+<p>首先从forumServiceImpl中移除性能监视的代码，使其只负责具体的业务逻辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line"></span><br><span class="line">public class ForumServiceImpl implements ForumService &#123;</span><br><span class="line"></span><br><span class="line">	public void removeTopic(int topicId) &#123;</span><br><span class="line">//		PerformanceMonitor.begin(&quot;com.smart.proxy.ForumServiceImpl.removeTopic&quot;);</span><br><span class="line">		System.out.println(&quot;模拟删除Topic记录:&quot;+topicId);</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.currentThread().sleep(20);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			throw new RuntimeException(e);</span><br><span class="line">		&#125;		</span><br><span class="line">//		PerformanceMonitor.end();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void removeForum(int forumId) &#123;</span><br><span class="line">//		PerformanceMonitor.begin(&quot;com.smart.proxy.ForumServiceImpl.removeForum&quot;);</span><br><span class="line">		System.out.println(&quot;模拟删除Forum记录:&quot;+forumId);</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.currentThread().sleep(40);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			throw new RuntimeException(e);</span><br><span class="line">		&#125;		</span><br><span class="line">//		PerformanceMonitor.end();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在业务类中移除了性能监视的代码后，InvocationHandler是其安身的好地方，可将性能监视的代码放在实现了InvocationHandler的PerformanceHandler中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.InvocationHandler;</span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class PerformanceHandler implements InvocationHandler &#123;//实现InvocationHandler类</span><br><span class="line">    private Object target;</span><br><span class="line"></span><br><span class="line">    public PerformanceHandler(Object target) &#123;</span><br><span class="line">        this.target = target;</span><br><span class="line">    &#125;//target为业务目标</span><br><span class="line"></span><br><span class="line">    public Object invoke(Object o, Method method, Object[] objects) throws Throwable &#123;//o是最终生产的代理类，method是被代理的目标实例的某个方法，通过它可以发起目标实例方法的反射调用。objects是被代理实例某个方法的入参，在方法反射调用时使用。</span><br><span class="line">        PerformanceMonitor.begin(target.getClass().getName()+&quot;.&quot;+method.getName());</span><br><span class="line">        Object o1=method.invoke(target,objects);//通过反射方法调用业务类的目标方法</span><br><span class="line">        PerformanceMonitor.end();</span><br><span class="line">        return o1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过Proxy结合PerformanceHandler创建ForumService接口代理实例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package com.JDK_Proxy;</span><br><span class="line">        import org.testng.annotations.Test;</span><br><span class="line">        import java.lang.reflect.Proxy;</span><br><span class="line">public class ForumServiceTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void proxy()&#123;</span><br><span class="line">        ForumService target=new ForumServiceImpl();</span><br><span class="line">        PerformanceHandler handler=new PerformanceHandler(target);</span><br><span class="line">        ForumService proxy=(ForumService) Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),handler);</span><br><span class="line">        proxy.removeForum(10);</span><br><span class="line">        proxy.removeTopic(11);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用代理实例，得到结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">begin monitor...</span><br><span class="line">模拟删除Forum记录:10</span><br><span class="line">end monitor...</span><br><span class="line">com.JDK_Proxy.ForumServiceImpl.removeForum花费40毫秒。</span><br><span class="line">begin monitor...</span><br><span class="line">模拟删除Topic记录:11</span><br><span class="line">end monitor...</span><br><span class="line">com.JDK_Proxy.ForumServiceImpl.removeTopic花费20毫秒。</span><br></pre></td></tr></table></figure></p>
+<p>时序图中的整体逻辑：<br><img src="../../../../img/Spring/ForumService.jpg" alt="ForumService"></p>
+<h2 id="创建增强类"><a href="#创建增强类" class="headerlink" title="创建增强类"></a>创建增强类</h2><p>Spring增强总共分为5种：</p>
+<ul>
+<li>前置增强（BeforeAdvice）</li>
+<li>后置增强（AfterReturningAdvice）</li>
+<li>环绕增强（MethodInterceptor）</li>
+<li>异常抛出增强（ThrowAdvice）</li>
+<li>引介增强（IntroductionInterceptor)</li>
+</ul>
+<h3 id="前置增强与后置增强"><a href="#前置增强与后置增强" class="headerlink" title="前置增强与后置增强"></a>前置增强与后置增强</h3><p>一个服务生应当对客户进行招呼和服务，Waiter接口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package com.Advice;</span><br><span class="line"></span><br><span class="line">public interface Waiter &#123;</span><br><span class="line">    void greetTo(String name);</span><br><span class="line">    void serverTo(String name);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一个训练不足的服务生在招呼客户时不使用礼貌用语，在服务后不使用礼貌用语，NaiveWaiter类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">package com.Advice;</span><br><span class="line"></span><br><span class="line">public class NaiveWaiter implements Waiter &#123;</span><br><span class="line">    public void greetTo(String name) &#123;</span><br><span class="line">        System.out.println(&quot;greet to &quot;+name+&quot;!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void serverTo(String name) &#123;</span><br><span class="line">        System.out.println(&quot;server to &quot;+name+&quot;!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>让服务生在打招呼前使用的服务用语，GreetingBeforeAdvice类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package com.Advice;</span><br><span class="line"></span><br><span class="line">import org.springframework.aop.MethodBeforeAdvice;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class GreetingBeforeAdvice implements MethodBeforeAdvice &#123;</span><br><span class="line">    public void before(Method method, Object[] objects, Object o) throws Throwable &#123; //method为目标类方法,objects为目标方法的入参  o为目标类实例</span><br><span class="line">        String name=(String)objects[0];</span><br><span class="line">        System.out.println(&quot;How are you! Mr&quot;+name+&quot;!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>让服务生在服务后使用的礼貌用语，GreetingAfterAdvice类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package com.Advice;</span><br><span class="line"></span><br><span class="line">import org.springframework.aop.AfterReturningAdvice;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class GreetingAfterAdvice implements AfterReturningAdvice &#123;</span><br><span class="line">    public void afterReturning(Object o, Method method, Object[] objects, Object o1) throws Throwable &#123;</span><br><span class="line">        String name=(String)objects[0];</span><br><span class="line">        System.out.println(&quot;Please enjoy!&quot;+name+&quot;~&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在XML中使用Spring的ProxyFactory来配置代理，将增强织入到目标类中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;greetingBeforeAdvice&quot; class=&quot;com.Advice.GreetingBeforeAdvice&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;greatingAfterAdvice&quot; class=&quot;com.Advice.GreetingAfterAdvice&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;target&quot; class=&quot;com.Advice.NaiveWaiter&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;waiter&quot; class=&quot;org.springframework.aop.framework.ProxyFactoryBean&quot;</span><br><span class="line">          p:proxyInterfaces=&quot;com.Advice.Waiter&quot;</span><br><span class="line">          p:interceptorNames=&quot;greetingBeforeAdvice,greatingAfterAdvice&quot;</span><br><span class="line">          p:target-ref=&quot;target&quot;/&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p>ProxyFactoryBean是FactoryBean接口的实现类,负责为其他Bean创建代理实例,在内部使用ProxyFactory来实现<br>        ProxyFactoryBean属性:<br>            target:代理的目标对象<br>            proxyInterfaces:代理所需要实现的接口,可以是多个接口<br>            interceptorNames:需要织入的目标对象<br>            singleton:返回的代理是否为单实例,默认是<br>            optimize:当设置为True时,使用GGlib动态代理,对于singleton的代理,推荐使用.其他作用域的代理使用JDK动态代理<br>            proxyTargetClass:是否对类进行代理,而不是对接口代理.设置为True时,使用GGLib代理  </p>
+<h3 id="环绕增强"><a href="#环绕增强" class="headerlink" title="环绕增强"></a>环绕增强</h3><p>环绕增强可在目标类方法调用前后织入横切逻辑，使用环绕增强实现前后礼貌用语，GreetingInterceptor类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package com.Advice;</span><br><span class="line"></span><br><span class="line">import org.aopalliance.intercept.MethodInterceptor;</span><br><span class="line">import org.aopalliance.intercept.MethodInvocation;</span><br><span class="line"></span><br><span class="line">public class GreetingInterceptor implements MethodInterceptor &#123;</span><br><span class="line">    public Object invoke(MethodInvocation methodInvocation) throws Throwable &#123;</span><br><span class="line">        Object[] objects=methodInvocation.getArguments();//获得目标方法的参数</span><br><span class="line">        String name=(String)objects[0];</span><br><span class="line">        System.out.println(&quot;How are you,Mr.&quot;+name+&quot;!&quot;);//在执行目标方法前调用</span><br><span class="line">        Object obj=methodInvocation.proceed();//通过通过反射机制调用目标方法</span><br><span class="line">        System.out.println(&quot;please enjoy&quot;);//在目标方法执行后调用</span><br><span class="line">        return obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Spring直接使用MethodInterceptor作为环绕增强的接口,该接口有唯一的方法：<br>public Object invoke(MethodInvocation methodInvocation) throws Throwable。MethodInvocation不但封装了目标方法及其参数组,还封装了目标方法所在的实力对象,通过MethodInterceptor的getArguments()方法可以获取目标方法的参数组,通过proceed()方法反射调用目标实例相应方法。  </p>
+<p>XML配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;greetingInterceptor&quot; class=&quot;com.Advice.GreetingInterceptor&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;target&quot; class=&quot;com.Advice.NaiveWaiter&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;waiter&quot; class=&quot;org.springframework.aop.framework.ProxyFactoryBean&quot;</span><br><span class="line">          p:target-ref=&quot;target&quot;</span><br><span class="line">          p:interceptorNames=&quot;greetingInterceptor&quot;</span><br><span class="line">          p:proxyInterfaces=&quot;com.Advice.Waiter&quot;/&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="创建切面"><a href="#创建切面" class="headerlink" title="创建切面"></a>创建切面</h2><p>增强提供了连接点方位，如织入到方法前后，而切点进一步描述了织入哪些类的哪些方法上。<br>PointcutAdvisor包含Advice和Pointcut两类，这样就可以通过上面两类定位到类，方法，方法方位，提供合适的切面。<br>PointcutAdvisor主要有一下几个实现类：</p>
+<ul>
+<li>DefaultPointcutAdvisor：最常用的切面类型，通过任意的Pointcut和Advice定义一个切面，仅不支持引介切面。</li>
+<li>NameMatchMethodPointAdvisor：通过该类可以定义按方法名定义切点的切面。</li>
+<li>StaticMethodMatcherPointcutAdvisor：静态方法匹配切点定义的切面，默认情况下匹配所有目标类。</li>
+</ul>
+<h3 id="静态普通方法名匹配"><a href="#静态普通方法名匹配" class="headerlink" title="静态普通方法名匹配"></a>静态普通方法名匹配</h3><p>StaticMethodMatcherPointcutAdvisor代表一个静态方法匹配切面，通过StaticMethodMatcherPointcut来定义切点，通过类过滤和方法名匹配来定义切点。<br>代码Waiter：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package com.Advisor;</span><br><span class="line"></span><br><span class="line">public class Waiter &#123;</span><br><span class="line">           public void greetTo(String name) &#123;</span><br><span class="line">            System.out.println(&quot;greet to &quot;+name+&quot;!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void serverTo(String name) &#123;</span><br><span class="line">            System.out.println(&quot;server to &quot;+name+&quot;!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>代码Seller：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package com.Advisor;</span><br><span class="line"></span><br><span class="line">public class Seller &#123;</span><br><span class="line">    public void greetTo(String name)&#123;</span><br><span class="line">        System.out.println(&quot;seller greet to&quot;+name+&quot;!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Seller和Waiter有相同的方法greetTo（），使用StaticMethodMatcherPointcutAdvisor定义一个切面，在Waiter#greetTo（）方法调用前织入一个增强。<br>切面类GreetingAdvisor：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">package com.Advisor.StaticMethod;</span><br><span class="line"></span><br><span class="line">import com.Advisor.Waiter;</span><br><span class="line">import org.springframework.aop.ClassFilter;</span><br><span class="line">import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class greetAdvisor extends StaticMethodMatcherPointcutAdvisor &#123;</span><br><span class="line">    public boolean matches(Method method, Class&lt;?&gt; aClass) &#123;</span><br><span class="line">        return &quot;greetTo&quot;.equals(method.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ClassFilter getClassFilter() &#123;//类别过滤器</span><br><span class="line">        return new ClassFilter() &#123;</span><br><span class="line">            public boolean matches(Class&lt;?&gt; aClass) &#123;</span><br><span class="line">                return Waiter.class.isAssignableFrom(aClass);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>StaticMethodMatcherPointcutAdvisor抽象类唯一需要实现的是matches（）方法。在默认的情况下匹配所有类，这里通过覆盖getClassFilter（）方法匹配Waiter类。<br>class1.isAssignableFrom(class2) 判定此 Class 对象所表示的类或接口与指定的 Class 参数所表示的类或接口是否相同，或是否是其超类或超接口。如果是则返回 true；否则返回 false。如果该 Class 表示一个基本类型，且指定的 Class 参数正是该 Class 对象，则该方法返回 true；否则返回 false。</p>
+<p>配合Advisor的增强类GreeetingBeforeAdvice：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package com.Advisor.StaticMethod;</span><br><span class="line"></span><br><span class="line">import org.springframework.aop.MethodBeforeAdvice;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class greetBeforeAdvice implements MethodBeforeAdvice &#123;</span><br><span class="line">    public void before(Method method, Object[] objects, Object o) throws Throwable &#123;</span><br><span class="line">        System.out.println(o.getClass().getName()+&quot;.&quot;+method.getName()); //输出切点</span><br><span class="line">        String name=(String)objects[0];</span><br><span class="line">        System.out.println(&quot;How are you ! Mr&quot;+name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用Spring配置来定义切面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;!-- 普通方法名匹配切面 --&gt;</span><br><span class="line">    &lt;bean id=&quot;waiterTarget&quot; class=&quot;com.Advisor.Waiter&quot; /&gt;</span><br><span class="line">    &lt;bean id=&quot;sellerTarget&quot; class=&quot;com.Advisor.Seller&quot; /&gt;</span><br><span class="line">    &lt;bean id=&quot;greetingAdvice&quot; class=&quot;com.Advisor.StaticMethod.greetBeforeAdvice&quot; /&gt; &lt;!--注入一个前置增强--&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;greetingAdvisor&quot; class=&quot;com.Advisor.StaticMethod.greetAdvisor&quot;</span><br><span class="line">          p:advice-ref=&quot;greetingAdvice&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--通过一个父bean定义公共信息--&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;parent&quot; abstract=&quot;true&quot;</span><br><span class="line">          class=&quot;org.springframework.aop.framework.ProxyFactoryBean&quot;</span><br><span class="line">          p:interceptorNames=&quot;greetingAdvisor&quot; p:proxyTargetClass=&quot;true&quot; /&gt;</span><br><span class="line">    &lt;bean id=&quot;waiter&quot; parent=&quot;parent&quot; p:target-ref=&quot;waiterTarget&quot; /&gt;</span><br><span class="line">    &lt;bean id=&quot;seller&quot; parent=&quot;parent&quot; p:target-ref=&quot;sellerTarget&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p>测试代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package com.Advisor;</span><br><span class="line"></span><br><span class="line">import org.springframework.context.ApplicationContext;</span><br><span class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line">import org.testng.annotations.Test;</span><br><span class="line"></span><br><span class="line">public class StaticMethod &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void start()&#123;</span><br><span class="line">        ApplicationContext context=new ClassPathXmlApplicationContext(&quot;com/Advisor/StaticMethod.xml&quot;);</span><br><span class="line">        Waiter waiter=(Waiter) context.getBean(&quot;waiter&quot;);</span><br><span class="line">        Seller seller=(Seller)context.getBean(&quot;seller&quot;);</span><br><span class="line">        waiter.greetTo(&quot;wade0&quot;);</span><br><span class="line">        waiter.serverTo(&quot;wade&quot;);</span><br><span class="line">        seller.greetTo(&quot;wade&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">com.Advisor.Waiter.greetTo</span><br><span class="line">How are you ! Mrwade0</span><br><span class="line">greet to wade0!</span><br><span class="line">server to wade!</span><br><span class="line">seller greet towade!</span><br></pre></td></tr></table></figure></p>
+<p>可以发现Waiter.GreetTo（）方法被织入了增强，而Seller.GreetTo()方法没有织入增强。  </p>
+<h3 id="流程切面"><a href="#流程切面" class="headerlink" title="流程切面"></a>流程切面</h3><p>Spring的流程切面由DefaultPointcutAdvisor和ControlFlowPointcut实现，流程切点代表某个方法直接或间接发起调用其他的方法。通过一个WaiterDelegate类代理Waiter所有方法.<br>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package com.Advisor;</span><br><span class="line"></span><br><span class="line">public class WaiterDelegate &#123;</span><br><span class="line">    private Waiter waiter;</span><br><span class="line"></span><br><span class="line">    public void service(String name)&#123;</span><br><span class="line">        waiter.greetTo(name);</span><br><span class="line">        waiter.serverTo(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setWaiter(Waiter waiter) &#123;</span><br><span class="line">        this.waiter = waiter;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果希望WaiterDelegate#Service（）方法发起调用的其他方法都织入了GreetingBeforeAdvice增强，就必须使用流程切面来完成。</p>
+<p>配置控制流程切面的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;greetingAdvice&quot; class=&quot;com.Advice.GreetingBeforeAdvice&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;waiterTarget&quot; class=&quot;com.Advisor.Waiter&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;controlFlowPointcut&quot; class=&quot;org.springframework.aop.support.ControlFlowPointcut&quot;&gt;</span><br><span class="line">        &lt;constructor-arg type=&quot;java.lang.Class&quot; value=&quot;com.Advisor.WaiterDelegate&quot;/&gt;</span><br><span class="line">        &lt;constructor-arg type=&quot;java.lang.String&quot; value=&quot;service&quot;/&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">    &lt;bean id=&quot;controlFlowAdvisor&quot; class=&quot;org.springframework.aop.support.DefaultPointcutAdvisor&quot;</span><br><span class="line">          p:pointcut-ref=&quot;controlFlowPointcut&quot;</span><br><span class="line">          p:advice-ref=&quot;greetingAdvice&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;waiter3&quot; class=&quot;org.springframework.aop.framework.ProxyFactoryBean&quot;</span><br><span class="line">          p:proxyTargetClass=&quot;true&quot;</span><br><span class="line">          p:target-ref=&quot;waiterTarget&quot;</span><br><span class="line">          p:interceptorNames=&quot;controlFlowAdvisor&quot;/&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p>ControlFlowPointcut有两个构造函数，分别是ControlFlowPointcut（Class clazz）和ControlFlowPointcut（Class clazz，String methodName），第一个构造函数制定一个类作为流程切点，第二个构造函数指定一个类和一个方法作为流程切点。<br>测试代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package com.Advisor;</span><br><span class="line"></span><br><span class="line">import org.springframework.context.ApplicationContext;</span><br><span class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line">import org.testng.annotations.Test;</span><br><span class="line"></span><br><span class="line">public class ControlFlow &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void control() &#123;</span><br><span class="line">        String configPath = &quot;com/Advisor/ControlFlow.xml&quot;;</span><br><span class="line">        ApplicationContext ctx = new ClassPathXmlApplicationContext(configPath);</span><br><span class="line">        Waiter waiter = (Waiter) ctx.getBean(&quot;waiter3&quot;);</span><br><span class="line">        WaiterDelegate wd = new WaiterDelegate();</span><br><span class="line">        wd.setWaiter(waiter);</span><br><span class="line">        waiter.serverTo(&quot;Peter&quot;);</span><br><span class="line">        waiter.greetTo(&quot;Peter&quot;);</span><br><span class="line">        wd.service(&quot;Peter&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server to Peter!</span><br><span class="line">greet to Peter!</span><br><span class="line">How are you! MrPeter!</span><br><span class="line">greet to Peter!</span><br><span class="line">How are you! MrPeter!</span><br><span class="line">server to Peter!</span><br></pre></td></tr></table></figure></p>
+<p>可以看到一开始直接使用waiter的serverTo和greetTo方法都没有增强，而通过waiterDelegate中service方法调用waiter中的serverTo和greetTo即可。</p>
+<h3 id="复合切点切面"><a href="#复合切点切面" class="headerlink" title="复合切点切面"></a>复合切点切面</h3><p>加入我们希望WaiterDelegate#service（）发起的调用且调用方法是greetTo时才织入增强，则这个切点就是复合切点，它由两个单独的切点确定。我们可以使用Spring提供的ComposablePointcut把两个切点组合起来。<br>Composable本身也是一个切点，实现了Pointcut接口。了解一下其构造函数：<br>ComposablePointcut() 构造一个匹配所有类所有方法的复合切点<br>ComposablePointcut(ClassFilter classFilter) 匹配特定类所有方法的复合切点<br>ComposablePointcut(MethodMatcher methodMatcher) 匹配所有类特定方法的切点<br>ComposablePointcut(ClassFilter classFilter,MethodMatcher methodMatcher) 匹配特定类特定方法的切点<br>交集复合的方法是：<br>ComposablePointcut intersection(ClassFilter classFilter) 将复合切点和一个ClassFilter对象进行交集运算，得到一个符合切点<br>ComposablePointcut intersection(MethodMatcher methodMatcher)  将复合切点和一个MethodMatcher对象进行交集运算，得到一个复合切点<br>ComposablePointcut intersection(Pointcut pointcut) 将复合切点和一个切点对象进行交集运算，得到一个复合切点<br>并集复合的方法是：<br>ComposablePointcut union(ClassFilter classFilter) 将复合切点和一个ClassFilter对象进行并集运算，得到一个符合切点<br>ComposablePointcut union(MethodMatcher methodMatcher) 将复合切点和一个MethodMatcher对象进行并集运算，得到一个符合切点<br>ComposablePointcut没有提供一个参数为Pointcut的union方法，可以使org.springframework.aop.support.Pointcuts工具类，有两个静态方法可以返回一个Pointcut这个Pointcut 正是ComposablePointcut。<br>Pointcut intersection(Pointcut a,Pointcut b) 两个切点交集运算<br>Pointcut union(Pointcut a,Pointcut b) 并集运算<br>代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package com.Advisor.Composable;</span><br><span class="line"></span><br><span class="line">import com.Advisor.WaiterDelegate;</span><br><span class="line">import org.springframework.aop.Pointcut;</span><br><span class="line">import org.springframework.aop.support.ComposablePointcut;</span><br><span class="line">import org.springframework.aop.support.ControlFlowPointcut;</span><br><span class="line">import org.springframework.aop.support.NameMatchMethodPointcut;</span><br><span class="line"></span><br><span class="line">public class GreetingComposablePointcut &#123;</span><br><span class="line">    public Pointcut getIntersectionPointcut()&#123;</span><br><span class="line">        ComposablePointcut composablePointcut=new ComposablePointcut();//创建一个复合切点</span><br><span class="line"></span><br><span class="line">        Pointcut pointcut1=new ControlFlowPointcut(WaiterDelegate.class,&quot;service&quot;);//创建一个流程切点</span><br><span class="line"></span><br><span class="line">        NameMatchMethodPointcut pointcut2 =new NameMatchMethodPointcut();//创建一个方法名切点</span><br><span class="line"></span><br><span class="line">        pointcut2.addMethodName(&quot;greetTo&quot;);</span><br><span class="line"></span><br><span class="line">        return composablePointcut.intersection(pointcut1).intersection((Pointcut)pointcut2);//将两个切点进行交操作</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;waiterTaget&quot; class=&quot;com.Advisor.Waiter&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;greetingAdvice&quot; class=&quot;com.Advice.GreetingBeforeAdvice&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;gcp&quot; class=&quot;com.Advisor.Composable.GreetingComposablePointcut&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 复合切点切面--&gt;</span><br><span class="line">    &lt;bean id=&quot;composableAdvisor&quot; class=&quot;org.springframework.aop.support.DefaultPointcutAdvisor&quot;</span><br><span class="line">          p:pointcut=&quot;#&#123;gcp.intersectionPointcut&#125;&quot;</span><br><span class="line">          p:advice-ref=&quot;greetingAdvice&quot;/&gt; &lt;!--调用gcp中的getIntersectionPointcut()方法的到复合切点--&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;waiter4&quot; class=&quot;org.springframework.aop.framework.ProxyFactoryBean&quot;</span><br><span class="line">          p:interceptorNames=&quot;composableAdvisor&quot;</span><br><span class="line">          p:target-ref=&quot;waiterTaget&quot;</span><br><span class="line">          p:proxyTargetClass=&quot;true&quot;/&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p>测试代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package com.Advisor;</span><br><span class="line"></span><br><span class="line">import org.springframework.context.ApplicationContext;</span><br><span class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line">import org.testng.annotations.Test;</span><br><span class="line"></span><br><span class="line">public class Composable &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void composable()&#123;</span><br><span class="line">        String configPath = &quot;com/Advisor/Composable.xml&quot;;</span><br><span class="line">        ApplicationContext ctx = new ClassPathXmlApplicationContext(configPath);</span><br><span class="line">        Waiter waiter = (Waiter) ctx.getBean(&quot;waiter4&quot;);</span><br><span class="line">        WaiterDelegate wd = new WaiterDelegate();</span><br><span class="line">        wd.setWaiter(waiter);</span><br><span class="line">        waiter.serverTo(&quot;Peter&quot;);</span><br><span class="line">        waiter.greetTo(&quot;Peter&quot;);</span><br><span class="line">        wd.service(&quot;Peter&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server to Peter!</span><br><span class="line">greet to Peter!</span><br><span class="line">How are you! MrPeter!</span><br><span class="line">greet to Peter!</span><br><span class="line">server to Peter!</span><br></pre></td></tr></table></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Spring底层使用的JDK动态代理和GGLib动态代理，使用JDK动态代理目标类必须实现接口，而GGLib动态代理则不做任何要求，它通过动态生成目标子类的方式提供代理。<br>Spring只能在方法级别上织入增强，Spring提供了4种级别的方法增强，前置增强，后置增强，环绕增强，异常抛出增强。增强其实就是最简单的一种切面，既包括横切代码，有包括切点信息。只不过他的切点位置是最简单的方法相对位置信息，所以一般需要和切点联合才可以表示一个更具实用性的切面。<br>切点一般通过目标类名和方法名来定位连接点信息。需要通过切点的交叉合并可以使用CompasablePiontcut的复合切点。<br>切面是增强和切点的联合，可以通过Spring提供的ProxyBeanFactory将切面织入不同的目标类中。<br>往往在配置时先定义目标对象的Bean，即Target。然后定义增强类（Advice），在定义切点（pointcut），之后定义切面，织入切点与增强，然后创建ProxyFactoryBean代理的代理类Bean。</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+  	
+    	<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+  	
+    </div>
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/04/11/Spring-AOP/">Spring-AOP基础</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 watermelon-lee 的个人博客">watermelon-lee</a></p>
+  <p><span>发布时间:</span>2018年04月11日 - 11:04</p>
+  <p><span>最后更新:</span>2018年04月24日 - 13:04</p>
+  <p><span>原始链接:</span><a href="/2018/04/11/Spring-AOP/" title="Spring-AOP基础">https://watermelon-lee.github.io/2018/04/11/Spring-AOP/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/04/11/Spring-AOP/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate here!!!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="watermelon-lee 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" <i class="fa fa-tag"></i> Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/01/Spring-Bean-Load/" rel="next" title="Bean的配置">
+                <i class="fa fa-chevron-left"></i> Bean的配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/11/bike/" rel="prev" title="bike">
+                bike <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMyMS8xMjg1Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="watermelon-lee" />
+            
+              <p class="site-author-name" itemprop="name">watermelon-lee</p>
+              <p class="site-description motion-element" itemprop="description">this is us!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AOP"><span class="nav-number">1.</span> <span class="nav-text">AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#术语"><span class="nav-number">1.1.</span> <span class="nav-text">术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#底层工作机理"><span class="nav-number">1.2.</span> <span class="nav-text">底层工作机理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#带有横切逻辑的实例"><span class="nav-number">1.2.1.</span> <span class="nav-text">带有横切逻辑的实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK动态代理"><span class="nav-number">1.2.2.</span> <span class="nav-text">JDK动态代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建增强类"><span class="nav-number">1.3.</span> <span class="nav-text">创建增强类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前置增强与后置增强"><span class="nav-number">1.3.1.</span> <span class="nav-text">前置增强与后置增强</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环绕增强"><span class="nav-number">1.3.2.</span> <span class="nav-text">环绕增强</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建切面"><span class="nav-number">1.4.</span> <span class="nav-text">创建切面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态普通方法名匹配"><span class="nav-number">1.4.1.</span> <span class="nav-text">静态普通方法名匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程切面"><span class="nav-number">1.4.2.</span> <span class="nav-text">流程切面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复合切点切面"><span class="nav-number">1.4.3.</span> <span class="nav-text">复合切点切面</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">watermelon-lee</span>
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共42.3k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="300" alpha="0.6"  zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("", "");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/love.js"></script>

@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+
+
+
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "a7a19783"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Watermelon" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="SpringIoCIoC容器ioc(Inverse of Control)是Spring容器的内核.控制反转即某一接口具体实现类的选择控制权从调用类移除,交由第三方决定,即由Spring容器借由bean配置来控制.   Spring提供了两种类型的容器:    Beanfactory:创建管理各个类的对象. ApplicationContext:由benefactory派生来,面向spring的所">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-IoC学习笔记">
+<meta property="og:url" content="https://watermelon-lee.github.io/2018/03/30/Spring-IoC/index.html">
+<meta property="og:site_name" content="Watermelon">
+<meta property="og:description" content="SpringIoCIoC容器ioc(Inverse of Control)是Spring容器的内核.控制反转即某一接口具体实现类的选择控制权从调用类移除,交由第三方决定,即由Spring容器借由bean配置来控制.   Spring提供了两种类型的容器:    Beanfactory:创建管理各个类的对象. ApplicationContext:由benefactory派生来,面向spring的所">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://watermelon-lee.github.io/img/Spring/bean-lifetime.png">
+<meta property="og:updated_time" content="2018-04-24T05:14:18.406Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring-IoC学习笔记">
+<meta name="twitter:description" content="SpringIoCIoC容器ioc(Inverse of Control)是Spring容器的内核.控制反转即某一接口具体实现类的选择控制权从调用类移除,交由第三方决定,即由Spring容器借由bean配置来控制.   Spring提供了两种类型的容器:    Beanfactory:创建管理各个类的对象. ApplicationContext:由benefactory派生来,面向spring的所">
+<meta name="twitter:image" content="https://watermelon-lee.github.io/img/Spring/bean-lifetime.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://watermelon-lee.github.io/2018/03/30/Spring-IoC/"/>
+
+
+
+
+
+  <title>Spring-IoC学习笔记 | Watermelon</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"><a href="https://github.com/watermelon-lee?tab=overview&from=2018-03-01&to=2018-03-31"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Watermelon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">远远和元老大的小窝</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/03/30/Spring-IoC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="watermelon-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Watermelon">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring-IoC学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T13:58:19+08:00">
+                2018-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/30/Spring-IoC/" class="leancloud_visitors" data-flag-title="Spring-IoC学习笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"> ℃ </span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,990
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="SpringIoC"><a href="#SpringIoC" class="headerlink" title="SpringIoC"></a>SpringIoC</h1><h2 id="IoC容器"><a href="#IoC容器" class="headerlink" title="IoC容器"></a>IoC容器</h2><p>ioc(Inverse of Control)是Spring容器的内核.控制反转即某一接口具体实现类的选择控制权从调用类移除,交由第三方决定,即由Spring容器借由bean配置来控制.  </p>
+<p>Spring提供了两种类型的容器:  </p>
+<ul>
+<li>Beanfactory:创建管理各个类的对象.</li>
+<li>ApplicationContext:由benefactory派生来,面向spring的所有开发者,几乎所有场合都可以使用,而非使用底层的Beanfactory.</li>
+</ul>
+<a id="more"></a>
+<h3 id="使用beanfactory"><a href="#使用beanfactory" class="headerlink" title="使用beanfactory"></a>使用beanfactory</h3><p>BeanFactory主要实现方法是XmlBeanfactory,但现在已经是被废弃的方法,不建议使用,使用XmlBeanDefinitionReader与DefaultListableBeanFactory.<br>XmlBeanDefinitionReader通过Resource装载Spring配置信息,启动IoC容器,,然后就可以通过BeanFactory#getBean(ByName)来从IoC容器中获取Bean.  </p>
+<h4 id="创建bean"><a href="#创建bean" class="headerlink" title="创建bean:"></a>创建bean:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package com.Beanfactory;</span><br><span class="line"></span><br><span class="line">public class Hello &#123;</span><br><span class="line">    private String message;</span><br><span class="line"></span><br><span class="line">    public void setMessage(String message) &#123;</span><br><span class="line">        this.message = message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void getMessage() &#123;</span><br><span class="line">        System.out.println(&quot;Message:&quot; + message); ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置bean"><a href="#配置bean" class="headerlink" title="配置bean:"></a>配置bean:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;helloWorld&quot; class=&quot;com.Beanfactory.Hello&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;message&quot; value=&quot;Hello World!&quot;/&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试:"></a>测试:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package com.Beanfactory;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.support.DefaultListableBeanFactory;</span><br><span class="line">import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;</span><br><span class="line">import org.springframework.beans.factory.xml.XmlBeanFactory;</span><br><span class="line">import org.springframework.core.io.ClassPathResource;</span><br><span class="line"></span><br><span class="line">public class MainApp &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">       /* XmlBeanFactory factory=new XmlBeanFactory(new ClassPathResource(&quot;com/Beanfactory/Bean.xml&quot;));</span><br><span class="line">       ClassPathResource:访问类路径下的资源,以相对于类路径的方式访问.(访问main/resources文件夹下的静态资源文件.)</span><br><span class="line">       */</span><br><span class="line">        DefaultListableBeanFactory factory=new DefaultListableBeanFactory();</span><br><span class="line">        XmlBeanDefinitionReader reader=new XmlBeanDefinitionReader(factory);</span><br><span class="line">        reader.loadBeanDefinitions(new ClassPathResource(&quot;com/Beanfactory/Bean.xml&quot;));</span><br><span class="line">       </span><br><span class="line">        //初始化BeanFactory时必须要提供一种日志框架,使用Log4j即可,将其放在类路径(resources静态资源文件夹)中,启动Spring容器变不会报错.</span><br><span class="line">        Hello hello=(Hello)factory.getBean(&quot;helloWorld&quot;);</span><br><span class="line">        hello.getMessage();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用ApplicationContext"><a href="#使用ApplicationContext" class="headerlink" title="使用ApplicationContext"></a>使用ApplicationContext</h3><p>ApplicationContext主要是实现类是FileSystemXmlApplicationContext和ClassPathXmlApplicationContext.前者默认从文件系统装载配置文件,后者默认从类路径加载配置文.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext初始化与Beanfactory类似:</span><br><span class="line">     ApplicationContext context=new FileSystemXmlApplicationContext(&quot;/src/main/resources/com/ApplicationContext/Bean.xml&quot;);</span><br><span class="line">        //实际访问路径是/home/watermelon/JavaWebDemo/helloworld/src/main/resources/com/ApplicationContext/Bean.xml</span><br></pre></td></tr></table></figure></p>
+<h3 id="WebApplicatpnContext"><a href="#WebApplicatpnContext" class="headerlink" title="WebApplicatpnContext"></a>WebApplicatpnContext</h3><p>WebApplication是专门为web应用准备的,他允许相对于web更目录的路径加载配置文件的信息完成初始工作.从WebApplicationContext中可以获得ServletContext的引用,整个web应用上下文对象都可以将作为属性放置到ServletContext中,以便web应用环境可以访问Spring应用上下文.<br>web应用下bean的属性由非web应用下的singleton,prototype增加了request,session,global session.<br>可以通过以下语句获得WebApplicationContext:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WebApplicationContext context=(WebApplicationContext)servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);</span><br><span class="line">//或者</span><br><span class="line">WebApplicationContext webApplicationContext=ContextLoader.getCurrentWebApplicationContext();    </span><br><span class="line">      ServletContext servletContext = webApplicationContext.getServletContext();</span><br></pre></td></tr></table></figure></p>
+<h2 id="Bean"><a href="#Bean" class="headerlink" title="Bean"></a>Bean</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>bean 的对象是构成应用程序的支柱也是由 Spring IoC 容器管理的。bean 是一个被实例化，组装，并通过 Spring IoC 容器所管理的对象。  </p>
+<p>bean的属性:</p>
+<ul>
+<li>class:这个属性是强制性的，并且指定用来创建 bean 的 bean 类。  </li>
+<li>name:这个属性指定唯一的 bean 标识符。在基于 XML 的配置元数据中，你可以使用 ID 和/或 name 属性来指定 bean 标识符。  </li>
+<li>scope:这个属性指定由特定的 bean 定义创建的对象的作用域。  </li>
+<li>constructor-arg:用来注入依赖关系的。  </li>
+<li>properties:用来注入依赖关系的，并会在接下来的章节中进行讨论。  </li>
+<li>autowiring mode:用来注入依赖关系的，并会在接下来的章节中进行讨论。  </li>
+<li>lazy-initialization mode:延迟初始化的 bean 告诉 IoC 容器在它第一次被请求时，而不是在启动时去创建一个 bean 实例。  </li>
+<li>initialization:在 bean 的所有必需的属性被容器设置之后，调用回调方法。</li>
+<li>destruction:当包含该 bean 的容器被销毁时，使用回调方法. </li>
+</ul>
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><ul>
+<li>singleton:该作用域将 bean 的定义的限制在每一个 Spring IoC 容器中的一个单一实例(默认)。</li>
+<li>prototype:该作用域将单一 bean 的定义限制在任意数量的对象实例。</li>
+<li>request:该作用域将 bean 的定义限制为 HTTP 请求。只在 web-aware Spring ApplicationContext 的上下文中有效。</li>
+<li>session:该作用域将 bean 的定义限制为 HTTP 会话。 只在web-aware Spring ApplicationContext的上下文中有效。</li>
+<li>global-session:该作用域将 bean 的定义限制为全局 HTTP 会话。只在 web-aware Spring ApplicationContext 的上下文中有效。</li>
+</ul>
+<p>Singleton与prototype的区别:<br>在SpringIoC容器中,singleton类型的bean只会实例化一次,所以只有一个实例,当你以后getBean()时,得到的bean都是指向同一个实例.当你改变了其中的某些属性,则以后获得的bean都是被改变了的.<br>而prototype作用域的bean在每次获取时都会被实例化,则每次获得的都是不同的实例,当你改变了其中一个获得的实例,并不会对以后geaBean()有影响.</p>
+<p>##3 生命周期</p>
+<p><img src="../../../../img/Spring/bean-lifetime.png" alt="生命周期"><br>BeanFactory中的bean生命周期比ApplicationContext中的少调用了第一个BeanFactorPostProcessor</p>
+<p>一个实例:<br>创建一个POJO,实现了BeanFactoryAware, BeanNameAware, InitializingBean, DisposableBean.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">package com.bean_lifetime;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.BeansException;</span><br><span class="line">import org.springframework.beans.factory.BeanFactory;</span><br><span class="line">import org.springframework.beans.factory.BeanFactoryAware;</span><br><span class="line">import org.springframework.beans.factory.BeanNameAware;</span><br><span class="line">import org.springframework.beans.factory.DisposableBean;</span><br><span class="line">import org.springframework.beans.factory.InitializingBean;</span><br><span class="line"></span><br><span class="line">public class Car implements BeanFactoryAware, BeanNameAware, InitializingBean, DisposableBean &#123;</span><br><span class="line">	private String brand;</span><br><span class="line">	private String color;</span><br><span class="line">	private int maxSpeed;</span><br><span class="line">	private String name;</span><br><span class="line">	private BeanFactory beanFactory;</span><br><span class="line">	private String beanName;</span><br><span class="line"></span><br><span class="line">	public Car() &#123;</span><br><span class="line">		System.out.println(&quot;调用Car()构造函数。&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getBrand() &#123;</span><br><span class="line">		return brand;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setBrand(String brand) &#123;</span><br><span class="line">		System.out.println(&quot;调用setBrand()设置属性。&quot;);</span><br><span class="line">		this.brand = brand;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getColor() &#123;</span><br><span class="line">		return color;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String toString() &#123;</span><br><span class="line">		return &quot;brand:&quot; + brand + &quot;/color:&quot; + color + &quot;/maxSpeed:&quot;+ maxSpeed;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setColor(String color) &#123;</span><br><span class="line">		this.color = color;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public int getMaxSpeed() &#123;</span><br><span class="line">		return maxSpeed;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setMaxSpeed(int maxSpeed) &#123;</span><br><span class="line">		this.maxSpeed = maxSpeed;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void introduce()&#123;</span><br><span class="line">		System.out.println(&quot;introduce:&quot;+this.toString());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	// BeanFactoryAware接口方法</span><br><span class="line">	public void setBeanFactory(BeanFactory beanFactory) throws BeansException &#123;</span><br><span class="line">		System.out.println(&quot;调用BeanFactoryAware.setBeanFactory()。&quot;);</span><br><span class="line">		this.beanFactory = beanFactory;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	// BeanNameAware接口方法</span><br><span class="line">	public void setBeanName(String beanName) &#123;</span><br><span class="line">		System.out.println(&quot;调用BeanNameAware.setBeanName()。&quot;);</span><br><span class="line">		this.beanName = beanName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	// InitializingBean接口方法</span><br><span class="line">	public void afterPropertiesSet() throws Exception &#123;</span><br><span class="line">		System.out.println(&quot;调用InitializingBean.afterPropertiesSet()。&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	// DisposableBean接口方法</span><br><span class="line">	public void destroy() throws Exception &#123;</span><br><span class="line">		System.out.println(&quot;调用DisposableBean.destory()。&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void myInit() &#123;		</span><br><span class="line">		System.out.println(&quot;调用myInit()，将maxSpeed设置为240。&quot;);</span><br><span class="line">		this.maxSpeed = 240;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void myDestory() &#123;</span><br><span class="line">		System.out.println(&quot;调用myDestroy()。&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>实现BeanPostProcessor:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">package com.bean_lifetime;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.BeansException;</span><br><span class="line">import org.springframework.beans.factory.config.BeanPostProcessor;</span><br><span class="line"></span><br><span class="line">//在该类中可对bean的属性进行检查,执行相应的&quot;查漏补缺&quot;</span><br><span class="line">public class MyBeanPostProcessor implements BeanPostProcessor&#123;</span><br><span class="line"></span><br><span class="line">	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException &#123;		</span><br><span class="line">		if(beanName.equals(&quot;car&quot;))&#123;</span><br><span class="line">			Car car = (Car)bean;</span><br><span class="line">			if(car.getMaxSpeed() &gt;= 200)&#123;</span><br><span class="line">				System.out.println(&quot;调用MyBeanPostProcessor.postProcessAfterInitialization()，将maxSpeed调整为200。&quot;);</span><br><span class="line">				car.setMaxSpeed(200);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return bean;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException &#123;		</span><br><span class="line">		if(beanName.equals(&quot;car&quot;))&#123;</span><br><span class="line">			Car car = (Car)bean;</span><br><span class="line">			if(car.getColor() == null)&#123;</span><br><span class="line">				System.out.println(&quot;调用MyBeanPostProcessor.postProcessBeforeInitialization()，color为空，设置为默认黑色。&quot;);</span><br><span class="line">				car.setColor(&quot;黑色&quot;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return bean;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>实现InstantiationAwareBeanPostProcessor:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">package com.bean_lifetime;</span><br><span class="line"></span><br><span class="line">import java.beans.PropertyDescriptor;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.BeansException;</span><br><span class="line">import org.springframework.beans.PropertyValues;</span><br><span class="line">import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;</span><br><span class="line"></span><br><span class="line">public class MyInstantiationAwareBeanPostProcessor extends InstantiationAwareBeanPostProcessorAdapter&#123;</span><br><span class="line"></span><br><span class="line">	//接口方法,在实例化bean前调用</span><br><span class="line">	public Object postProcessBeforeInstantiation(Class beanClass, String beanName) throws BeansException &#123;</span><br><span class="line">		if(&quot;car&quot;.equals(beanName))&#123;//只对容器中 car 处理</span><br><span class="line">			System.out.println(&quot;MyInstantiationAwareBeanPostProcessor.postProcessBeforeInstantiation&quot;);			</span><br><span class="line">		&#125;		</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line">	//接口方法,在实例化bean后调用</span><br><span class="line">	public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException &#123;</span><br><span class="line">		if(&quot;car&quot;.equals(beanName))&#123;//只对容器中 car 处理</span><br><span class="line">		System.out.println(&quot;InstantiationAwareBeanPostProcessor.postProcessAfterInstantiation&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//在设置某个属性的时候调用</span><br><span class="line">	public PropertyValues postProcessPropertyValues(</span><br><span class="line">			PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName)</span><br><span class="line">			throws BeansException &#123;</span><br><span class="line">		if(&quot;car&quot;.equals(beanName))&#123;//只对容器中 car 处理,只处理某个特定属性</span><br><span class="line">		   System.out.println(&quot;InstantiationAwareBeanPostProcessor.postProcessPropertyValues&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		return pvs;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException &#123;</span><br><span class="line">		return bean;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException &#123;</span><br><span class="line">		return bean;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>实现BeanFactoryPostProcessor(仅ApplicationContext中的bean才有的生命周期):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package com.bean_lifetime;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.BeansException;</span><br><span class="line">import org.springframework.beans.factory.config.BeanDefinition;</span><br><span class="line">import org.springframework.beans.factory.config.BeanFactoryPostProcessor;</span><br><span class="line">import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;</span><br><span class="line"></span><br><span class="line">//仅在ApplicationContext的bean生命周期中</span><br><span class="line">public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor&#123;</span><br><span class="line"></span><br><span class="line">	public void postProcessBeanFactory(ConfigurableListableBeanFactory bf) throws BeansException &#123;</span><br><span class="line">		//更改bean的属性</span><br><span class="line">		BeanDefinition bd = bf.getBeanDefinition(&quot;car&quot;);</span><br><span class="line">		bd.getPropertyValues().addPropertyValue(&quot;brand&quot;, &quot;奇瑞QQ&quot;);</span><br><span class="line">		System.out.println(&quot;调用MyBeanFactoryPostProcessor.postProcessBeanFactory()！&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后的分别用Beanfactory与ApplicationContext容器装载bean:</p>
+<blockquote>
+<p>ApplicationContext与Beanfactory有一个很大的区别在于:前者可以利用java反射机制自动识别配置文件中定义的BeanPostProcessor,InstantiationAwareBeanPostProcessor的BeanFactoryPostProcessor,并将他们注册到应用上下文中.而后者需要手工调用addBeanPostProcessor()方法,所以推荐使用APplicationContext容器来装载Bean.</p>
+</blockquote>
+<p>BeanFactory:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">package com.bean_lifetime;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.BeanFactory;</span><br><span class="line">import org.springframework.beans.factory.config.ConfigurableBeanFactory;</span><br><span class="line">import org.springframework.beans.factory.support.DefaultListableBeanFactory;</span><br><span class="line">import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;</span><br><span class="line">import org.springframework.core.io.ClassPathResource;</span><br><span class="line">import org.springframework.core.io.Resource;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class BeanLifeCycle_beanfactory &#123;</span><br><span class="line">    private static void LifeCycleInBeanFactory()&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       //①下面两句装载配置文件并启动容器</span><br><span class="line"> 	   Resource res = new ClassPathResource(&quot;com/bean_lifetime/Bean.xml&quot;);</span><br><span class="line"></span><br><span class="line">       BeanFactory bf= new DefaultListableBeanFactory();</span><br><span class="line">       XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader((DefaultListableBeanFactory)bf);</span><br><span class="line">       reader.loadBeanDefinitions(res);</span><br><span class="line"></span><br><span class="line">       //②向容器中注册MyBeanPostProcessor后处理器</span><br><span class="line">       ((ConfigurableBeanFactory)bf).addBeanPostProcessor(new MyBeanPostProcessor());</span><br><span class="line"></span><br><span class="line">       //③向容器中注册MyInstantiationAwareBeanPostProcessor后处理器</span><br><span class="line">       ((ConfigurableBeanFactory)bf).addBeanPostProcessor(</span><br><span class="line">               new MyInstantiationAwareBeanPostProcessor());</span><br><span class="line">       //④第一次从容器中获取car，将触发容器实例化该Bean，这将引发Bean生命周期方法的调用。</span><br><span class="line">       Car car1 = (Car)bf.getBean(&quot;car&quot;);</span><br><span class="line">       car1.introduce();</span><br><span class="line">       car1.setColor(&quot;红色&quot;);</span><br><span class="line"></span><br><span class="line">       //⑤第二次从容器中获取car，直接从缓存池中获取</span><br><span class="line">       Car car2 = (Car)bf.getBean(&quot;car&quot;);</span><br><span class="line"></span><br><span class="line">       //⑥查看car1和car2是否指向同一引用</span><br><span class="line">       System.out.println(&quot;car1==car2:&quot;+(car1==car2));</span><br><span class="line">       //⑦关闭容器</span><br><span class="line">       ((DefaultListableBeanFactory)bf).destroySingletons();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		LifeCycleInBeanFactory();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">输出  </span><br><span class="line">MyInstantiationAwareBeanPostProcessor.postProcessBeforeInstantiation</span><br><span class="line">调用Car()构造函数。</span><br><span class="line">InstantiationAwareBeanPostProcessor.postProcessAfterInstantiation</span><br><span class="line">InstantiationAwareBeanPostProcessor.postProcessPropertyValues</span><br><span class="line">调用setBrand()设置属性。</span><br><span class="line">调用BeanNameAware.setBeanName()。</span><br><span class="line">调用BeanFactoryAware.setBeanFactory()。</span><br><span class="line">调用MyBeanPostProcessor.postProcessBeforeInitialization()，color为空，设置为默认黑色。</span><br><span class="line">调用InitializingBean.afterPropertiesSet()。</span><br><span class="line">调用myInit()，将maxSpeed设置为240。</span><br><span class="line">调用MyBeanPostProcessor.postProcessAfterInitialization()，将maxSpeed调整为200。</span><br><span class="line">introduce:brand:奔驰/color:黑色/maxSpeed:200</span><br><span class="line">car1==car2:true</span><br><span class="line">调用DisposableBean.destory()。</span><br><span class="line">调用myDestroy()。</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br><span class="line"></span><br><span class="line">*/</span><br></pre></td></tr></table></figure></p>
+<p>ApplicationContext:  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.bean_lifetime;</span><br><span class="line"></span><br><span class="line">import org.springframework.context.support.AbstractApplicationContext;</span><br><span class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line">public class BeanLifeCycle_applicationcontext &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        AbstractApplicationContext context=new ClassPathXmlApplicationContext(&quot;com/bean_lifetime/Bean.xml&quot;);</span><br><span class="line">        Car car1=(Car)context.getBean(&quot;car&quot;);</span><br><span class="line">        car1.introduce();</span><br><span class="line">        car1.setColor(&quot;蓝色&quot;);</span><br><span class="line"></span><br><span class="line">        Car car2=(Car)context.getBean(&quot;car&quot;);//再次获取car,直接在缓存池中获取</span><br><span class="line"></span><br><span class="line">        car2.introduce();</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;Car1==Car2?:&quot;+(car1==car2));</span><br><span class="line"></span><br><span class="line">        //context.destroy(); 也可以</span><br><span class="line">        context.registerShutdownHook();</span><br><span class="line">        /*</span><br><span class="line">        需要注册一个在 AbstractApplicationContext 类中声明的关闭 hook 的 registerShutdownHook() 方法。</span><br><span class="line">        它将确保正常关闭，并且调用相关的 destroy 方法。</span><br><span class="line">         */</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">    输出:  </span><br><span class="line">    调用MyBeanFactoryPostProcessor.postProcessBeanFactory()！</span><br><span class="line">    调用Car()构造函数。</span><br><span class="line">    调用setBrand()设置属性。</span><br><span class="line">    调用BeanNameAware.setBeanName()。</span><br><span class="line">    调用BeanFactoryAware.setBeanFactory()。</span><br><span class="line">    调用MyBeanPostProcessor.postProcessBeforeInitialization()，color为空，设置为默认黑色。</span><br><span class="line">    调用InitializingBean.afterPropertiesSet()。</span><br><span class="line">    调用myInit()，将maxSpeed设置为240。</span><br><span class="line">    调用MyBeanPostProcessor.postProcessAfterInitialization()，将maxSpeed调整为200。</span><br><span class="line">    introduce:brand:奇瑞QQ/color:黑色/maxSpeed:200</span><br><span class="line">    introduce:brand:奇瑞QQ/color:蓝色/maxSpeed:200</span><br><span class="line">    Car1==Car2?:true</span><br><span class="line">    Closing org.springframework.context.support.ClassPathXmlApplicationContext@368102c8: startup date [Sat Mar 31 10:38:43 CST 2018]; root of context hierarchy</span><br><span class="line">    调用DisposableBean.destory()。</span><br><span class="line">    调用myDestroy()</span><br><span class="line">    */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Xml配置文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;car&quot; class=&quot;com.bean_lifetime.Car&quot; init-method=&quot;myInit&quot; destroy-method=&quot;myDestory&quot; p:brand=&quot;奔驰&quot; p:maxSpeed=&quot;200&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;myBeanPostProcessor&quot; class=&quot;com.bean_lifetime.MyBeanPostProcessor&quot;/&gt; &lt;!--注册bean后处理器--&gt;</span><br><span class="line">    &lt;bean id=&quot;myBeanFactoryPostProcessor&quot; class=&quot;com.bean_lifetime.MyBeanFactoryPostProcessor&quot;/&gt; &lt;!--注册工厂后处理器--&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="待办"><a href="#待办" class="headerlink" title="待办"></a>待办</h2><p>对于Java反射机制还需仔细了解</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+  	
+    	<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+  	
+    </div>
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/03/30/Spring-IoC/">Spring-IoC学习笔记</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 watermelon-lee 的个人博客">watermelon-lee</a></p>
+  <p><span>发布时间:</span>2018年03月30日 - 13:03</p>
+  <p><span>最后更新:</span>2018年04月24日 - 13:04</p>
+  <p><span>原始链接:</span><a href="/2018/03/30/Spring-IoC/" title="Spring-IoC学习笔记">https://watermelon-lee.github.io/2018/03/30/Spring-IoC/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/03/30/Spring-IoC/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate here!!!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="watermelon-lee 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" <i class="fa fa-tag"></i> Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/30/tianjin-plan/" rel="next" title="天津">
+                <i class="fa fa-chevron-left"></i> 天津
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/01/Spring-Bean-Load/" rel="prev" title="Bean的配置">
+                Bean的配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMyMS8xMjg1Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="watermelon-lee" />
+            
+              <p class="site-author-name" itemprop="name">watermelon-lee</p>
+              <p class="site-description motion-element" itemprop="description">this is us!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringIoC"><span class="nav-number">1.</span> <span class="nav-text">SpringIoC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IoC容器"><span class="nav-number">1.1.</span> <span class="nav-text">IoC容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用beanfactory"><span class="nav-number">1.1.1.</span> <span class="nav-text">使用beanfactory</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建bean"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">创建bean:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置bean"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">配置bean:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">测试:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ApplicationContext"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用ApplicationContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebApplicatpnContext"><span class="nav-number">1.1.3.</span> <span class="nav-text">WebApplicatpnContext</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean"><span class="nav-number">1.2.</span> <span class="nav-text">Bean</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用域"><span class="nav-number">1.2.2.</span> <span class="nav-text">作用域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待办"><span class="nav-number">1.3.</span> <span class="nav-text">待办</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">watermelon-lee</span>
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共42.3k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="300" alpha="0.6"  zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("", "");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/love.js"></script>

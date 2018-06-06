@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+
+
+
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "a7a19783"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Watermelon" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Spring JDBC是Spring所提供的持久层技术.在Spring JDBC里面只需要做那些与业务相关的事情DML操作,而将资源获取,statement创建,资源释放,异常处理的等繁杂的工作交给Spring JDBC.">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-JDBC">
+<meta property="og:url" content="https://watermelon-lee.github.io/2018/04/17/Spring-JDBC/index.html">
+<meta property="og:site_name" content="Watermelon">
+<meta property="og:description" content="Spring JDBC是Spring所提供的持久层技术.在Spring JDBC里面只需要做那些与业务相关的事情DML操作,而将资源获取,statement创建,资源释放,异常处理的等繁杂的工作交给Spring JDBC.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-22T03:18:27.720Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring-JDBC">
+<meta name="twitter:description" content="Spring JDBC是Spring所提供的持久层技术.在Spring JDBC里面只需要做那些与业务相关的事情DML操作,而将资源获取,statement创建,资源释放,异常处理的等繁杂的工作交给Spring JDBC.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://watermelon-lee.github.io/2018/04/17/Spring-JDBC/"/>
+
+
+
+
+
+  <title>Spring-JDBC | Watermelon</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"><a href="https://github.com/watermelon-lee?tab=overview&from=2018-03-01&to=2018-03-31"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Watermelon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">远远和元老大的小窝</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/04/17/Spring-JDBC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="watermelon-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Watermelon">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring-JDBC</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T22:09:29+08:00">
+                2018-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/17/Spring-JDBC/" class="leancloud_visitors" data-flag-title="Spring-JDBC">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"> ℃ </span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,235
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  15
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Spring JDBC是Spring所提供的持久层技术.在Spring JDBC里面只需要做那些与业务相关的事情DML操作,而将资源获取,statement创建,资源释放,异常处理的等繁杂的工作交给Spring JDBC.<br><a id="more"></a></p>
+<h1 id="使用Spring-JDBC访问数据库"><a href="#使用Spring-JDBC访问数据库" class="headerlink" title="使用Spring JDBC访问数据库"></a>使用Spring JDBC访问数据库</h1><h2 id="JdbcTemplate尝试"><a href="#JdbcTemplate尝试" class="headerlink" title="JdbcTemplate尝试"></a>JdbcTemplate尝试</h2><p>在使用JSP/servlet时,使用JDBC连接数据库需要自己手动获取JDBC连接,处理异常,关闭连接等.而使用Spring JDBC通过模板与回调机制降低了使用JDBC的复杂性,借助JdbcTemplate,只需要一些”必不可少”的步骤就可以操作数据库.<br>代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">DriverManagerDataSource ds=new DriverManagerDataSource();</span><br><span class="line">        ds.setDriverClassName(&quot;com.mysql.jdbc.Driver&quot;);</span><br><span class="line">        ds.setUrl(&quot;jdbc:mysql://localhost:3306/sampledb&quot;);</span><br><span class="line">        ds.setUsername(&quot;root&quot;);</span><br><span class="line">        ds.setPassword(&quot;19970901&quot;);</span><br><span class="line">        </span><br><span class="line">        JdbcTemplate jdbcTemplate=new JdbcTemplate();</span><br><span class="line">        jdbcTemplate.setDataSource(ds);</span><br><span class="line">        </span><br><span class="line">        String sql=&quot;create table user(user_id int primary key,user_name varchar(60))&quot;;</span><br><span class="line">        jdbcTemplate.execute(sql);</span><br></pre></td></tr></table></figure></p>
+<h2 id="在dao中使用JdbcTemplate"><a href="#在dao中使用JdbcTemplate" class="headerlink" title="在dao中使用JdbcTemplate"></a>在dao中使用JdbcTemplate</h2><p>在Dao类中可以直接使用JdbcTemplate,在XML文件中配置好后,直接在DAO中注入即可.<br>DAO类代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class ForumDao &#123;</span><br><span class="line">    private JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">    @Autowired//自动注入JdbcTemplate实例</span><br><span class="line">    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) &#123;</span><br><span class="line">        this.jdbcTemplate = jdbcTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //创建表格</span><br><span class="line">    public void initDb() &#123;</span><br><span class="line">        //在实际项目中,sql如果不是动态组装,需要将其定义为类级final常量</span><br><span class="line">        String sql = &quot;create table t_user(user_id int primary key,user_name varchar(60))&quot;;</span><br><span class="line">        jdbcTemplate.execute(sql);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>XML配置文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--扫描包以注册申明的bean--&gt;</span><br><span class="line">  &lt;context:component-scan base-package=&quot;com.dao&quot;/&gt;</span><br><span class="line"></span><br><span class="line">  &lt;!-- 配置数据源--&gt;</span><br><span class="line">  &lt;context:property-placeholder location=&quot;jdbc.properties&quot;/&gt;</span><br><span class="line">  &lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot;</span><br><span class="line">        destroy-method=&quot;close&quot;</span><br><span class="line">        p:driverClassName=&quot;$&#123;jdbc.driverClassName&#125;&quot;</span><br><span class="line">        p:url=&quot;$&#123;jdbc.url&#125;&quot;</span><br><span class="line">        p:username=&quot;$&#123;jdbc.username&#125;&quot;</span><br><span class="line">        p:password=&quot;$&#123;jdbc.password&#125;&quot;/&gt;</span><br><span class="line">  &lt;!--声明Jdbcemplate Bean--&gt;</span><br><span class="line">  &lt;bean id=&quot;jdbcTemplate&quot; class=&quot;org.springframework.jdbc.core.JdbcTemplate&quot; p:dataSource-ref=&quot;dataSource&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在Spring配置文件中,配置DAO一般有4个步骤:</p>
+<ol>
+<li>定义DataSource  </li>
+<li>定义JdbcTemplate  </li>
+<li>声明一个抽象的Bean,以便所有的Dao复用配置JdbcTamplate配置的属性  </li>
+<li>配置具体的Dao</li>
+</ol>
+<h2 id="基本数据库操作"><a href="#基本数据库操作" class="headerlink" title="基本数据库操作"></a>基本数据库操作</h2><h3 id="更改数据"><a href="#更改数据" class="headerlink" title="更改数据"></a>更改数据</h3><p>JdbcTemplate提供了若干个Update()方法,来对数据表进行更改和删除<br>代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//更改数据</span><br><span class="line">    public  void addForum(Forum forum) &#123;</span><br><span class="line">        String sql = &quot;insert into t_forum(forum_name,forum_desc) values(?,?)&quot;;</span><br><span class="line">        Object[] params = &#123;forum.getForumName(), forum.getForumDesc()&#125;;</span><br><span class="line">        //jdbcTemplate.update(sql,params);</span><br><span class="line">        jdbcTemplate.update(sql, params, new int[]&#123;Types.VARCHAR, Types.VARCHAR&#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>JdbcTemplate在内部使用PreparedStatement执行SQL语句,可以使用绑定参数的SQL语句,使用占位符?.用Object[]args数组来定义填充占位符的参数,使用JdbcTemplate的int update(String sql,Object[] args,int[] argsTypes),int[] argsTypes数组来显式制定每个占位符对应的数据类型,以保证类型的安全.</p>
+<h3 id="返回数据库表自增的主键"><a href="#返回数据库表自增的主键" class="headerlink" title="返回数据库表自增的主键"></a>返回数据库表自增的主键</h3><p>在开发时,我们有时候使用数据库自增字段为表的主键,主键不在应用层产生,而是在新增数据记录时产生.这样在应用层保存对象前我们不知道对象的主键值,在JDBC中,允许将数据库主键值绑定到Statement或者PrepareStatement上,利用这个技术,Spring提供了一个可以返回新增记录主键值的方法:<code>int update(PrepareStatementCreator osc,KeyHolder generatedKeyHolder)</code>.<br>代码如下:<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">       在t_forum中使用了自增主键,则主键值不会再应用层,需要我们自己获取.</span><br><span class="line">       Spring jdbc3.0添加可回去住建的KeyHolder接口,通用实现类为GeneratedKeyHolder</span><br><span class="line">        */</span><br><span class="line">   public void addForumAndGetMainValue(final Forum forum)&#123;</span><br><span class="line"></span><br><span class="line">   KeyHolder keyHolder = new GeneratedKeyHolder();//创建一个主键持有者</span><br><span class="line">       final String  sql = &quot;insert into t_forum(forum_name,forum_desc) values(?,?)&quot;;</span><br><span class="line">       jdbcTemplate.update(new PreparedStatementCreator() &#123;</span><br><span class="line">       public PreparedStatement createPreparedStatement (Connection connection) throws SQLException &#123;</span><br><span class="line">           PreparedStatement preparedStatement=connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);</span><br><span class="line">           preparedStatement.setString(1,forum.getForumName());</span><br><span class="line">           preparedStatement.setString(2,forum.getForumDesc());</span><br><span class="line">           return  preparedStatement;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;,keyHolder);</span><br><span class="line">       forum.setForumId(keyHolder.getKey().intValue());//从主键持有者中获取主键</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样在调用addForum后新增forum领域对象后,forum将拥有对应的主键,方便以后使用.</p>
+<h3 id="批量更改数据"><a href="#批量更改数据" class="headerlink" title="批量更改数据"></a>批量更改数据</h3><p>JdbcTemplate有两个批量操作数据的方法:  </p>
+<ul>
+<li>public int[] batchUpdate(String[] sql):多条sql语句组成一个数组,这些sql语句不带参数,该方法以批量方式执行这些操作.</li>
+<li>int[] batchUpdate(String sql,BatchPrepareStatementSetter pss):该方法对于同一结构带参SQL语句多次进行数据更新.通过BatchPrepareStatementSetter回调接口进行批量绑定参数.BatchPrepareStatementSetter定义了两个方法:<ol>
+<li>int getBatchSize():指定本批次的大小</li>
+<li>void setValues(PrepareStatement ps,int i):为给定的PrepareStatement指定参数.</li>
+</ol>
+</li>
+</ul>
+<p>加入论坛一次性新增多个板块,可如下编写:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 批量更改</span><br><span class="line">  public void addForums(final List&lt;Forum&gt; forums)&#123;</span><br><span class="line">      final String sql=&quot;insert into t_forum(forum_name,forum_desc) values(?,?)&quot;;</span><br><span class="line"></span><br><span class="line">      jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() &#123;</span><br><span class="line">          public void setValues(PreparedStatement preparedStatement, int i) throws SQLException &#123;</span><br><span class="line">              Forum forum=forums.get(i);</span><br><span class="line">              preparedStatement.setString(1,forum.getForumName());</span><br><span class="line">              preparedStatement.setString(2,forum.getForumDesc());</span><br><span class="line">          &#125;</span><br><span class="line">          //指定该批记录的记录数</span><br><span class="line">          public int getBatchSize() &#123;</span><br><span class="line">              return forums.size();</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      addForum(forums.get(10));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><h4 id="使用RowCallbackHandler"><a href="#使用RowCallbackHandler" class="headerlink" title="使用RowCallbackHandler"></a>使用RowCallbackHandler</h4><p>RowCallbackHandler接口与很简单,只有一个方法:`void processRow(ResultSet rs) throws SQLException.<br>ForumDao需要提供一个根据forumId来获取Forum对象的方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> // 单次查询数据</span><br><span class="line">    public Forum getForum(final int id)&#123;</span><br><span class="line">        final String sql=&quot;select forum_name,forum_desc from t_forum where forum_id=?&quot;;</span><br><span class="line">        final Forum forum=new Forum();</span><br><span class="line">        jdbcTemplate.query(sql, new Object[]&#123;id&#125;, new RowCallbackHandler() &#123;</span><br><span class="line">            public void processRow(ResultSet resultSet) throws SQLException &#123;</span><br><span class="line">                forum.setForumId(id);</span><br><span class="line">                forum.setForumName(resultSet.getString(&quot;forum_name&quot;));</span><br><span class="line">                forum.setForumDesc(resultSet.getString(&quot;forum_desc&quot;));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        return forum;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">//批量查询</span><br><span class="line">    public List&lt;Forum&gt; getForums(final int id,final int toId)&#123;</span><br><span class="line">        String sql=&quot;select forum_name,forum_desc form t_forum where forum_id between ? and ?&quot;;</span><br><span class="line">        final List&lt;Forum&gt; forums=new ArrayList&lt;Forum&gt;();</span><br><span class="line"></span><br><span class="line">        jdbcTemplate.query(sql, new Object[]&#123;id, toId&#125;, new RowCallbackHandler() &#123;</span><br><span class="line">            public void processRow(ResultSet resultSet) throws SQLException &#123;</span><br><span class="line">                Forum forum=new Forum();</span><br><span class="line">                forum.setForumId(resultSet.getInt(&quot;forum_id&quot;));</span><br><span class="line">                forum.setForumName(resultSet.getString(&quot;forum_name&quot;));</span><br><span class="line">                forum.setForumDesc(resultSet.getString(&quot;forum_desc&quot;));</span><br><span class="line">                forums.add(forum);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        return forums;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="使用RowMapper"><a href="#使用RowMapper" class="headerlink" title="使用RowMapper"></a>使用RowMapper<t></t></h4><p>RowMapper<t>接口只有一个方法:T mapRow(ResultSet rs,int rowNum).JJdbcTemplate提供了许多个使用RowMapper<t>的查询方法,这些方法返回List.下面使用JdbcTemplate的List query(String sql,Object[] args,RowMapper<t> rowMapper)方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;Forum&gt; getForums(final int fromId, final int toId) &#123;</span><br><span class="line">		String sql = &quot;SELECT forum_id,forum_name,forum_desc FROM t_forum WHERE forum_id between ? and ?&quot;;</span><br><span class="line">		// 方法1：使用RowCallbackHandler接口</span><br><span class="line">		/*</span><br><span class="line">		 * final List&lt;Forum&gt; forums = new ArrayList&lt;Forum&gt;();</span><br><span class="line">		 * jdbcTemplate.query(sql,new Object[]&#123;fromId,toId&#125;,new</span><br><span class="line">		 * RowCallbackHandler()&#123; public void processRow(ResultSet rs) throws</span><br><span class="line">		 * SQLException &#123; Forum forum = new Forum();</span><br><span class="line">		 * forum.setForumId(rs.getInt(&quot;forum_id&quot;));</span><br><span class="line">		 * forum.setForumName(rs.getString(&quot;forum_name&quot;));</span><br><span class="line">		 * forum.setForumDesc(rs.getString(&quot;forum_desc&quot;)); forums.add(forum);</span><br><span class="line">		 * &#125;&#125;); return forums;</span><br><span class="line">		 */</span><br><span class="line"></span><br><span class="line">		return jdbcTemplate.query(sql, new Object[] &#123; fromId, toId &#125;,</span><br><span class="line">				new RowMapper&lt;Forum&gt;() &#123;</span><br><span class="line">					public Forum mapRow(ResultSet rs, int index)</span><br><span class="line">							throws SQLException &#123;</span><br><span class="line">						Forum forum = new Forum();</span><br><span class="line">						forum.setForumId(rs.getInt(&quot;forum_id&quot;));</span><br><span class="line">						forum.setForumName(rs.getString(&quot;forum_name&quot;));</span><br><span class="line">						forum.setForumDesc(rs.getString(&quot;forum_desc&quot;));</span><br><span class="line">						return forum;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></t></t></t></p>
+<p>可以看到使用RowCallbackHandler的void processRow(ResultSet rs)方法,需要自己将行数据映射到对象Forum手动添加的外部定义forums列表中,而RowMapper<t>的 T mapROw(ResultSet rs,int index)方法中,只需要简单的定义结果集和对象的映射关系,创建List,映射对象添加到List都有JdbcTemplate完成.</t></p>
+<h4 id="RowCallbackHandler与RowMapper区别"><a href="#RowCallbackHandler与RowMapper区别" class="headerlink" title="RowCallbackHandler与RowMapper区别"></a>RowCallbackHandler与RowMapper区别</h4><p>可以看到使用RowCallbackHandler的void processRow(ResultSet rs)方法,需要自己将行数据映射到对象Forum手动添加的外部定义forums列表中,而RowMapper<t>的 T mapROw(ResultSet rs,int index)方法中,只需要简单的定义结果集和对象的映射关系,创建List,映射对象添加到List都有JdbcTemplate完成.<br>当处理大结果数据集时,使用RowMapper,采用的方式是将所有的数据集放到一个List<t>对象中,这样将占用JVM大量内存,而使用RowCallbackHandler()的 public void processRow(ResultSet resultSet)将会一边获取数据,一边完成处理,这样数据不会大量堆积在JVM中,造成大量内存占用.  </t></t></p>
+<h3 id="调用存储过程"><a href="#调用存储过程" class="headerlink" title="调用存储过程"></a>调用存储过程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@Repository(value = &quot;topic&quot;)</span><br><span class="line">public class TopicDao &#123;</span><br><span class="line">    private JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) &#123;</span><br><span class="line">        this.jdbcTemplate = jdbcTemplate;</span><br><span class="line">    &#125;</span><br><span class="line">    //调用存储过程</span><br><span class="line">    /*存储过程如下:</span><br><span class="line">    CREATE PROCEDURE P_GET_TOPIC_NUM(IN in_user_id INT,OUT out_num INT)</span><br><span class="line">BEGIN</span><br><span class="line">    SELECT COUNT(*) INTO out_num  FROM t_topic WHERE user_id = in_user_id;</span><br><span class="line">END</span><br><span class="line">     */</span><br><span class="line">    public int getUserTopicNum(final int userId)&#123;</span><br><span class="line">        String sql=&quot;&#123;call P_GET_TOPIC_NUM(?,?)&#125;&quot;;</span><br><span class="line">        Integer num=jdbcTemplate.execute(sql, new CallableStatementCallback&lt;Integer&gt;() &#123;</span><br><span class="line">            public Integer doInCallableStatement(CallableStatement callableStatement) throws SQLException, DataAccessException &#123;</span><br><span class="line">                callableStatement.setInt(1,userId);//绑定入参</span><br><span class="line">                callableStatement.registerOutParameter(2, Types.INTEGER);//注册输出参数</span><br><span class="line">                callableStatement.execute();//执行</span><br><span class="line">                return callableStatement.getInt(2);//获取输出参数值</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        return num;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="BLOB-CLOB类型数据操作"><a href="#BLOB-CLOB类型数据操作" class="headerlink" title="BLOB/ CLOB类型数据操作"></a>BLOB/ CLOB类型数据操作</h2><p>前面使用了JdbcTemplate的CRUD(create retrieve Update delete),现在了解如何对BLOB/ CLOB类型进行数据操作<br>LOB代表大对象数据,包括BLOB和CLOB.前者用于存储大块的二进制数据,如图片,视频(一般不宜存到数据库中,存至文件服务器中),后者存储长文本数据,如论坛帖子,产品详细描述.</p>
+<h3 id="LobCreator"><a href="#LobCreator" class="headerlink" title="LobCreator"></a>LobCreator</h3><p>为了方便在 PreparedStatement 中使用 LobCreator，可以直接使用 JdbcTemplate#execute(String sql,AbstractLobCreatingPreparedStatementCallback lcpsc) 方法。下面对 LobCreator 接口中的方法进行简要说明：</p>
+<ul>
+<li>void close():关闭会话，并释放 LOB 资源</li>
+<li>void setBlobAsBinaryStream(PreparedStatement ps, int paramIndex, InputStream contentStream, int contentLength) :通过流填充 BLOB 数据</li>
+<li>void setBlobAsBytes(PreparedStatement ps, int paramIndex, byte[] content): 通过二进制数据填充 BLOB 数据</li>
+<li>void setClobAsAsciiStream(PreparedStatement ps, int paramIndex, InputStream asciiStream, int contentLength): 通过 Ascii 字符流填充 CLOB 数据</li>
+<li>void setClobAsCharacterStream(PreparedStatement ps, int paramIndex, Reader characterStream, int contentLength) :通过 Unicode 字符流填充 CLOB 数据</li>
+<li>void setClobAsString(PreparedStatement ps, int paramIndex, String content):</li>
+</ul>
+<h3 id="LobHandler"><a href="#LobHandler" class="headerlink" title="LobHandler"></a>LobHandler</h3><p>LobHandler 接口为操作 BLOB/CLOB 提供了统一访问接口，而不管底层数据库究竟是以大对象的方式还是以一般数据类型的方式进行操作。此外，LobHandler 还充当了 LobCreator 的工厂类。实现类使用DefualtLobHandler.看一下 LobHandler 接口的几个重要方法：  </p>
+<ul>
+<li>InputStream getBlobAsBinaryStream(ResultSet rs, int columnIndex)    从结果集中返回 InputStream，通过 InputStream 读取 BLOB 数据</li>
+<li>byte[] getBlobAsBytes(ResultSet rs, int columnIndex)    以二进制数据的方式获取结果集中的 BLOB 数据；</li>
+<li>InputStream getClobAsAsciiStream(ResultSet rs, int columnIndex)    从结果集中返回 InputStream，通过 <em> </em> InputStreamn 以 Ascii 字符流方式读取 BLOB 数据</li>
+<li>Reader getClobAsCharacterStream(ResultSet rs, int columnIndex)    从结果集中获取 Unicode 字符流 Reader，并通过 Reader以Unicode 字符流方式读取 CLOB 数据</li>
+<li>String getClobAsString(ResultSet rs, int columnIndex)    从结果集中以字符串的方式获取 CLOB 数据</li>
+<li>LobCreator getLobCreator()    生成一个会话相关的 LobCreator 对象</li>
+</ul>
+<h3 id="插入LOB类型数据"><a href="#插入LOB类型数据" class="headerlink" title="插入LOB类型数据"></a>插入LOB类型数据</h3><p>代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public void addPost(final Post post)&#123;</span><br><span class="line">      String sql=&quot;insert into t_post(post_id,user_id,post_text,post_attach) values(?,?,?,?)&quot;;</span><br><span class="line">      jdbcTemplate.execute(sql, new AbstractLobCreatingPreparedStatementCallback(this.lobHandler) &#123;</span><br><span class="line">          @Override</span><br><span class="line">          protected void setValues(PreparedStatement preparedStatement, LobCreator lobCreator) throws SQLException, DataAccessException &#123;</span><br><span class="line">             // preparedStatement.setInt(1,1);</span><br><span class="line">              preparedStatement.setInt(1,incrementer.nextIntValue());//获取下一个主键值</span><br><span class="line">              preparedStatement.setInt(2,post.getUserId());</span><br><span class="line"></span><br><span class="line">              //设置CLOB字段</span><br><span class="line">              lobCreator.setClobAsString(preparedStatement,3,post.getPostText());</span><br><span class="line"></span><br><span class="line">              //设置BLOB字段</span><br><span class="line">              lobCreator.setBlobAsBytes(preparedStatement,4,post.getPostAttach());</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在PostDao中引入一个LobHandler属性,通过<code>jdbcTemplate.execute(sql,  AbstractLobCreatingPreparedStatementCallback lcpsc)</code>方法插入LOB数据,然后通过匿名内部类方式定义LobCreatingPreparedStatementCallback的抽象子类,其构造函数需要一个LobHandler的入参,最后在匿名内部类中实现父类抽象方法setValues(PrepareStatement ps,LobCreator lobCreator),在该方法中通过lOBCreator操作LOB对象,分别通过字符串,二进制数组填充BLOB和CLOB.<br>使用MySQL数据库,我们可以在配置文件中如下配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;lobHandler&quot; class=&quot;org.springframework.jdbc.support.lob.DefaultLobHandler&quot; lazy-init=&quot;true&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="以块数据方式读取LOB数据"><a href="#以块数据方式读取LOB数据" class="headerlink" title="以块数据方式读取LOB数据"></a>以块数据方式读取LOB数据</h3><p>可以直接以数据块方式读取LOB数据:以String读取CLOB数据,以byte[]读取BLOB数据.<br>代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public List getAttachs(final int userId)&#123;</span><br><span class="line">        String sql=&quot;select post_id,post_attachs from t_user where user_id=? and post_attach is not null&quot;;</span><br><span class="line">        return jdbcTemplate.query(sql, new Object[]&#123;userId&#125;, new RowMapper() &#123;</span><br><span class="line">            public Object mapRow(ResultSet resultSet, int i) throws SQLException &#123;</span><br><span class="line">                int postId=resultSet.getInt(1);</span><br><span class="line">                 // 以二进制的方式获取BLOB数据</span><br><span class="line">                byte[] attach=lobHandler.getBlobAsBytes(resultSet,2);</span><br><span class="line">                Post post=new Post();</span><br><span class="line">                post.setPostId(postId);</span><br><span class="line">                post.setPostAttach(attach);</span><br><span class="line">                return post;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过JdbcTemplate的List<t>query(String sql,Object[] args,RowMapper rowMapper)接口处理行数据的映射.在ROwMapper回调的mapRow()接口方法中,通过LOBHandler以byte[]获取BLOB数据.</t></p>
+<h2 id="自增键"><a href="#自增键" class="headerlink" title="自增键"></a>自增键</h2><p>数据库都会提供自增键,如MySQL的auto_increment,Spring允许在应用层产生主键,需要使用DataFieldMaxValueIncrementer接口<br>代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">private DataFieldMaxValueIncrementer incrementer;//主键值产生器</span><br><span class="line"></span><br><span class="line">   @Autowired</span><br><span class="line">   public void setIncrementer(DataFieldMaxValueIncrementer incrementer)&#123;</span><br><span class="line">       this.incrementer=incrementer;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   public void addPost(final Post post)&#123;</span><br><span class="line">       String sql=&quot;insert into t_post(post_id,user_id,post_text,post_attach) values(?,?,?,?)&quot;;</span><br><span class="line">       jdbcTemplate.execute(sql, new AbstractLobCreatingPreparedStatementCallback(this.lobHandler) &#123;</span><br><span class="line">           @Override</span><br><span class="line">           protected void setValues(PreparedStatement preparedStatement, LobCreator lobCreator) throws SQLException, DataAccessException &#123;</span><br><span class="line">              // preparedStatement.setInt(1,1);</span><br><span class="line">               preparedStatement.setInt(1,incrementer.nextIntValue());//获取下一个主键值</span><br><span class="line">               preparedStatement.setInt(2,post.getUserId());</span><br><span class="line"></span><br><span class="line">               //设置CLOB字段</span><br><span class="line">               lobCreator.setClobAsString(preparedStatement,3,post.getPostText());</span><br><span class="line"></span><br><span class="line">               //设置BLOB字段</span><br><span class="line">               lobCreator.setBlobAsBytes(preparedStatement,4,post.getPostAttach());</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在MySql中创建一张用于维护他_post主键的他_post_id表:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(</span><br><span class="line">   sequence_id  int</span><br><span class="line">)</span><br><span class="line"> ENGINE = MYISAM;</span><br><span class="line"> insert into t_post_id values(0);</span><br></pre></td></tr></table></figure></p>
+<p>主键维护表的并发访问量很大,最好将其声明为<a href="https://blog.csdn.net/hu2010shuai/article/details/54907363" target="_blank" rel="noopener">MYISAM</a>类型,此外,需要为该表提供初始值,一边后续主建值在上面递增.<br>在Spirng配置文件中需要如下配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;increment&quot; class=&quot;org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer&quot;</span><br><span class="line">          p:incrementerName=&quot;t_post_id&quot;</span><br><span class="line">          p:columnName=&quot;sequence_id&quot;</span><br><span class="line">          p:cacheSize=&quot;1&quot;</span><br><span class="line">          p:dataSource-ref=&quot;dataSource&quot;/&gt;</span><br><span class="line">    &lt;!-- 属性依次为 维护主键的表名,用于生成主键值的列名,缓存大小--&gt;</span><br></pre></td></tr></table></figure></p>
+<p>CacheSize决定一次返回的主键数,这里设置为10,第一次获取主键后,他_post_id中的Sequence_id递增10,然后后面9次都在在缓存中获取,之后在返回他_post_id获取.  </p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+  	
+    	<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+  	
+    </div>
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/04/17/Spring-JDBC/">Spring-JDBC</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 watermelon-lee 的个人博客">watermelon-lee</a></p>
+  <p><span>发布时间:</span>2018年04月17日 - 22:04</p>
+  <p><span>最后更新:</span>2018年04月22日 - 11:04</p>
+  <p><span>原始链接:</span><a href="/2018/04/17/Spring-JDBC/" title="Spring-JDBC">https://watermelon-lee.github.io/2018/04/17/Spring-JDBC/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/04/17/Spring-JDBC/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate here!!!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="watermelon-lee 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" <i class="fa fa-tag"></i> Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/17/fitness-plan/" rel="next" title="西瓜健身计划">
+                <i class="fa fa-chevron-left"></i> 西瓜健身计划
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/21/Spring-ORM/" rel="prev" title="Spring-ORM框架">
+                Spring-ORM框架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMyMS8xMjg1Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="watermelon-lee" />
+            
+              <p class="site-author-name" itemprop="name">watermelon-lee</p>
+              <p class="site-description motion-element" itemprop="description">this is us!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Spring-JDBC访问数据库"><span class="nav-number">1.</span> <span class="nav-text">使用Spring JDBC访问数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JdbcTemplate尝试"><span class="nav-number">1.1.</span> <span class="nav-text">JdbcTemplate尝试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在dao中使用JdbcTemplate"><span class="nav-number">1.2.</span> <span class="nav-text">在dao中使用JdbcTemplate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本数据库操作"><span class="nav-number">1.3.</span> <span class="nav-text">基本数据库操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更改数据"><span class="nav-number">1.3.1.</span> <span class="nav-text">更改数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回数据库表自增的主键"><span class="nav-number">1.3.2.</span> <span class="nav-text">返回数据库表自增的主键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#批量更改数据"><span class="nav-number">1.3.3.</span> <span class="nav-text">批量更改数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询数据"><span class="nav-number">1.3.4.</span> <span class="nav-text">查询数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用RowCallbackHandler"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">使用RowCallbackHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用RowMapper"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">使用RowMapper</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RowCallbackHandler与RowMapper区别"><span class="nav-number">1.3.4.3.</span> <span class="nav-text">RowCallbackHandler与RowMapper区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用存储过程"><span class="nav-number">1.3.5.</span> <span class="nav-text">调用存储过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BLOB-CLOB类型数据操作"><span class="nav-number">1.4.</span> <span class="nav-text">BLOB/ CLOB类型数据操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LobCreator"><span class="nav-number">1.4.1.</span> <span class="nav-text">LobCreator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LobHandler"><span class="nav-number">1.4.2.</span> <span class="nav-text">LobHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入LOB类型数据"><span class="nav-number">1.4.3.</span> <span class="nav-text">插入LOB类型数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以块数据方式读取LOB数据"><span class="nav-number">1.4.4.</span> <span class="nav-text">以块数据方式读取LOB数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自增键"><span class="nav-number">1.5.</span> <span class="nav-text">自增键</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">watermelon-lee</span>
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共42.3k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="300" alpha="0.6"  zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("", "");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/love.js"></script>
