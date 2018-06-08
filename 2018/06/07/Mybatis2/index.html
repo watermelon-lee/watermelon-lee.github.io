@@ -102,7 +102,7 @@
 
 
 
-  <meta name="keywords" content="Maven," />
+  <meta name="keywords" content="Mybatis," />
 
 
 
@@ -115,18 +115,18 @@
 
 
 
-<meta name="description" content="自己对于Maven依赖一直有些迷糊,每次都是之间复制配置文件,还是需要有所了解,慢慢做一个总结">
-<meta name="keywords" content="Maven">
+<meta name="description" content="动态SQL创建一个数据表1234567891011121314151617#employeeCREATE TABLE employee(  id INT(11) PRIMARY KEY AUTO_INCREMENT,  loginName VARCHAR(18),  password VARCHAR(18),  name VARCHAR(18) DEFAULT NULL,  sex VARCHAR">
+<meta name="keywords" content="Mybatis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring-Maven">
-<meta property="og:url" content="https://watermelon-lee.github.io/2018/05/30/Spring-Maven/index.html">
+<meta property="og:title" content="Mybatis学习总结2">
+<meta property="og:url" content="https://watermelon-lee.github.io/2018/06/07/Mybatis2/index.html">
 <meta property="og:site_name" content="Watermelon">
-<meta property="og:description" content="自己对于Maven依赖一直有些迷糊,每次都是之间复制配置文件,还是需要有所了解,慢慢做一个总结">
+<meta property="og:description" content="动态SQL创建一个数据表1234567891011121314151617#employeeCREATE TABLE employee(  id INT(11) PRIMARY KEY AUTO_INCREMENT,  loginName VARCHAR(18),  password VARCHAR(18),  name VARCHAR(18) DEFAULT NULL,  sex VARCHAR">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-30T16:03:25.848Z">
+<meta property="og:updated_time" content="2018-06-08T11:53:40.190Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring-Maven">
-<meta name="twitter:description" content="自己对于Maven依赖一直有些迷糊,每次都是之间复制配置文件,还是需要有所了解,慢慢做一个总结">
+<meta name="twitter:title" content="Mybatis学习总结2">
+<meta name="twitter:description" content="动态SQL创建一个数据表1234567891011121314151617#employeeCREATE TABLE employee(  id INT(11) PRIMARY KEY AUTO_INCREMENT,  loginName VARCHAR(18),  password VARCHAR(18),  name VARCHAR(18) DEFAULT NULL,  sex VARCHAR">
 
 
 
@@ -156,13 +156,13 @@
 
 
 
-  <link rel="canonical" href="https://watermelon-lee.github.io/2018/05/30/Spring-Maven/"/>
+  <link rel="canonical" href="https://watermelon-lee.github.io/2018/06/07/Mybatis2/"/>
 
 
 
 
 
-  <title>Spring-Maven | Watermelon</title>
+  <title>Mybatis学习总结2 | Watermelon</title>
   
 
 
@@ -291,7 +291,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/05/30/Spring-Maven/">
+    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/06/07/Mybatis2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="watermelon-lee">
@@ -308,7 +308,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spring-Maven</h1>
+          <h1 class="post-title" itemprop="name headline">Mybatis学习总结2</h1>
         
 
         <div class="post-meta">
@@ -320,8 +320,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-30T22:26:21+08:00">
-                2018-05-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-07T21:59:58+08:00">
+                2018-06-07
               </time>
             
 
@@ -360,7 +360,7 @@
 
           
           
-             <span id="/2018/05/30/Spring-Maven/" class="leancloud_visitors" data-flag-title="Spring-Maven">
+             <span id="/2018/06/07/Mybatis2/" class="leancloud_visitors" data-flag-title="Mybatis学习总结2">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -385,7 +385,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  900
+                  986
                 </span>
               
 
@@ -401,7 +401,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  5
                 </span>
               
             </div>
@@ -422,74 +422,20 @@
       
 
       
-        <p>自己对于Maven依赖一直有些迷糊,每次都是之间复制配置文件,还是需要有所了解,慢慢做一个总结<br><a id="more"></a></p>
-<h1 id="Spring必要依赖"><a href="#Spring必要依赖" class="headerlink" title="Spring必要依赖"></a>Spring必要依赖</h1><p>总体上来说必须要有的一共是7个依赖:</p>
-<ul>
-<li>Spring核心依赖:spring-core,spring-beans,spring-context</li>
-<li>SpringDao依赖:spring-jdbc,spring-tx</li>
-<li>SPring web依赖:spring-web,spring-webmvc</li>
-<li>Spring test依赖:spring-test</li>
-</ul>
-<h2 id="常见依赖的具体功能"><a href="#常见依赖的具体功能" class="headerlink" title="常见依赖的具体功能"></a>常见依赖的具体功能</h2><ul>
-<li>spring-core:包含Spring框架基本核心工具类型.Spring其他的组件都需要使用这个包里面的类.外部依赖commons logging(Log4J)</li>
-<li>spring-beans:所有应用都要用到,包含配置文件,创建和管理bean以及进行Inversion of Control/Dependency Injection(IOC/DI)相关操作的所有类.外部依赖spring-core</li>
-<li>spring-aop:对使用Spring AOP特性是所需要的所有类进行支持.基于AOP的Spring特性如声明事务管理也包含在其中.外部依赖spring-core.soring-beans.</li>
-<li>spring-context:为Spring核心提供了大量的扩展.可以找到Spring ApplicationContexttext所需的所有类,JDNI(Java Naming and Directory Interface)所需全部类.instrumentation组件以及校验Validation方面相关的类.</li>
-<li>spring-dao:这个jar 文件包含Spring DAO、Spring Transaction 进行数据访问的所有类.为了使用声明型事务支持，还需在自己的应用里包含spring-aop.jar.外部依赖spring-core，spring-aop， spring-context.</li>
-<li>spring-jdbc:这个jar 文件包含对Spring 对JDBC 数据访问进行封装的所有类.外部依赖spring-beans，spring-dao</li>
-<li>spring-context-support:包含支持缓存Cache（ehcache）、JCA、JMX、 邮件服务（Java Mail、COS Mail）、任务计划Scheduling（Timer、Quartz）方面的类.以前的版本中应该是这个：spring-support.jar这个jar 文件包含支持UI模版（Velocity，FreeMarker，JasperReports），邮件服务，脚本服务(JRuby)，缓存Cache（EHCache），任务计划Scheduling（uartz）方面的类.</li>
-<li>spring-web:这个jar 文件包含Web 应用开发时，用到Spring 框架时所需的核心类，包括自动载入Web Application Context 特性的类、Struts 与JSF 集成类、文件上传的支持类、Filter 类和大量工具辅助类.外部依赖spring-context, Servlet API.</li>
-<li>spring-webmvc:这个jar 文件包含Spring MVC 框架相关的所有类.包括框架的Servlets，Web MVC框架，控制器和视图支持.当然，如果你的应用使用了独立的MVC 框架，则无需这个JAR 文件里的任何类.外部依赖spring-web.spring-support.</li>
-<li>spring-orm:包含Spring对DAO特性集进行了扩展，使其支持iBATIS、JDO、OJB、TopLink，因为Hibernate已经独立成包了，现在不包含在这个包里了.这个jar文件里大部分的类都要依赖spring-dao.jar里的类，用这个包时你需要同时包含spring-dao.jar包.</li>
-<li>spring-oxm:Spring 对Object/XMl的映射支持,可以让Java与XML之间来回切换.</li>
-<li>spring-tx:以前是在这里org.springframework.transaction为JDBC、Hibernate、JDO、JPA、Beans等提供的一致的声明式和编程式事务管理支持.</li>
-</ul>
-<!-- Spring依赖 -->
-<pre><code>&lt;!-- 1.Spring核心依赖 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-core&lt;/artifactId&gt;
-    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;
-    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
-    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><!-- 2.Spring dao依赖 -->
-<!-- spring-jdbc包括了一些如jdbcTemplate的工具类 -->
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
-    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;
-    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;!-- 3.Spring web依赖 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
-    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;
-    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;!-- 4.Spring test依赖：方便做单元测试和集成测试 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-test&lt;/artifactId&gt;
-    &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;
-</code></pre><p>　　<br><code>`</code></p>
+        <h1 id="动态SQL"><a href="#动态SQL" class="headerlink" title="动态SQL"></a>动态SQL</h1><p>创建一个数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#employee</span><br><span class="line">CREATE TABLE employee(</span><br><span class="line">  id INT(11) PRIMARY KEY AUTO_INCREMENT,</span><br><span class="line">  loginName VARCHAR(18),</span><br><span class="line">  password VARCHAR(18),</span><br><span class="line">  name VARCHAR(18) DEFAULT NULL,</span><br><span class="line">  sex VARCHAR(4) DEFAULT&apos;男&apos;,</span><br><span class="line">  age INT(11) DEFAULT NULL ,</span><br><span class="line">  phone VARCHAR(19),</span><br><span class="line">  sal DOUBLE,</span><br><span class="line">  state VARCHAR(12)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">INSERT INTO employee(loginName, password, name, sex, age, phone, sal, state) VALUES (&apos;jack&apos;,&apos;123&apos;,&apos;杰克&apos;,&apos;nv&apos;,12,&apos;123456789&apos;,9041.22,&apos;active&apos;);</span><br><span class="line">INSERT INTO employee(loginName, password, name, sex, age, phone, sal, state) VALUES (&apos;wade&apos;,&apos;123&apos;,&apos;韦德&apos;,&apos;男&apos;,32,&apos;786868686&apos;,123.22,&apos;active&apos;);</span><br><span class="line">INSERT INTO employee(loginName, password, name, sex, age, phone, sal, state) VALUES (&apos;kobe&apos;,&apos;123&apos;,&apos;科比&apos;,&apos;男&apos;,124,&apos;123411223&apos;,234.22,&apos;active&apos;);</span><br><span class="line">INSERT INTO employee(loginName, password, name, sex, age, phone, sal, state) VALUES (&apos;james&apos;,&apos;123&apos;,&apos;詹姆斯&apos;,&apos;男&apos;,54,&apos;123444312&apos;,9041.22,&apos;Inactive&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>创建对应的实体类:Employee<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package com.domain;</span><br><span class="line"></span><br><span class="line">public class Employee &#123;</span><br><span class="line">    private int id;</span><br><span class="line">    private String loginName;</span><br><span class="line">    private String password;</span><br><span class="line">    private String name;</span><br><span class="line">    private String sex;</span><br><span class="line">    private int age;</span><br><span class="line">    private String phone;</span><br><span class="line">    private double sal;</span><br><span class="line">    private String state;</span><br><span class="line">    //省略setter与getter</span><br></pre></td></tr></table></figure></p>
+<h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><p>使用if可动态的包含where子句的条件的一部分,如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;selectWithIf1&quot; resultType=&quot;employee&quot;&gt;</span><br><span class="line">        SELECT * FROM employee WHERE state=&apos;active&apos;</span><br><span class="line">        &lt;!--加上选择条件,如果传来的参数有id,则加上id条件查询--&gt;</span><br><span class="line">        &lt;if test=&quot;id!=null&quot;&gt;AND id=#&#123;id&#125;&lt;/if&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如果有多个搜索条件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;selectWithIf2&quot; resultType=&quot;employee&quot;&gt;</span><br><span class="line">        SELECT * FROM employee WHERE state=&apos;active&apos;</span><br><span class="line">        &lt;if test=&quot;loginName!=null and password !=null&quot;&gt;</span><br><span class="line">            AND loginName=#&#123;loginName&#125; AND password=#&#123;password&#125;</span><br><span class="line">        &lt;/if&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="choose-when-otherwise"><a href="#choose-when-otherwise" class="headerlink" title="choose(when,otherwise)"></a>choose(when,otherwise)</h2><p>从我们想用的条件中选择其中一个,注意只会选择一个,先满足的先选择<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--Choose,when,otherwise 只会选择一个,先符合的先选择--&gt;</span><br><span class="line">    &lt;select id=&quot;selectWithChoose&quot; resultType=&quot;employee&quot;&gt;</span><br><span class="line">        SELECT * FROM employee WHERE state=&apos;active&apos;</span><br><span class="line">        &lt;choose&gt;</span><br><span class="line">            &lt;when test=&quot;id!=null&quot;&gt;</span><br><span class="line">                AND id=#&#123;id&#125;</span><br><span class="line">            &lt;/when&gt;</span><br><span class="line">            &lt;when test=&quot;loginName!=null and password!=null&quot;&gt;</span><br><span class="line">                and loginName=#&#123;loginName&#125; AND password=#&#123;password&#125;</span><br><span class="line">            &lt;/when&gt;</span><br><span class="line">            &lt;otherwise&gt;</span><br><span class="line">                AND sex=&apos;男&apos;</span><br><span class="line">            &lt;/otherwise&gt;</span><br><span class="line">        &lt;/choose&gt;</span><br><span class="line">    &lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><p>当where的条件不一定会有一个满足时,则可能会执行sql语句如:select * from employee where,这样显然是错误的句子.我么需要使用where元素解决.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--where 在不确定是否一定有条件传入,使用where,若有,则加上条件,如没有,则不加入--&gt;</span><br><span class="line">   &lt;select id=&quot;selectWithWhere&quot; resultType=&quot;employee&quot;&gt;</span><br><span class="line">       SELECT * FROM employee</span><br><span class="line">       &lt;where&gt;</span><br><span class="line">           &lt;if test=&quot;state!=null&quot;&gt;</span><br><span class="line">               SELECT state=#&#123;state&#125;</span><br><span class="line">           &lt;/if&gt;</span><br><span class="line">           &lt;if test=&quot;sex!=null&quot;&gt;</span><br><span class="line">               SELECT sex=#&#123;sex&#125;</span><br><span class="line">           &lt;/if&gt;</span><br><span class="line">       &lt;/where&gt;</span><br><span class="line">   &lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这样,只有当有一个即以上的if条件成立时,才会插入where子句,否则执行select * from employee.</p>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>使用set关键字动态包含需要跟新的列.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--使用set动态更新语句--&gt;</span><br><span class="line">    &lt;update id=&quot;updateWithSet&quot; parameterType=&quot;employee&quot;&gt;</span><br><span class="line">        UPDATE employee</span><br><span class="line">        &lt;set&gt;</span><br><span class="line">            &lt;if test=&quot;loginName!=null&quot;&gt;loginName=#&#123;loginName&#125;,&lt;/if&gt;</span><br><span class="line">            &lt;if test=&quot;password!=null&quot;&gt;password=#&#123;password&#125;,&lt;/if&gt;</span><br><span class="line">            &lt;if test=&quot;name!=null&quot;&gt;name=#&#123;name&#125;,&lt;/if&gt;</span><br><span class="line">            &lt;if test=&quot;sex!=null&quot;&gt;sex=#&#123;sex&#125;,&lt;/if&gt;</span><br><span class="line">            &lt;if test=&quot;age!=null&quot;&gt;age=#&#123;age&#125;,&lt;/if&gt;</span><br><span class="line">            &lt;if test=&quot;sal!=null&quot;&gt;sal=#&#123;sal&#125;,&lt;/if&gt;</span><br><span class="line">            &lt;if test=&quot;phone!=null&quot;&gt;phone=#&#123;phone&#125;,&lt;/if&gt;</span><br><span class="line">            &lt;if test=&quot;state!=null&quot;&gt;state=#&#123;state&#125;&lt;/if&gt;</span><br><span class="line">        &lt;/set&gt;</span><br><span class="line"></span><br><span class="line">        WHERE id=#&#123;id&#125;</span><br><span class="line">    &lt;/update&gt;</span><br></pre></td></tr></table></figure></p>
+<p>set元素会自动前置SET关键字,并且去除无关的逗号.</p>
+<h2 id="foreach"><a href="#foreach" class="headerlink" title="foreach"></a>foreach</h2><p>在SQL查询时,通常需要惊进行集合便利,通常发生在构建IN条件语句的时候.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--foreach遍历集合--&gt;</span><br><span class="line">   &lt;!--sql语句为SELECT * FROM employee WHERE id IN ( ? , ? , ? )--&gt;</span><br><span class="line">   &lt;select id=&quot;selectWithForeach&quot; resultType=&quot;employee&quot;&gt;</span><br><span class="line">       SELECT * FROM employee WHERE id IN</span><br><span class="line">       &lt;foreach collection=&quot;list&quot; index=&quot;index&quot; item=&quot;item&quot; open=&quot;(&quot; separator=&quot;,&quot; close=&quot;)&quot;&gt;</span><br><span class="line">           #&#123;item&#125;</span><br><span class="line">       &lt;/foreach&gt;</span><br><span class="line">   &lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+<p>注意定义open,separator,close属性,否则生成sql语句为<code>SELECT * FROM employee WHERE id IN ? ? ?</code>,而我们需要的是<code>SELECT * FROM employee WHERE id IN ( ? , ? , ? )</code>.</p>
+<h2 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h2><p>bind元素可以创建一个变量,并绑定到上下文中.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;selectWithBind&quot; resultType=&quot;employee&quot;&gt;</span><br><span class="line">       &lt;bind name=&quot;var&quot; value=&quot;&apos;%&apos;+_parameter.getName()+&apos;%&apos;&quot;/&gt;</span><br><span class="line">       SELECT * FROM employee WHERE loginName LIKE  #&#123;var&#125;</span><br><span class="line">   &lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+<p>使用_parameter可以获取你传入的javabean对象.然后调用getName()获取名字.生成sql语句<code>SELECT * FROM employee WHERE loginName LIKE ?</code> 查询参数为`Parameters: %a%(String)’,则可进行模糊查询.<br>自己也尝试了一下之间传参来进行模糊查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;selectWithBind2&quot; resultType=&quot;employee&quot;&gt;</span><br><span class="line">        SELECT * FROM employee WHERE loginName like #&#123;name&#125;</span><br><span class="line">    &lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这样在调用方法传参之前需要自己对模糊查询处理一下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String name=&quot;o&quot;;</span><br><span class="line">List&lt;Employee&gt;employeeList1=employeeDao.selectWithBind2(&apos;%&apos;+name+&apos;%&apos;);</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -517,12 +463,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2018/05/30/Spring-Maven/">Spring-Maven</a></p>
+  <p><span>本文标题:</span><a href="/2018/06/07/Mybatis2/">Mybatis学习总结2</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 watermelon-lee 的个人博客">watermelon-lee</a></p>
-  <p><span>发布时间:</span>2018年05月30日 - 22:05</p>
-  <p><span>最后更新:</span>2018年05月31日 - 00:05</p>
-  <p><span>原始链接:</span><a href="/2018/05/30/Spring-Maven/" title="Spring-Maven">https://watermelon-lee.github.io/2018/05/30/Spring-Maven/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/05/30/Spring-Maven/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年06月07日 - 21:06</p>
+  <p><span>最后更新:</span>2018年06月08日 - 19:06</p>
+  <p><span>原始链接:</span><a href="/2018/06/07/Mybatis2/" title="Mybatis学习总结2">https://watermelon-lee.github.io/2018/06/07/Mybatis2/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/06/07/Mybatis2/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -578,7 +524,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Maven/" <i class="fa fa-tag"></i> Maven</a>
+            <a href="/tags/Mybatis/" <i class="fa fa-tag"></i> Mybatis</a>
           
         </div>
       
@@ -591,8 +537,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/30/SpringMVC-Summary/" rel="next" title="SpringMVC-Summary">
-                <i class="fa fa-chevron-left"></i> SpringMVC-Summary
+              <a href="/2018/06/05/Mybatis/" rel="next" title="Mybatis学习总结1">
+                <i class="fa fa-chevron-left"></i> Mybatis学习总结1
               </a>
             
           </div>
@@ -600,10 +546,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/05/Mybatis/" rel="prev" title="Mybatis学习总结1">
-                Mybatis学习总结1 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -751,7 +693,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring必要依赖"><span class="nav-number">1.</span> <span class="nav-text">Spring必要依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常见依赖的具体功能"><span class="nav-number">1.1.</span> <span class="nav-text">常见依赖的具体功能</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#动态SQL"><span class="nav-number">1.</span> <span class="nav-text">动态SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#if"><span class="nav-number">1.1.</span> <span class="nav-text">if</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#choose-when-otherwise"><span class="nav-number">1.2.</span> <span class="nav-text">choose(when,otherwise)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#where"><span class="nav-number">1.3.</span> <span class="nav-text">where</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set"><span class="nav-number">1.4.</span> <span class="nav-text">set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#foreach"><span class="nav-number">1.5.</span> <span class="nav-text">foreach</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bind"><span class="nav-number">1.6.</span> <span class="nav-text">bind</span></a></li></ol></li></ol></div>
             
 
           </div>
