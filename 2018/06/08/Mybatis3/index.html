@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+
+
+
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "a7a19783"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Mybatis," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Watermelon" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Mybatis事务管理与缓存机制数据库的事务管理是一个重要的点,合理的利用缓存可以加快查询速度,提升性能">
+<meta name="keywords" content="Mybatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis学习总结3">
+<meta property="og:url" content="https://watermelon-lee.github.io/2018/06/08/Mybatis3/index.html">
+<meta property="og:site_name" content="Watermelon">
+<meta property="og:description" content="Mybatis事务管理与缓存机制数据库的事务管理是一个重要的点,合理的利用缓存可以加快查询速度,提升性能">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-09T03:14:48.605Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mybatis学习总结3">
+<meta name="twitter:description" content="Mybatis事务管理与缓存机制数据库的事务管理是一个重要的点,合理的利用缓存可以加快查询速度,提升性能">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://watermelon-lee.github.io/2018/06/08/Mybatis3/"/>
+
+
+
+
+
+  <title>Mybatis学习总结3 | Watermelon</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"><a href="https://github.com/watermelon-lee?tab=overview&from=2018-03-01&to=2018-03-31"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Watermelon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">远远和元老大的小窝</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/06/08/Mybatis3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="watermelon-lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Watermelon">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mybatis学习总结3</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T21:04:52+08:00">
+                2018-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/study/" itemprop="url" rel="index">
+                    <span itemprop="name">study</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/06/08/Mybatis3/" class="leancloud_visitors" data-flag-title="Mybatis学习总结3">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"> ℃ </span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,546
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Mybatis事务管理与缓存机制"><a href="#Mybatis事务管理与缓存机制" class="headerlink" title="Mybatis事务管理与缓存机制"></a>Mybatis事务管理与缓存机制</h1><p>数据库的事务管理是一个重要的点,合理的利用缓存可以加快查询速度,提升性能<br><a id="more"></a></p>
+<p>#Mybaits事务管理</p>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>事务是一步或者几步操作组成的逻辑执行单元,这些基本操作作为一个整体的执行单元,要么全部执行,要么全部不执行.<br>事务具有4个特性(ACID)</p>
+<ul>
+<li>原子性(Atomicity)事务应用中的最小执行单位,具有不可分割的特征.</li>
+<li>一致性(Consustency)事务执行的结果必须是数据库从一种状态变为另一种一致性状态.</li>
+<li>隔离性(Isolation)各个事务的执行互不干扰,任意事物的内部操作对其他并发的事务都是隔离的.</li>
+<li>持久性(Durability)事务一旦提交,对数据所做的改变需要要永久的记录到永久存储器中,即保存到物理数据库.</li>
+</ul>
+<h3 id="Transaction接口"><a href="#Transaction接口" class="headerlink" title="Transaction接口"></a>Transaction接口</h3><p>Mybatis事务transaction接口有两个实现类,分别是org.apache.ibatis.transaction.jdbc.JdbcTransaction与org.apache.ibatis.transaction.managed.ManagedTransaction.还设计了TransactionFactory与其两个实现类JdbcTransactionFactory与ManagedTransactionFactory用来获取事务的实例对象.<br>对于事务而言,有以下具体动作:创建(Create),提交(Commit),回滚(Rollback),关闭(Close).对应的Mybatis将事务抽象成为Transaction接口(源码):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package org.apache.ibatis.transaction;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line"></span><br><span class="line">public interface Transaction &#123;</span><br><span class="line">    Connection getConnection() throws SQLException;</span><br><span class="line"></span><br><span class="line">    void commit() throws SQLException;</span><br><span class="line"></span><br><span class="line">    void rollback() throws SQLException;</span><br><span class="line"></span><br><span class="line">    void close() throws SQLException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Mybatis事务管理有两种方式:</p>
+<ul>
+<li>使用JDBC事务管理机制:即利用java,sql.Connection对象完成事务的提交(commit),回滚(rollback)和关闭(close)</li>
+<li>使用MANAGED的事务管理机制:对于这种机制,Mybatis自身不会去实现事务管理,而是让容器例如JBOSS等来实现事务管理.</li>
+</ul>
+<h3 id="事务的配置与使用"><a href="#事务的配置与使用" class="headerlink" title="事务的配置与使用"></a>事务的配置与使用</h3><h4 id="事务的配置"><a href="#事务的配置" class="headerlink" title="事务的配置"></a>事务的配置</h4><p>在使用Mybatis时,需要在Mybatis根配置文件Mybatis-Config.xml中配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">       &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">           &lt;!-- 配置事务管理 ，采用JDBC管理事务--&gt;</span><br><span class="line">           &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">           &lt;!-- POOLED是mybatis的 数据源 --&gt;</span><br><span class="line">           &lt;!-- JNDI是基于tomcat的数据源 --&gt;</span><br><span class="line">           &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">               &lt;property name=&quot;driver&quot; value=&quot;$&#123;jdbc.driverClassName&#125;&quot;/&gt;</span><br><span class="line">               &lt;property name=&quot;url&quot; value=&quot;$&#123;jdbc.url&#125;&quot;/&gt;</span><br><span class="line">               &lt;property name=&quot;username&quot; value=&quot;$&#123;jdbc.username&#125;&quot;/&gt;</span><br><span class="line">               &lt;property name=&quot;password&quot; value=&quot;$&#123;jdbc.password&#125;&quot;/&gt;</span><br><span class="line">           &lt;/dataSource&gt;</span><br><span class="line">       &lt;/environment&gt;</span><br><span class="line">   &lt;/environments&gt;</span><br></pre></td></tr></table></figure></p>
+<p><environment>元素定义了连接数据库的类型,而<transactionmanager>子元素的type属性决定了我们使用什么事务管理机制.</transactionmanager></environment></p>
+<h3 id="JdbcTransaction"><a href="#JdbcTransaction" class="headerlink" title="JdbcTransaction"></a>JdbcTransaction</h3><p>JdbcTransaction可以直接使用JDBC的提交和回滚事务管理机制.即使用java.sql.Connection上的commit与rollback功能来完成实务操作,相当于对java.sql.Connection的再次封装.JdbcTransaction源码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">// Source code recreated from a .class file by IntelliJ IDEA</span><br><span class="line">// (powered by Fernflower decompiler)</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line">package org.apache.ibatis.transaction.jdbc;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">import javax.sql.DataSource;</span><br><span class="line">import org.apache.ibatis.logging.Log;</span><br><span class="line">import org.apache.ibatis.logging.LogFactory;</span><br><span class="line">import org.apache.ibatis.session.TransactionIsolationLevel;</span><br><span class="line">import org.apache.ibatis.transaction.Transaction;</span><br><span class="line">import org.apache.ibatis.transaction.TransactionException;</span><br><span class="line"></span><br><span class="line">public class JdbcTransaction implements Transaction &#123;</span><br><span class="line">    private static final Log log = LogFactory.getLog(JdbcTransaction.class);</span><br><span class="line">    protected Connection connection;//获取数据库连接</span><br><span class="line">    protected DataSource dataSource;//获取数据源</span><br><span class="line">    protected TransactionIsolationLevel level;//隔离级别</span><br><span class="line">    protected boolean autoCommmit;//是否自动提交</span><br><span class="line"></span><br><span class="line">    public JdbcTransaction(DataSource ds, TransactionIsolationLevel desiredLevel, boolean desiredAutoCommit) &#123;</span><br><span class="line">        this.dataSource = ds;</span><br><span class="line">        this.level = desiredLevel;</span><br><span class="line">        this.autoCommmit = desiredAutoCommit;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public JdbcTransaction(Connection connection) &#123;</span><br><span class="line">        this.connection = connection;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Connection getConnection() throws SQLException &#123;</span><br><span class="line">        if (this.connection == null) &#123;</span><br><span class="line">            this.openConnection();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return this.connection;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void commit() throws SQLException &#123;</span><br><span class="line">        if (this.connection != null &amp;&amp; !this.connection.getAutoCommit()) &#123;</span><br><span class="line">            if (log.isDebugEnabled()) &#123;</span><br><span class="line">                log.debug(&quot;Committing JDBC Connection [&quot; + this.connection + &quot;]&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            this.connection.commit();//提交</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void rollback() throws SQLException &#123;</span><br><span class="line">        if (this.connection != null &amp;&amp; !this.connection.getAutoCommit()) &#123;</span><br><span class="line">            if (log.isDebugEnabled()) &#123;</span><br><span class="line">                log.debug(&quot;Rolling back JDBC Connection [&quot; + this.connection + &quot;]&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            this.connection.rollback();//回滚</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void close() throws SQLException &#123;</span><br><span class="line">        if (this.connection != null) &#123;</span><br><span class="line">            this.resetAutoCommit();</span><br><span class="line">            if (log.isDebugEnabled()) &#123;</span><br><span class="line">                log.debug(&quot;Closing JDBC Connection [&quot; + this.connection + &quot;]&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            this.connection.close();//关闭</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从上面可以发现JdbcTransaction就是使用java.sql.Connection的commit与rollback等完成实务操作.<br>采用JDBC访问数据库的基本步骤：<br>    A.载入JDBC驱动程序<br>    B.定义连接URL<br>    C.建立连接<br>    D.创建Statement对象<br>    E.执行查询或更新<br>    F.结果处理<br>    G.关闭连接<br>以前写的项目中JDBC使用env配置(在context.xml中配置好数据源,然后在listener中初始化DadaSource读取该数据源文件,完成了连接信息的隔离,可以不用上面的A,B步骤使用DriverManager.getConnection(url,username,password))的操作:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Connection conn = null;</span><br><span class="line">        PreparedStatement stmt = null;</span><br><span class="line">        SQLException ex = null;</span><br><span class="line">        boolean exist = false;</span><br><span class="line">        try &#123;</span><br><span class="line">            conn = dataSource.getConnection();</span><br><span class="line">            stmt = conn.prepareStatement(&quot;SELECT COUNT(1) FROM  account WHERE name=?&quot;);</span><br><span class="line">            stmt.setString(1, account.getName());</span><br><span class="line">            ResultSet rs = stmt.executeQuery();</span><br><span class="line">            if (rs.next()) &#123;</span><br><span class="line">                exist = (rs.getInt(1) == 1);//确认有无查询结果</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (SQLException e) &#123;</span><br><span class="line">            ex = e;</span><br><span class="line">        &#125; finally &#123;//最后记得关闭连接</span><br><span class="line">            if (stmt != null) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    stmt.close();</span><br><span class="line">                &#125; catch (SQLException e) &#123;</span><br><span class="line">                    if (ex == null) &#123;</span><br><span class="line">                        ex = e;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (conn != null) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    conn.close();</span><br><span class="line">                &#125; catch (SQLException e) &#123;</span><br><span class="line">                    if (ex == null) &#123;</span><br><span class="line">                        ex = e;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (ex != null) &#123;</span><br><span class="line">                throw new RuntimeException(ex);</span><br><span class="line">            &#125;</span><br><span class="line">            return exist;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="ManagedTransaction"><a href="#ManagedTransaction" class="headerlink" title="ManagedTransaction"></a>ManagedTransaction</h4><p>源码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">// Source code recreated from a .class file by IntelliJ IDEA</span><br><span class="line">// (powered by Fernflower decompiler)</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line">package org.apache.ibatis.transaction.managed;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">import javax.sql.DataSource;</span><br><span class="line">import org.apache.ibatis.logging.Log;</span><br><span class="line">import org.apache.ibatis.logging.LogFactory;</span><br><span class="line">import org.apache.ibatis.session.TransactionIsolationLevel;</span><br><span class="line">import org.apache.ibatis.transaction.Transaction;</span><br><span class="line"></span><br><span class="line">public class ManagedTransaction implements Transaction &#123;</span><br><span class="line">    private static final Log log = LogFactory.getLog(ManagedTransaction.class);</span><br><span class="line">    private DataSource dataSource;</span><br><span class="line">    private TransactionIsolationLevel level;</span><br><span class="line">    private Connection connection;</span><br><span class="line">    private boolean closeConnection;</span><br><span class="line"></span><br><span class="line">    public ManagedTransaction(Connection connection, boolean closeConnection) &#123;</span><br><span class="line">        this.connection = connection;</span><br><span class="line">        this.closeConnection = closeConnection;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ManagedTransaction(DataSource ds, TransactionIsolationLevel level, boolean closeConnection) &#123;</span><br><span class="line">        this.dataSource = ds;</span><br><span class="line">        this.level = level;</span><br><span class="line">        this.closeConnection = closeConnection;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Connection getConnection() throws SQLException &#123;</span><br><span class="line">        if (this.connection == null) &#123;</span><br><span class="line">            this.openConnection();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return this.connection;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void commit() throws SQLException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void rollback() throws SQLException &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void close() throws SQLException &#123;</span><br><span class="line">        if (this.closeConnection &amp;&amp; this.connection != null) &#123;</span><br><span class="line">            if (log.isDebugEnabled()) &#123;</span><br><span class="line">                log.debug(&quot;Closing JDBC Connection [&quot; + this.connection + &quot;]&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            this.connection.close();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    ......</span><br></pre></td></tr></table></figure></p>
+<p>可以看到在提交与回滚的时候,函数总没有任何操作,即什么都不做,交给容器来操作管理.</p>
+<p>##　Mybatis缓存机制<br>Mybatis缓存为两个级别,一级缓存是SqlSession级别的缓存,二级缓存是mapper级别的缓存,可以多个SqlSession共享.</p>
+<h3 id="一级缓存"><a href="#一级缓存" class="headerlink" title="一级缓存"></a>一级缓存</h3><p>在操作数据库时就需要构造SqlSession对象,在其中有一个HashMap用于存储缓存数据.<br>一级缓存的作用域是SqlSession范围的,当在同一个SqlSession中执行两次相同sql语句是,第一次执行会将数据库查询到的语句写入到缓存,第二次就会直接从缓存中获取,不再去数据库底层查询,提高查询效率.如果数据库执行了DML操作(insert,update,delete),并且提交到了数据库(SqlSession.commit()),Mybatis会清空SqlSession中的一级缓存,目的是为了保证缓存中都是最新的信息,避免脏读.<br>当一个SqlSession结束之后(close),其中的一级缓存就不存在了.Mybatis默认开启一级缓存.</p>
+<h3 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a>二级缓存</h3><p>二级缓存是mapper级别的缓存.使用二级缓存是,多个SqlSession使用同一个mapper的sql语句操作数据库.得到的数据会在二级缓存区域,也是使用HashMap存储.<br>二级缓存有多个SqlSession共享,作用域是mapper的同一个namespace,不同的SqlSession执行相同namespace中的sql语句,第一次会将数据库中查询的语句写到缓存中,第二次会直接在缓存中获取.当同样的执行insert,update与delete之后,缓存会清空.<br>Mybatis没有默认开启二级缓存,需要在setting全局参数中配置开启二级缓存.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后在Mapper.xml中创建缓存:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;cache eviction=&quot;LRU&quot; flushInterval=&quot;6000&quot; size=&quot;512&quot; readOnly=&quot;true&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
+<p>以上配置创建了一个LRU(最近最少使用策略)缓存,每隔60s刷新,最大存储512个对象,返回的对象是只读.<br>cache元素用来开启当前mapper的namespace下的二级缓存.元素有以下属性:</p>
+<ul>
+<li>flushInterval:刷新间隔,毫秒为单位.默认不设置,没有刷新间隔,只有当调用调用语句时刷新.</li>
+<li>size:缓存数目.默认为1024</li>
+<li>readOnly:只读.只读缓存会给所有调用者返回缓存对象的实例,因此这些对象不可修改.可读写的缓存会返回缓存对象的拷贝(通过序列化),这会降低速度,但是更为安全.默认为false.</li>
+<li>eviction:收回策略,默认为LRU:<br>  1.LRU:最经最少使用策略,移除最长时间不被使用的<br>  2.FIFI:先进先出策略.按对象进入的缓存顺序来移除他们.<br>  3.SOFT:软引用策略.移除基于垃圾收集器状态和软引用规则的对象.<br>  4.WEAK:弱引用策略,g更积极的移除垃圾收集器状态与弱引用规则的对象.<br>最重要的是readonly=ture， 说明cache对象只读，update的时候，cache不会更新！那么换个角度来说，其实代表了发生任何insert，update，delete操作的时候，会全量清理cache数据，确保一致性。如果readonly=false的时候，就比较好玩了，更新数据会写入新的cache，并且DO对象要实现序列化.<br>使用二级缓存是注意与查询结果映射的Java对象必须实现序列化,yi应为二级缓存数据不一定只在内存中,还有可能放在硬盘或者远程服务器上.  .<br>还可以在select语句中设置userCache=”false”来禁止使用二级缓存,保证每次查询都是最新结果.  </li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在实验的时候,发现每次控制台每次输出都是 Cache Hit Ratio [com.mapper.EmployeeDao]: 0.0.表示缓存中命中几率为0.原来是我在每次查询完之后没有进行提交(session.commit().),而是在最后才提交.导致缓存中一开始并没有写入查询出来的数据,而是到最后总提交之后缓存中才有数据.以后记得每次操作完之后马上提交.</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+  	
+    	<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+  	
+    </div>
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/06/08/Mybatis3/">Mybatis学习总结3</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 watermelon-lee 的个人博客">watermelon-lee</a></p>
+  <p><span>发布时间:</span>2018年06月08日 - 21:06</p>
+  <p><span>最后更新:</span>2018年06月09日 - 11:06</p>
+  <p><span>原始链接:</span><a href="/2018/06/08/Mybatis3/" title="Mybatis学习总结3">https://watermelon-lee.github.io/2018/06/08/Mybatis3/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/06/08/Mybatis3/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate here!!!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="watermelon-lee 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Mybatis/" <i class="fa fa-tag"></i> Mybatis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/07/Mybatis2/" rel="next" title="Mybatis学习总结2">
+                <i class="fa fa-chevron-left"></i> Mybatis学习总结2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMyMS8xMjg1Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="watermelon-lee" />
+            
+              <p class="site-author-name" itemprop="name">watermelon-lee</p>
+              <p class="site-description motion-element" itemprop="description">this is us!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Mybatis事务管理与缓存机制"><span class="nav-number">1.</span> <span class="nav-text">Mybatis事务管理与缓存机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务"><span class="nav-number">1.0.1.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transaction接口"><span class="nav-number">1.0.2.</span> <span class="nav-text">Transaction接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务的配置与使用"><span class="nav-number">1.0.3.</span> <span class="nav-text">事务的配置与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#事务的配置"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">事务的配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JdbcTransaction"><span class="nav-number">1.0.4.</span> <span class="nav-text">JdbcTransaction</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ManagedTransaction"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">ManagedTransaction</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一级缓存"><span class="nav-number">1.0.5.</span> <span class="nav-text">一级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二级缓存"><span class="nav-number">1.0.6.</span> <span class="nav-text">二级缓存</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">watermelon-lee</span>
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共50.2k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("", "");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/love.js"></script>
