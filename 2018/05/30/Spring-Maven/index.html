@@ -118,14 +118,14 @@
 <meta name="description" content="自己对于Maven依赖一直有些迷糊,每次都是之间复制配置文件,还是需要有所了解,慢慢做一个总结">
 <meta name="keywords" content="Maven">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring-Maven">
+<meta property="og:title" content="Maven">
 <meta property="og:url" content="https://watermelon-lee.github.io/2018/05/30/Spring-Maven/index.html">
 <meta property="og:site_name" content="Watermelon">
 <meta property="og:description" content="自己对于Maven依赖一直有些迷糊,每次都是之间复制配置文件,还是需要有所了解,慢慢做一个总结">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-30T16:03:25.848Z">
+<meta property="og:updated_time" content="2018-06-09T07:04:07.714Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring-Maven">
+<meta name="twitter:title" content="Maven">
 <meta name="twitter:description" content="自己对于Maven依赖一直有些迷糊,每次都是之间复制配置文件,还是需要有所了解,慢慢做一个总结">
 
 
@@ -162,7 +162,7 @@
 
 
 
-  <title>Spring-Maven | Watermelon</title>
+  <title>Maven | Watermelon</title>
   
 
 
@@ -308,7 +308,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spring-Maven</h1>
+          <h1 class="post-title" itemprop="name headline">Maven</h1>
         
 
         <div class="post-meta">
@@ -360,7 +360,7 @@
 
           
           
-             <span id="/2018/05/30/Spring-Maven/" class="leancloud_visitors" data-flag-title="Spring-Maven">
+             <span id="/2018/05/30/Spring-Maven/" class="leancloud_visitors" data-flag-title="Maven">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -385,7 +385,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  900
+                  1,209
                 </span>
               
 
@@ -401,7 +401,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  5
                 </span>
               
             </div>
@@ -490,6 +490,90 @@
     &lt;artifactId&gt;spring-test&lt;/artifactId&gt;
     &lt;version&gt;4.3.7.RELEASE&lt;/version&gt;
 </code></pre><p>　　<br><code>`</code></p>
+<h1 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h1><p>要完成使用MyBatis访问MySQL数据库，需要添加一些依赖包，包含MyBatis3，连接驱动，JUnit，Log4j2等</p>
+<dependency><br>  <groupid>org.mybatis</groupid><br>  <artifactid>mybatis</artifactid><br>  <version>3.4.7-SNAPSHOT</version><br></dependency><br>   <!-- junit.jar --><br><dependency><br>  <groupid>junit</groupid><br>  <artifactid>junit</artifactid><br>  <version>4.10</version><br>  </dependency><br><br><dependency><br>  <groupid>mysql</groupid><br>  <artifactid>mysql-connector-java</artifactid><br>  <version>5.1.29</version><br></dependency>
+
+<h1 id="SSM必要依赖"><a href="#SSM必要依赖" class="headerlink" title="SSM必要依赖"></a>SSM必要依赖</h1><p>在别人<a href="https://maoyanting.github.io" target="_blank" rel="noopener">博客</a>找了一份</p>
+<p><table></table></p>
+<p><thead></thead></p>
+<p><tr></tr></p>
+<p><th style="text-align:left">依赖名</th></p>
+<p><th>功能</th><br><br></p>
+<p><tbody></tbody></p>
+<p><tr></tr></p>
+<p><td style="text-align:left"><strong>———测试—————</strong></td></p>
+<p><td></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">junit</td></p>
+<p><td></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left"><strong>———日志—————</strong></td></p>
+<p><td></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">slf4j-api</td></p>
+<p><td>使用lSlf4j+logback组合</td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">logback-core</td></p>
+<p><td>其余组合详见<a href="http://tech.lede.com/2017/02/06/rd/server/log4jSearch/" target="_blank" rel="noopener">日志工具现状调研</a>、<a href="http://www.ixirong.com/2016/03/13/intro-to-java-log/" target="_blank" rel="noopener">混乱的 Java 日志体系</a></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">logback-classic(集成包)</td></p>
+<p><td></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left"><strong>———数据库—————</strong></td></p>
+<p><td></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">mysql-connector-java</td></p>
+<p><td>使用了c3p0，其余选择见<a href="http://blog.csdn.net/u012050416/article/details/50738892" target="_blank" rel="noopener">c3p0数据库连接池介绍+实例</a></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">c3p0</td></p>
+<p><td></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left"><strong>———Mybatis—————</strong></td></p>
+<p><td></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">mybatis</td></p>
+<p><td>使用了mybatis-spring</td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">mybatis-spring</td></p>
+<p><td>具体使用详见<a href="http://www.mybatis.org/spring/zh/index.html" target="_blank" rel="noopener">mybatis-spring(中文)</a>和<a href="http://www.mybatis.org/spring/factorybean.html" target="_blank" rel="noopener">mybatis-spring(English)</a></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">mybatis-generator-core</td></p>
+<p><td>辅助：自动生成Mapping的映射文件</td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left"><strong>———Spring—————</strong></td></p>
+<p><td></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">spring-webmvc</td></p>
+<p><td></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">spring-test</td></p>
+<p><td>配合junit使用，详见[<a href="http://www.cnblogs.com/rainisic/archive/2012/01/22/Spring_Test_Framework.html" target="_blank" rel="noopener">Spring Test 整合 JUnit 4 使用总结</a>]</td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">spring-tx</td></p>
+<p><td>spring提供对事务的支持</td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left"></td></p>
+<p><td>其余可参考<a href="http://www.cnblogs.com/zhangminghui/p/3455782.html" target="_blank" rel="noopener">Spring3.2.2中相关Jar包的作用</a></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left"><strong>———Json—————</strong></td></p>
+<p><td></td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left">fastjson</td></p>
+<p><td>ali的一个开源json软件</td><br></p>
+<p><tr></tr></p>
+<p><td style="text-align:left"></td><br><br><br><br>这里重点提一下spring-webmvc，这里导入的是4.3.13.RELEASE，同时，还会隐式导入:</p>
+<ul>
+<li>spring-beans</li>
+<li>spring-context</li>
+<li>spring-aop</li>
+<li>spring-core</li>
+<li>spring-web</li>
+<li>spring-expression</li>
+<li>commons-logging</li>
+<li>spring-context-support</li>
+<li>spring-oxm</li>
+<li>javax.servlet-api<br>等依赖，所以，如果你导入了spring-webmvc，这些依赖就不需要重复写一遍了。</li>
+</ul>
 
       
     </div>
@@ -517,11 +601,11 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2018/05/30/Spring-Maven/">Spring-Maven</a></p>
+  <p><span>本文标题:</span><a href="/2018/05/30/Spring-Maven/">Maven</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 watermelon-lee 的个人博客">watermelon-lee</a></p>
   <p><span>发布时间:</span>2018年05月30日 - 22:05</p>
-  <p><span>最后更新:</span>2018年05月31日 - 00:05</p>
-  <p><span>原始链接:</span><a href="/2018/05/30/Spring-Maven/" title="Spring-Maven">https://watermelon-lee.github.io/2018/05/30/Spring-Maven/</a>
+  <p><span>最后更新:</span>2018年06月09日 - 15:06</p>
+  <p><span>原始链接:</span><a href="/2018/05/30/Spring-Maven/" title="Maven">https://watermelon-lee.github.io/2018/05/30/Spring-Maven/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/05/30/Spring-Maven/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
@@ -751,7 +835,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring必要依赖"><span class="nav-number">1.</span> <span class="nav-text">Spring必要依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常见依赖的具体功能"><span class="nav-number">1.1.</span> <span class="nav-text">常见依赖的具体功能</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring必要依赖"><span class="nav-number">1.</span> <span class="nav-text">Spring必要依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常见依赖的具体功能"><span class="nav-number">1.1.</span> <span class="nav-text">常见依赖的具体功能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mybatis"><span class="nav-number">2.</span> <span class="nav-text">Mybatis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSM必要依赖"><span class="nav-number">3.</span> <span class="nav-text">SSM必要依赖</span></a></li></ol></div>
             
 
           </div>
@@ -807,7 +891,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共50.2k字</span>
+  <span class="post-count">博客全站共50.5k字</span>
 </div>
 
         
