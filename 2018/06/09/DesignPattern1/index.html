@@ -115,18 +115,20 @@
 
 
 
-<meta name="description" content="简单工厂模式普通工厂模式建立一个工厂类,对实现了同一个接口或类的类进行实例创建.以计算器为例子.工厂模式父类:Operate:123456789101112131415161718192021222324package SimpleFactory;public class OperateClass &amp;#123;    private double number1;    private doubl">
+<meta name="description" content="简单工厂模式普通工厂模式建立一个工厂类,对实现了同一个接口或类的类进行实例创建.">
 <meta name="keywords" content="DesignPattern">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单工厂模式">
 <meta property="og:url" content="https://watermelon-lee.github.io/2018/06/09/DesignPattern1/index.html">
 <meta property="og:site_name" content="Watermelon">
-<meta property="og:description" content="简单工厂模式普通工厂模式建立一个工厂类,对实现了同一个接口或类的类进行实例创建.以计算器为例子.工厂模式父类:Operate:123456789101112131415161718192021222324package SimpleFactory;public class OperateClass &amp;#123;    private double number1;    private doubl">
+<meta property="og:description" content="简单工厂模式普通工厂模式建立一个工厂类,对实现了同一个接口或类的类进行实例创建.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-09T15:08:55.292Z">
+<meta property="og:image" content="https://watermelon-lee.github.io/img/Design/factory.png">
+<meta property="og:updated_time" content="2018-06-10T02:41:41.968Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简单工厂模式">
-<meta name="twitter:description" content="简单工厂模式普通工厂模式建立一个工厂类,对实现了同一个接口或类的类进行实例创建.以计算器为例子.工厂模式父类:Operate:123456789101112131415161718192021222324package SimpleFactory;public class OperateClass &amp;#123;    private double number1;    private doubl">
+<meta name="twitter:description" content="简单工厂模式普通工厂模式建立一个工厂类,对实现了同一个接口或类的类进行实例创建.">
+<meta name="twitter:image" content="https://watermelon-lee.github.io/img/Design/factory.png">
 
 
 
@@ -385,7 +387,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  491
+                  487
                 </span>
               
 
@@ -401,7 +403,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3
+                  2
                 </span>
               
             </div>
@@ -422,7 +424,7 @@
       
 
       
-        <h1 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h1><h2 id="普通工厂模式"><a href="#普通工厂模式" class="headerlink" title="普通工厂模式"></a>普通工厂模式</h2><p>建立一个工厂类,对实现了同一个接口或类的类进行实例创建.<br>以计算器为例子.<br><a href="../../../../img/Design/factory.png">工厂模式</a><br>父类:Operate:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package SimpleFactory;</span><br><span class="line"></span><br><span class="line">public class OperateClass &#123;</span><br><span class="line">    private double number1;</span><br><span class="line">    private double number2;</span><br><span class="line"></span><br><span class="line">    public double getNumber1() &#123;</span><br><span class="line">        return number1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setNumber1(double number1) &#123;</span><br><span class="line">        this.number1 = number1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public double getNumber2() &#123;</span><br><span class="line">        return number2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setNumber2(double number2) &#123;</span><br><span class="line">        this.number2 = number2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public double getResult()&#123;return 0;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        <h1 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h1><h2 id="普通工厂模式"><a href="#普通工厂模式" class="headerlink" title="普通工厂模式"></a>普通工厂模式</h2><p>建立一个工厂类,对实现了同一个接口或类的类进行实例创建.<br><a id="more"></a><br>以计算器为例子.<br><img src="../../../../img/Design/factory.png" alt="工厂模式"><br>父类:Operate:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package SimpleFactory;</span><br><span class="line"></span><br><span class="line">public class OperateClass &#123;</span><br><span class="line">    private double number1;</span><br><span class="line">    private double number2;</span><br><span class="line"></span><br><span class="line">    public double getNumber1() &#123;</span><br><span class="line">        return number1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setNumber1(double number1) &#123;</span><br><span class="line">        this.number1 = number1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public double getNumber2() &#123;</span><br><span class="line">        return number2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setNumber2(double number2) &#123;</span><br><span class="line">        this.number2 = number2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public double getResult()&#123;return 0;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>子类:<br>Plus:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package SimpleFactory;</span><br><span class="line"></span><br><span class="line">public class Plus extends OperateClass &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public double getResult() &#123;</span><br><span class="line">        return getNumber1()+getNumber2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>Minus:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package SimpleFactory;</span><br><span class="line"></span><br><span class="line">public class Minus extends OperateClass &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public double getResult() &#123;</span><br><span class="line">        return getNumber1()-getNumber2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>Multiply:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package SimpleFactory;</span><br><span class="line"></span><br><span class="line">public class Multiply extends OperateClass &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public double getResult() &#123;</span><br><span class="line">        return getNumber1()*getNumber2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -602,7 +604,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -720,7 +722,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共51.9k字</span>
+  <span class="post-count">博客全站共53.0k字</span>
 </div>
 
         
