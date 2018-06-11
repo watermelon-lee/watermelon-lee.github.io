@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://watermelon-lee.github.io/"/>
-  <updated>2018-06-10T03:49:40.134Z</updated>
+  <updated>2018-06-11T12:36:00.351Z</updated>
   <id>https://watermelon-lee.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>代理模式</title>
+    <link href="https://watermelon-lee.github.io/2018/06/11/DesignPattern3/"/>
+    <id>https://watermelon-lee.github.io/2018/06/11/DesignPattern3/</id>
+    <published>2018-06-11T11:51:19.000Z</published>
+    <updated>2018-06-11T12:36:00.351Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h1><p><em>代理模式(Proxy)为其他对象提供了一种代理以控制对这个对象的访问.</em><br><a id="more"></a></p><h2 id="代理模式结构"><a href="#代理模式结构" class="headerlink" title="代理模式结构"></a>代理模式结构</h2><p>在一些情况下,客户不可以直接引用到一个对象,而代理对象就可以在客户端和目标之间起到一个中介的作用.<br><img src="../../../../img/Design/proxy.png" alt="代理模式"><br>以打官司为例子.我们需要一个代理,就是律师来表达我们的想法.<br>首先创建一个公共接口:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">package Proxy;</span><br><span class="line"></span><br><span class="line">public interface Subject &#123;</span><br><span class="line">    void express();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>然后是代理类律师:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package Proxy;</span><br><span class="line"></span><br><span class="line">public class Lawyer implements Subject &#123;</span><br><span class="line">    Person person;</span><br><span class="line"></span><br><span class="line">    public Lawyer() &#123;</span><br><span class="line">        this.person = new Person();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void express() &#123;</span><br><span class="line">        System.out.println(&quot;我的受理人情况如下:&quot;);</span><br><span class="line">        person.express();</span><br><span class="line">        System.out.println(&quot;发言完毕&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>然后是受理人:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package Proxy;</span><br><span class="line"></span><br><span class="line">public class Person implements Subject &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void express() &#123;</span><br><span class="line">        System.out.println(&quot;当时不在场,没有犯罪&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>测试类Court:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package Proxy;</span><br><span class="line"></span><br><span class="line">public class Court &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        Lawyer lawyer=new Lawyer();</span><br><span class="line">        lawyer.express();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>可以发现,在法庭上并没有访问到受理人,有代理类律师为他发言.代理类就是真实对象的代表.  </p><p>代理模式的应用场景：<br>如果已有的方法在使用的时候需要对原有的方法进行改进，此时有两种办法：  </p><p>1、修改原有的方法来适应。这样违反了“对扩展开放，对修改关闭”的原则。</p><p>2、就是采用一个代理类调用原有的方法，且对产生的结果进行控制。这种方法就是代理模式。</p><p>使用代理模式，可以将功能划分的更加清晰，有助于后期维护.</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;代理模式&quot;&gt;&lt;a href=&quot;#代理模式&quot; class=&quot;headerlink&quot; title=&quot;代理模式&quot;&gt;&lt;/a&gt;代理模式&lt;/h1&gt;&lt;p&gt;&lt;em&gt;代理模式(Proxy)为其他对象提供了一种代理以控制对这个对象的访问.&lt;/em&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="study" scheme="https://watermelon-lee.github.io/categories/study/"/>
+    
+    
+      <category term="DesignPattern" scheme="https://watermelon-lee.github.io/tags/DesignPattern/"/>
+    
+  </entry>
   
   <entry>
     <title>策略模式</title>
@@ -448,28 +470,6 @@
     
     
       <category term="Spring" scheme="https://watermelon-lee.github.io/tags/Spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>西瓜健身计划</title>
-    <link href="https://watermelon-lee.github.io/2018/04/17/fitness-plan/"/>
-    <id>https://watermelon-lee.github.io/2018/04/17/fitness-plan/</id>
-    <published>2018-04-17T06:11:20.000Z</published>
-    <updated>2018-04-18T01:35:49.453Z</updated>
-    
-    <content type="html"><![CDATA[<p>远远去健身房办卡啦,她有点害羞,不知道做什么好,给远远一份健身计划~<br><a id="more"></a></p><h1 id="one-臀腿"><a href="#one-臀腿" class="headerlink" title="one 臀腿"></a>one 臀腿</h1><h2 id="臀桥"><a href="#臀桥" class="headerlink" title="臀桥"></a>臀桥</h2><p><img src="../../../../img/fitness/1.jpg" alt="臀桥"><br>要点:</p><ul><li>仰卧,屈膝,双脚与肩膀同宽,脚跟支撑地面(脚掌支持地面容易借力,影响臀部发力)</li><li>向上发力臀收紧,身体呈一条直线</li><li>在顶端停止一秒,慢慢落下.</li><li>3*15</li></ul><h2 id="跪姿后抬腿"><a href="#跪姿后抬腿" class="headerlink" title="跪姿后抬腿"></a>跪姿后抬腿</h2><p><img src="../../../../img/fitness/2.jpg" alt="跪姿后抬腿"><br>要点:</p><ul><li>双手与肩同宽,手臂与地面垂直,双膝与髋同宽</li><li>腿向后发力,顶部静止一秒</li><li>6*10(左右腿分别做组,每边3组,交替做组)</li></ul><h2 id="哑铃箭步蹲"><a href="#哑铃箭步蹲" class="headerlink" title="哑铃箭步蹲"></a>哑铃箭步蹲</h2><p><img src="../../../../img/fitness/3.jpg" alt="哑铃箭步蹲"><br>要点:</p><ul><li>一腿在前,一腿在后,重心位于两腿中间</li><li>双手握哑铃,拳心相对</li><li>同时弯曲两个膝关节,蹲至前侧大腿与身体程90度,后侧大腿与小腿90度,下蹲最后稍微停顿,前面的脚后跟发力站起到起始动作</li><li>6*10(左右腿分别做组,每边3组,交替做组)</li></ul><h2 id="深蹲"><a href="#深蹲" class="headerlink" title="深蹲"></a>深蹲</h2><p><img src="../../../../img/fitness/4.jpg" alt="深蹲"><br>要点:</p><ul><li>双脚与肩同宽,脚尖与膝盖朝向一致</li><li>背部下蹲时不应过于前倾,停止腰背,膝盖不超过脚尖,下蹲至大腿与地面平行</li><li>3*10(瑜伽房里面有小杠铃杆,自己可以自由加哑铃片,适量即可,也可以自己拿小哑铃握在胸前深蹲)</li></ul><h2 id="跑步-单车"><a href="#跑步-单车" class="headerlink" title="跑步||单车"></a>跑步||单车</h2><p>要点:</p><ul><li>走跑交替可达到更好的效果,对膝盖的磨损也更小,可以坡度走10分钟,然后平跑15分钟,在最后平走5分钟(跑步机上分为速度档和坡度当哦)</li><li>蹬单车30分钟,可以自己加大扭矩进行爬坡(站着骑),中等扭矩长距离骑行,较小扭矩冲刺训练</li></ul><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上均为臀部,腿部运动,并且有不小的训练量,也可减脂,锻炼完记得要充分拉伸按摩,不然容易第二天起来酸痛</p><h1 id="上肢"><a href="#上肢" class="headerlink" title="上肢"></a>上肢</h1><h2 id="开和跳"><a href="#开和跳" class="headerlink" title="开和跳"></a>开和跳</h2><p><img src="../../../../img/fitness/5.jpg" alt="开和跳"><br>要点:</p><ul><li>头部平视,收紧腰腹</li><li>3*30s</li></ul><h2 id="哑铃平举"><a href="#哑铃平举" class="headerlink" title="哑铃平举"></a>哑铃平举</h2><p><img src="../../../../img/fitness/6.jpg" alt="哑铃平举"><br>要点:</p><ul><li>自然站立,挺胸收腹,双手握住哑铃放在大腿前册</li><li>绷紧手臂,以关节为轴,举起至肘关节与肩膀同高,拳心向下</li><li>6*10(用2kg或3kg的哑铃即可,3组侧平举,3组前平举)</li></ul><h2 id="哑铃交替弯举"><a href="#哑铃交替弯举" class="headerlink" title="哑铃交替弯举"></a>哑铃交替弯举</h2><p><img src="../../../../img/fitness/7.jpg" alt="哑铃交替弯举"><br>要点:</p><ul><li>双脚与肩同宽,掌心朝向身体握住哑铃,放在身体两侧,哑铃与身体垂直.</li><li>弯举时,上臂固定夹紧,手臂外旋同时举起哑铃,弯举至最高时,哑铃与身体平行</li><li>3*12</li></ul><h2 id="哑铃划船"><a href="#哑铃划船" class="headerlink" title="哑铃划船"></a>哑铃划船</h2><p><img src="../../../../img/fitness/8.jpg" alt="哑铃划船"><br>要点:</p><ul><li>背部挺直,躯干与地面30度,屈膝,拳心朝前,手臂自然下垂</li><li>屈肘,将小哑铃向后拉,在动作顶部收缩背部,停顿1s,然后慢慢返回</li><li>3*15<h1 id="腹部"><a href="#腹部" class="headerlink" title="腹部"></a>腹部</h1><h2 id="单腿屈膝两头起"><a href="#单腿屈膝两头起" class="headerlink" title="单腿屈膝两头起"></a>单腿屈膝两头起</h2><img src="../../../../img/fitness/9.jpg" alt="单腿屈膝两头起"><br>要点:</li><li>屈膝躺在垫子上,手臂向上伸直</li><li>提膝至小腿平行地面</li><li>卷腹时双手用力向前伸</li><li>3*12(左右脚一边一次,总共每边6次)</li></ul><h2 id="屈膝收腹"><a href="#屈膝收腹" class="headerlink" title="屈膝收腹"></a>屈膝收腹</h2><p><img src="../../../../img/fitness/10.jpg" alt="屈膝收腹"><br>要点:</p><ul><li>后仰坐在地上,臀部着地,手臂后伸撑地,双腿微屈</li><li>收腿并收腹,然后慢慢还原</li><li>3*12(可以先从基本的v字支撑,即不动的版本开始练习)</li></ul><h2 id="西西里卷腹"><a href="#西西里卷腹" class="headerlink" title="西西里卷腹"></a>西西里卷腹</h2><p><img src="../../../../img/fitness/11.jpg" alt="卷腹"><br>要点:</p><ul><li>仰卧在瑜伽垫上,屈膝,手臂向上伸直,双手握紧</li><li>慢慢卷起上半身,卷腹时手臂伸直</li><li>下背部贴紧地面</li><li>3*12</li></ul><h2 id="蹬单车"><a href="#蹬单车" class="headerlink" title="蹬单车"></a>蹬单车</h2><p><img src="../../../../img/fitness/12.jpg" alt="蹬单车"><br>要点:</p><ul><li>仰卧在瑜伽垫上,双臂贴紧地面,双腿与地面30度</li><li>双脚交替屈伸,动作缓慢</li><li>3*30s</li></ul><h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>做这些动作都不可以过快,做到最顶点可以加上停顿,做完之后记得拉伸</p><h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>目前就想这么多啦,考虑到健身房人很多,大部分动作都是给你安排在瑜伽房中的,等以后远远慢慢入门了也可以练习更多动作~<br>既然你每天次都想做跑步或者单车这样的有氧,那么就大概一周三次,连一次臀腿加跑步或单车,上肢加跑步或单车,然后腹部加跑步或单车.当然,也可以根据自己具体想法来調整训练.<br>最后最后,有什么不懂的就来请教元老大吧!</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;远远去健身房办卡啦,她有点害羞,不知道做什么好,给远远一份健身计划~&lt;br&gt;
-    
-    </summary>
-    
-      <category term="life" scheme="https://watermelon-lee.github.io/categories/life/"/>
-    
-    
-      <category term="fitness" scheme="https://watermelon-lee.github.io/tags/fitness/"/>
     
   </entry>
   
