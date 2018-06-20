@@ -102,7 +102,7 @@
 
 
 
-  <meta name="keywords" content="DesignPattern," />
+  <meta name="keywords" content="LeetCode," />
 
 
 
@@ -115,21 +115,18 @@
 
 
 
-<meta name="description" content="观察者模式 观察者模式是对象的行为模式,又叫做发布-订阅(Publish/Subscribe)模式.观察者模式定义了一种一对多的依赖关系,让多个观察者对象同时监听某一个主题对象.这个主体对象在状态发生变化时,会通知所有观察者对象,使他们能够自动更新自己.">
-<meta name="keywords" content="DesignPattern">
+<meta name="description" content="问题给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。示例 1：输入: “babad”输出: “bab”注意: “aba”也是一个有效答案。示例 2：输入: “cbbd”输出: “bb” 解答这到题目又没有自己想出来,很遗憾.自己好需要好好加油.这个题目可以考虑使用中心扩展的思想.出个遍历每一个字符,将每个字符像两边扩展(当然需要分奇偶,并且保证数组不越界),如">
+<meta name="keywords" content="LeetCode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="观察者模式">
-<meta property="og:url" content="https://watermelon-lee.github.io/2018/06/12/DesignPattern4/index.html">
+<meta property="og:title" content="最长回文子串">
+<meta property="og:url" content="https://watermelon-lee.github.io/2018/06/20/leetcode4/index.html">
 <meta property="og:site_name" content="Watermelon">
-<meta property="og:description" content="观察者模式 观察者模式是对象的行为模式,又叫做发布-订阅(Publish/Subscribe)模式.观察者模式定义了一种一对多的依赖关系,让多个观察者对象同时监听某一个主题对象.这个主体对象在状态发生变化时,会通知所有观察者对象,使他们能够自动更新自己.">
+<meta property="og:description" content="问题给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。示例 1：输入: “babad”输出: “bab”注意: “aba”也是一个有效答案。示例 2：输入: “cbbd”输出: “bb” 解答这到题目又没有自己想出来,很遗憾.自己好需要好好加油.这个题目可以考虑使用中心扩展的思想.出个遍历每一个字符,将每个字符像两边扩展(当然需要分奇偶,并且保证数组不越界),如">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://watermelon-lee.github.io/img/Design/observer.png">
-<meta property="og:image" content="https://watermelon-lee.github.io/img/Design/Observer-Time.png">
-<meta property="og:updated_time" content="2018-06-17T07:25:57.572Z">
+<meta property="og:updated_time" content="2018-06-20T14:26:18.970Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="观察者模式">
-<meta name="twitter:description" content="观察者模式 观察者模式是对象的行为模式,又叫做发布-订阅(Publish/Subscribe)模式.观察者模式定义了一种一对多的依赖关系,让多个观察者对象同时监听某一个主题对象.这个主体对象在状态发生变化时,会通知所有观察者对象,使他们能够自动更新自己.">
-<meta name="twitter:image" content="https://watermelon-lee.github.io/img/Design/observer.png">
+<meta name="twitter:title" content="最长回文子串">
+<meta name="twitter:description" content="问题给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。示例 1：输入: “babad”输出: “bab”注意: “aba”也是一个有效答案。示例 2：输入: “cbbd”输出: “bb” 解答这到题目又没有自己想出来,很遗憾.自己好需要好好加油.这个题目可以考虑使用中心扩展的思想.出个遍历每一个字符,将每个字符像两边扩展(当然需要分奇偶,并且保证数组不越界),如">
 
 
 
@@ -159,13 +156,13 @@
 
 
 
-  <link rel="canonical" href="https://watermelon-lee.github.io/2018/06/12/DesignPattern4/"/>
+  <link rel="canonical" href="https://watermelon-lee.github.io/2018/06/20/leetcode4/"/>
 
 
 
 
 
-  <title>观察者模式 | Watermelon</title>
+  <title>最长回文子串 | Watermelon</title>
   
 
 
@@ -294,7 +291,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/06/12/DesignPattern4/">
+    <link itemprop="mainEntityOfPage" href="https://watermelon-lee.github.io/2018/06/20/leetcode4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="watermelon-lee">
@@ -311,7 +308,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">观察者模式</h1>
+          <h1 class="post-title" itemprop="name headline">最长回文子串</h1>
         
 
         <div class="post-meta">
@@ -323,8 +320,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T15:43:59+08:00">
-                2018-06-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-20T22:15:25+08:00">
+                2018-06-20
               </time>
             
 
@@ -363,7 +360,7 @@
 
           
           
-             <span id="/2018/06/12/DesignPattern4/" class="leancloud_visitors" data-flag-title="观察者模式">
+             <span id="/2018/06/20/leetcode4/" class="leancloud_visitors" data-flag-title="最长回文子串">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -388,7 +385,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  602
+                  465
                 </span>
               
 
@@ -404,7 +401,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3
+                  2
                 </span>
               
             </div>
@@ -425,22 +422,14 @@
       
 
       
-        <h1 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h1><blockquote>
-<p>观察者模式是对象的行为模式,又叫做发布-订阅(Publish/Subscribe)模式.<br>观察者模式定义了一种一对多的依赖关系,让多个观察者对象同时监听某一个主题对象.这个主体对象在状态发生变化时,会通知所有观察者对象,使他们能够自动更新自己.</p>
+        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。<br>示例 1：<br>输入: “babad”<br>输出: “bab”<br>注意: “aba”也是一个有效答案。<br>示例 2：<br>输入: “cbbd”<br>输出: “bb”</p>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><p>这到题目又没有自己想出来,很遗憾.自己好需要好好加油.<br>这个题目可以考虑使用中心扩展的思想.出个遍历每一个字符,将每个字符像两边扩展(当然需要分奇偶,并且保证数组不越界),如果是回文字符,就一定可以向两边扩展,知道两个不相同就停止,记录下长度.<br>当为奇数的时候,设定中心为该字符本身,而当为偶数时,中心为自己和下一个字符.<br><a id="more"></a></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line"> public  String longestPalindrome(String s) &#123;</span><br><span class="line">        int len1=0;int len2=0;</span><br><span class="line">        int start=0;int end=0;</span><br><span class="line">        char[] chars=s.toCharArray();</span><br><span class="line">        for(int i=0;i&lt;s.length();i++)&#123;</span><br><span class="line">            len1=expendCenter(chars,i,i);//奇数个</span><br><span class="line">            len2=expendCenter(chars,i,i+1);//偶数个</span><br><span class="line"></span><br><span class="line">            int len=len1&gt;len2?len1:len2;</span><br><span class="line">            if(len&gt;end-start)&#123;</span><br><span class="line">                start=i-(len-1)/2;</span><br><span class="line">                end=i+len/2;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return s.substring(start,end+1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int expendCenter(char[] chars,int center1,int center2)&#123;</span><br><span class="line">        int left=center1,right=center2;</span><br><span class="line">        while (left&gt;=0&amp;&amp;right&lt;chars.length&amp;&amp;chars[left]==chars[right])&#123;</span><br><span class="line">            left--;</span><br><span class="line">            right++;</span><br><span class="line">        &#125;</span><br><span class="line">        return right-left-1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然中间需要注意一个地方.</p>
+<blockquote>
+<p>while (left&gt;=0&amp;&amp;right&lt;chars.length&amp;&amp;chars[left]==chars[right])必须要这样子写,我已开始写成chars[left]==chars[right]&amp;&amp;left&gt;=0&amp;&amp;right&lt;chars.length导致报错,会越界,应该利用&amp;判断时有一个错误就不继续执行的规则,先判断是否越界.</p>
 </blockquote>
-<a id="more"></a>
-<h2 id="观察者模式结构"><a href="#观察者模式结构" class="headerlink" title="观察者模式结构"></a>观察者模式结构</h2><p><img src="../../../../img/Design/observer.png" alt="观察者模式"></p>
-<ul>
-<li>抽象主题角色(Subject):抽象主题角色吧所有对观察者对象的引用保存在一个聚集(比如ArrayList)里,每个主题可以有任意数量的观察者.抽象主题提供一个接口,可以增加和删除观察者对象,抽象主题角色有叫做抽象被观察者角色(Observable).</li>
-<li>具体主题角色(ConcreteSubject):将有关状态存入具体观察者对象;在具体主题内部状态改变时,给所有登记过的观察者发出通知.具体主题又叫做具体被观察者(ConcreteSubject)角色.</li>
-<li>抽乡观察者角色(Observer):为所有观察者定义一个接口,得到主题的通知时更新自己，这个接口叫做更新接口。</li>
-<li>具体观察者(ConcreteObserver)角色：具体观察者角色实现抽象观察者角色所要求的更新接口，以便使本身的状态与主题的状态 像协调。如果需要，具体观察者角色可以保持一个指向具体主题对象的引用。</li>
-</ul>
-<p><img src="../../../../img/Design/Observer-Time.png" alt="时序图"></p>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>老板出去了,员工们就偷偷看球,要秘书负责通知他们,老板回来<br>Subject:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">package Observer;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public interface Subject &#123;</span><br><span class="line"></span><br><span class="line">    void attach(Observer observer);</span><br><span class="line">    void remove(Observer observer);</span><br><span class="line">    void notifyObservers();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Secretary:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">package Observer;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public class Secretary implements Subject &#123;</span><br><span class="line"></span><br><span class="line">    private String message;</span><br><span class="line"></span><br><span class="line">    private List&lt;Observer&gt; observers=new ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    public void setMessage(String message) &#123;</span><br><span class="line">        this.message = message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void attach(Observer observer) &#123;</span><br><span class="line">        observers.add(observer);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void remove(Observer observer) &#123;</span><br><span class="line">        observers.remove(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void notifyObservers() &#123;</span><br><span class="line">        for (Observer o :</span><br><span class="line">                observers) &#123;</span><br><span class="line">            o.update(message);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Observer:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package Observer;</span><br><span class="line"></span><br><span class="line">public interface Observer &#123;</span><br><span class="line"></span><br><span class="line">    void update(String message);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Worker:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package Observer;</span><br><span class="line"></span><br><span class="line">import java.util.Observable;</span><br><span class="line"></span><br><span class="line">public class Worker implements Observer&#123;</span><br><span class="line"></span><br><span class="line">    private String message;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void update(String message) &#123;</span><br><span class="line">        this.message=message;</span><br><span class="line">        System.out.println(message+&quot;继续工作&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个题目还可以使用DP(动态规划),好久都没写过算法了,基本都不太记得了,自己需要慢慢捡起来那些东西了.</p>
 
       
     </div>
@@ -468,12 +457,12 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2018/06/12/DesignPattern4/">观察者模式</a></p>
+  <p><span>本文标题:</span><a href="/2018/06/20/leetcode4/">最长回文子串</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 watermelon-lee 的个人博客">watermelon-lee</a></p>
-  <p><span>发布时间:</span>2018年06月12日 - 15:06</p>
-  <p><span>最后更新:</span>2018年06月17日 - 15:06</p>
-  <p><span>原始链接:</span><a href="/2018/06/12/DesignPattern4/" title="观察者模式">https://watermelon-lee.github.io/2018/06/12/DesignPattern4/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/06/12/DesignPattern4/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2018年06月20日 - 22:06</p>
+  <p><span>最后更新:</span>2018年06月20日 - 22:06</p>
+  <p><span>原始链接:</span><a href="/2018/06/20/leetcode4/" title="最长回文子串">https://watermelon-lee.github.io/2018/06/20/leetcode4/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://watermelon-lee.github.io/2018/06/20/leetcode4/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
 </div>
@@ -529,7 +518,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/DesignPattern/" <i class="fa fa-tag"></i> DesignPattern</a>
+            <a href="/tags/LeetCode/" <i class="fa fa-tag"></i> LeetCode</a>
           
         </div>
       
@@ -542,8 +531,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/11/DesignPattern3/" rel="next" title="代理模式">
-                <i class="fa fa-chevron-left"></i> 代理模式
+              <a href="/2018/06/19/leetcode3/" rel="next" title="两个排序数组的中位数">
+                <i class="fa fa-chevron-left"></i> 两个排序数组的中位数
               </a>
             
           </div>
@@ -551,10 +540,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/14/MybatisProblem1/" rel="prev" title="Spring整合Mybatis问题">
-                Spring整合Mybatis问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -702,7 +687,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#观察者模式"><span class="nav-number">1.</span> <span class="nav-text">观察者模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者模式结构"><span class="nav-number">1.1.</span> <span class="nav-text">观察者模式结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解答"><span class="nav-number">2.</span> <span class="nav-text">解答</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">2.1.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

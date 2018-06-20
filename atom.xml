@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://watermelon-lee.github.io/"/>
-  <updated>2018-06-19T15:59:26.734Z</updated>
+  <updated>2018-06-20T14:26:18.970Z</updated>
   <id>https://watermelon-lee.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>最长回文子串</title>
+    <link href="https://watermelon-lee.github.io/2018/06/20/leetcode4/"/>
+    <id>https://watermelon-lee.github.io/2018/06/20/leetcode4/</id>
+    <published>2018-06-20T14:15:25.000Z</published>
+    <updated>2018-06-20T14:26:18.970Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。<br>示例 1：<br>输入: “babad”<br>输出: “bab”<br>注意: “aba”也是一个有效答案。<br>示例 2：<br>输入: “cbbd”<br>输出: “bb”</p><h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><p>这到题目又没有自己想出来,很遗憾.自己好需要好好加油.<br>这个题目可以考虑使用中心扩展的思想.出个遍历每一个字符,将每个字符像两边扩展(当然需要分奇偶,并且保证数组不越界),如果是回文字符,就一定可以向两边扩展,知道两个不相同就停止,记录下长度.<br>当为奇数的时候,设定中心为该字符本身,而当为偶数时,中心为自己和下一个字符.<br><a id="more"></a></p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line"> public  String longestPalindrome(String s) &#123;</span><br><span class="line">        int len1=0;int len2=0;</span><br><span class="line">        int start=0;int end=0;</span><br><span class="line">        char[] chars=s.toCharArray();</span><br><span class="line">        for(int i=0;i&lt;s.length();i++)&#123;</span><br><span class="line">            len1=expendCenter(chars,i,i);//奇数个</span><br><span class="line">            len2=expendCenter(chars,i,i+1);//偶数个</span><br><span class="line"></span><br><span class="line">            int len=len1&gt;len2?len1:len2;</span><br><span class="line">            if(len&gt;end-start)&#123;</span><br><span class="line">                start=i-(len-1)/2;</span><br><span class="line">                end=i+len/2;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return s.substring(start,end+1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int expendCenter(char[] chars,int center1,int center2)&#123;</span><br><span class="line">        int left=center1,right=center2;</span><br><span class="line">        while (left&gt;=0&amp;&amp;right&lt;chars.length&amp;&amp;chars[left]==chars[right])&#123;</span><br><span class="line">            left--;</span><br><span class="line">            right++;</span><br><span class="line">        &#125;</span><br><span class="line">        return right-left-1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>当然中间需要注意一个地方.</p><blockquote><p>while (left&gt;=0&amp;&amp;right&lt;chars.length&amp;&amp;chars[left]==chars[right])必须要这样子写,我已开始写成chars[left]==chars[right]&amp;&amp;left&gt;=0&amp;&amp;right&lt;chars.length导致报错,会越界,应该利用&amp;判断时有一个错误就不继续执行的规则,先判断是否越界.</p></blockquote><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个题目还可以使用DP(动态规划),好久都没写过算法了,基本都不太记得了,自己需要慢慢捡起来那些东西了.</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h1&gt;&lt;p&gt;给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为1000。&lt;br&gt;示例 1：&lt;br&gt;输入: “babad”&lt;br&gt;输出: “bab”&lt;br&gt;注意: “aba”也是一个有效答案。&lt;br&gt;示例 2：&lt;br&gt;输入: “cbbd”&lt;br&gt;输出: “bb”&lt;/p&gt;
+&lt;h1 id=&quot;解答&quot;&gt;&lt;a href=&quot;#解答&quot; class=&quot;headerlink&quot; title=&quot;解答&quot;&gt;&lt;/a&gt;解答&lt;/h1&gt;&lt;p&gt;这到题目又没有自己想出来,很遗憾.自己好需要好好加油.&lt;br&gt;这个题目可以考虑使用中心扩展的思想.出个遍历每一个字符,将每个字符像两边扩展(当然需要分奇偶,并且保证数组不越界),如果是回文字符,就一定可以向两边扩展,知道两个不相同就停止,记录下长度.&lt;br&gt;当为奇数的时候,设定中心为该字符本身,而当为偶数时,中心为自己和下一个字符.&lt;br&gt;
+    
+    </summary>
+    
+      <category term="study" scheme="https://watermelon-lee.github.io/categories/study/"/>
+    
+    
+      <category term="LeetCode" scheme="https://watermelon-lee.github.io/tags/LeetCode/"/>
+    
+  </entry>
   
   <entry>
     <title>两个排序数组的中位数</title>
@@ -438,33 +461,6 @@
     
     
       <category term="twins" scheme="https://watermelon-lee.github.io/tags/twins/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ubuntu命令</title>
-    <link href="https://watermelon-lee.github.io/2018/05/08/Linux-instructions/"/>
-    <id>https://watermelon-lee.github.io/2018/05/08/Linux-instructions/</id>
-    <published>2018-05-08T12:59:22.000Z</published>
-    <updated>2018-06-08T06:14:15.813Z</updated>
-    
-    <content type="html"><![CDATA[<p>使用系统时总有好多命令不知道,查了然后又忘了,慢慢作个总结，把每次不记得的都写在这里吧。</p><ul><li>连接服务器：ssh <a href="mailto:root@39.107.93.107" target="_blank" rel="noopener">root@39.107.93.107</a></li><li>上传文件到服务器：类似：scp -r testprojectsystem.war <a href="mailto:root@39.107.93.107" target="_blank" rel="noopener">root@39.107.93.107</a>:/opt/tomcat/webapps/</li><li>mysql执行sql文件：进入mysql    Source fileAddress</li><li>查看mysql版本:mysql -V</li><li>查看端口lsof -i:8088</li><li>杀死使用该端口的进程:kill -9 PID号</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;使用系统时总有好多命令不知道,查了然后又忘了,慢慢作个总结，把每次不记得的都写在这里吧。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;连接服务器：ssh &lt;a href=&quot;mailto:root@39.107.93.107&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;ro
-      
-    
-    </summary>
-    
-      <category term="study" scheme="https://watermelon-lee.github.io/categories/study/"/>
-    
-    
-      <category term="Ubuntu" scheme="https://watermelon-lee.github.io/tags/Ubuntu/"/>
     
   </entry>
   
